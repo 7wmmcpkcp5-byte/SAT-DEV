@@ -1,2 +1,3 @@
 # SAT-DEV
-Development
+
+Prototype SAT practice app with multi-user login and local stats.

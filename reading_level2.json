@@ -1,0 +1,26 @@
+[
+  {
+    "id": "reading2q1",
+    "question": "[READING L2] Example question 1?",
+    "choices": {
+      "A": "Choice A",
+      "B": "Choice B",
+      "C": "Choice C",
+      "D": "Choice D"
+    },
+    "answer": "A",
+    "explanation": "This is just a placeholder question."
+  },
+  {
+    "id": "reading2q2",
+    "question": "[READING L2] Example question 2?",
+    "choices": {
+      "A": "Choice A",
+      "B": "Choice B",
+      "C": "Choice C",
+      "D": "Choice D"
+    },
+    "answer": "B",
+    "explanation": "Another placeholder."
+  }
+]

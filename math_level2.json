@@ -1,0 +1,26 @@
+[
+  {
+    "id": "math2q1",
+    "question": "[MATH L2] Example question 1?",
+    "choices": {
+      "A": "Choice A",
+      "B": "Choice B",
+      "C": "Choice C",
+      "D": "Choice D"
+    },
+    "answer": "A",
+    "explanation": "This is just a placeholder question."
+  },
+  {
+    "id": "math2q2",
+    "question": "[MATH L2] Example question 2?",
+    "choices": {
+      "A": "Choice A",
+      "B": "Choice B",
+      "C": "Choice C",
+      "D": "Choice D"
+    },
+    "answer": "B",
+    "explanation": "Another placeholder."
+  }
+]

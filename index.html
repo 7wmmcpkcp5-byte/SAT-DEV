@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>SAT‑DEV – Practice App (DEV)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <main id="app-root">
+    <!-- LOGIN -->
+    <section id="login-view" class="card">
+      <h1>SAT‑DEV</h1>
+      <p class="subtitle">Entorno de desarrollo · acceso por usuario + PIN</p>
+
+      <label>
+        Usuario
+        <input id="login-username" type="text" autocomplete="username" placeholder="Alejandro" />
+      </label>
+
+      <label>
+        PIN (4 dígitos)
+        <input id="login-pin" type="password" inputmode="numeric" maxlength="4" placeholder="••••" />
+      </label>
+
+      <button id="login-btn">Entrar</button>
+      <p id="login-error" class="error"></p>
+
+      <details class="hint">
+        <summary>Usuarios de ejemplo</summary>
+        <ul>
+          <li>Alejandro · PIN 1111</li>
+          <li>Álvaro · PIN 2222</li>
+          <li>Noelia · PIN 3333</li>
+          <li>Papá · PIN 4444</li>
+          <li>Admin · PIN 0000 (modo desarrollador)</li>
+        </ul>
+      </details>
+    </section>
+
+    <!-- MAIN APP -->
+    <section id="main-view" class="hidden">
+      <header class="top-bar">
+        <div>
+          <h1>SAT Practice (DEV)</h1>
+          <p id="user-label"></p>
+        </div>
+        <div class="top-actions">
+          <button id="sync-btn" class="ghost small">Guardar progreso</button>
+          <button id="logout-btn" class="ghost small">Salir</button>
+        </div>
+      </header>
+
+      <nav class="tabs">
+        <button data-tab="dashboard" class="active">Dashboard</button>
+        <button data-tab="math">Math</button>
+        <button data-tab="reading">Reading & Writing</button>
+        <button data-tab="vocab">Vocabulary</button>
+        <button data-tab="mistakes">Errores</button>
+        <button data-tab="dev">Dev tools</button>
+      </nav>
+
+      <section id="tab-dashboard" class="tab active">
+        <h2>Dashboard</h2>
+        <p>Resumen rápido del usuario actual.</p>
+        <div class="grid">
+          <article class="metric">
+            <h3>Total contestadas</h3>
+            <p id="stat-answered">0</p>
+          </article>
+          <article class="metric">
+            <h3>Precisión global</h3>
+            <p id="stat-accuracy">0%</p>
+          </article>
+          <article class="metric">
+            <h3>Errores pendientes</h3>
+            <p id="stat-mistakes">0</p>
+          </article>
+        </div>
+      </section>
+
+      <section id="tab-math" class="tab">
+        <h2>Math – práctica rápida</h2>
+        <div class="level-buttons">
+          <button data-section="math" data-level="1">Nivel 1</button>
+          <button data-section="math" data-level="2">Nivel 2</button>
+          <button data-section="math" data-level="3">Nivel 3</button>
+        </div>
+        <div id="math-question-area" class="question-area"></div>
+      </section>
+
+      <section id="tab-reading" class="tab">
+        <h2>Reading & Writing</h2>
+        <div class="level-buttons">
+          <button data-section="reading" data-level="1">Nivel 1</button>
+          <button data-section="reading" data-level="2">Nivel 2</button>
+          <button data-section="reading" data-level="3">Nivel 3</button>
+        </div>
+        <div id="reading-question-area" class="question-area"></div>
+      </section>
+
+      <section id="tab-vocab" class="tab">
+        <h2>Vocabulary</h2>
+        <div class="level-buttons">
+          <button data-section="vocab" data-level="1">Nivel 1</button>
+          <button data-section="vocab" data-level="2">Nivel 2</button>
+          <button data-section="vocab" data-level="3">Nivel 3</button>
+        </div>
+        <div id="vocab-question-area" class="question-area"></div>
+      </section>
+
+      <section id="tab-mistakes" class="tab">
+        <h2>Errores</h2>
+        <p>Banco de preguntas falladas para este usuario.</p>
+        <div id="mistakes-list" class="question-area"></div>
+      </section>
+
+      <section id="tab-dev" class="tab">
+        <h2>Dev tools (solo Admin)</h2>
+        <p>Modo de prueba para editar bancos localmente en este dispositivo.</p>
+        <p class="small">
+          ⚠️ Todo lo que guardes aquí se queda solo en <strong>este móvil</strong> (localStorage).
+        </p>
+
+        <label>
+          Sección
+          <select id="dev-section-select">
+            <option value="math">Math</option>
+            <option value="reading">Reading</option>
+            <option value="vocab">Vocab</option>
+          </select>
+        </label>
+        <label>
+          Nivel
+          <select id="dev-level-select">
+            <option value="1">Nivel 1</option>
+            <option value="2">Nivel 2</option>
+            <option value="3">Nivel 3</option>
+          </select>
+        </label>
+
+        <button id="dev-load-btn" class="small">Cargar banco</button>
+        <button id="dev-save-btn" class="small">Guardar en este dispositivo</button>
+
+        <textarea id="dev-editor" rows="12" spellcheck="false"
+          placeholder='Pegue aquí el JSON del banco (array de preguntas)...'></textarea>
+
+        <p class="small">
+          Formato esperado: array de objetos con <code>id</code>, <code>question</code>, <code>choices</code>,
+          <code>answer</code> (A/B/C/D) y opcionalmente <code>explanation</code>.
+        </p>
+      </section>
+    </section>
+  </main>
+
+  <script src="app.js"></script>
+</body>
+</html>
