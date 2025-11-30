@@ -44,15 +44,14 @@
         /* Header Principal */
         .main-header {
             background: var(--bg-secondary);
-            padding: 1.5rem 1rem 1rem;
+            padding: 1rem;
             text-align: center;
             border-bottom: 1px solid var(--border-color);
         }
 
         .app-title {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
             background: linear-gradient(135deg, var(--primary), var(--accent));
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -60,14 +59,15 @@
         }
 
         .app-subtitle {
-            font-size: 0.9rem;
+            font-size: 0.8rem;
             color: var(--text-secondary);
+            margin-top: 0.25rem;
         }
 
         /* Contenido Principal */
         .main-content {
             flex: 1;
-            padding: 1.5rem;
+            padding: 1rem;
             overflow-y: auto;
         }
 
@@ -80,90 +80,90 @@
             display: block;
         }
 
-        /* Tarjetas de Dashboard */
+        /* Tarjetas de Dashboard - Más compactas */
         .stats-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 2rem;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
         }
 
         .stat-card {
             background: var(--bg-surface);
-            border-radius: 12px;
-            padding: 1.5rem;
+            border-radius: 10px;
+            padding: 1rem;
             text-align: center;
             border: 1px solid var(--border-color);
         }
 
         .stat-value {
-            font-size: 2rem;
+            font-size: 1.5rem;
             font-weight: 700;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
         }
 
         .stat-label {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: var(--text-secondary);
         }
 
         .score-progress {
             background: var(--bg-surface);
-            border-radius: 12px;
-            padding: 1.5rem;
-            margin-bottom: 2rem;
+            border-radius: 10px;
+            padding: 1rem;
+            margin-bottom: 1.5rem;
             border: 1px solid var(--border-color);
         }
 
         .progress-bar {
-            height: 8px;
+            height: 6px;
             background: var(--bg-secondary);
-            border-radius: 4px;
-            margin: 1rem 0;
+            border-radius: 3px;
+            margin: 0.75rem 0;
             overflow: hidden;
         }
 
         .progress-fill {
             height: 100%;
             background: linear-gradient(90deg, var(--primary), var(--accent));
-            border-radius: 4px;
+            border-radius: 3px;
             width: 65%;
         }
 
-        /* Welcome Section */
+        /* Welcome Section - Más compacta */
         .welcome-section {
             background: var(--bg-surface);
-            border-radius: 16px;
-            padding: 2rem;
-            margin-bottom: 2rem;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
             text-align: center;
             border: 1px solid var(--border-color);
         }
 
         .welcome-title {
-            font-size: 1.25rem;
+            font-size: 1.1rem;
             font-weight: 600;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
 
         .welcome-description {
             color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.6;
+            font-size: 0.85rem;
+            line-height: 1.5;
         }
 
-        /* Grid de Navegación */
+        /* Grid de Navegación - Más compacto */
         .nav-grid {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-            margin-bottom: 2rem;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
         }
 
         .nav-card {
             background: var(--bg-surface);
-            border-radius: 12px;
-            padding: 1.5rem;
+            border-radius: 10px;
+            padding: 1.25rem 1rem;
             text-align: center;
             border: 1px solid var(--border-color);
             cursor: pointer;
@@ -178,13 +178,13 @@
         }
 
         .nav-card h3 {
-            font-size: 1rem;
+            font-size: 0.9rem;
             font-weight: 600;
-            margin-bottom: 0.5rem;
+            margin-bottom: 0.25rem;
         }
 
         .nav-card p {
-            font-size: 0.85rem;
+            font-size: 0.75rem;
             color: var(--text-secondary);
         }
 
@@ -196,7 +196,7 @@
         .bottom-nav {
             background: var(--bg-secondary);
             border-top: 1px solid var(--border-color);
-            padding: 1rem;
+            padding: 0.75rem;
             position: sticky;
             bottom: 0;
         }
@@ -214,7 +214,7 @@
             border-radius: 8px;
             transition: background 0.2s ease;
             flex: 1;
-            margin: 0 0.25rem;
+            margin: 0 0.1rem;
         }
 
         .nav-tab.active {
@@ -223,7 +223,7 @@
 
         .nav-tab span {
             display: block;
-            font-size: 0.8rem;
+            font-size: 0.75rem;
             font-weight: 500;
         }
 
@@ -231,17 +231,17 @@
             background: var(--bg-surface);
         }
 
-        /* Sección de Práctica */
+        /* Sección de Práctica - Más compacta */
         .practice-categories {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
+            gap: 0.75rem;
         }
 
         .category-card {
             background: var(--bg-surface);
-            border-radius: 12px;
-            padding: 1.5rem;
+            border-radius: 10px;
+            padding: 1.25rem;
             border: 1px solid var(--border-color);
             cursor: pointer;
             transition: all 0.2s ease;
@@ -249,7 +249,7 @@
 
         .category-card:hover {
             background: var(--primary);
-            transform: translateX(5px);
+            transform: translateX(3px);
         }
 
         .category-header {
@@ -261,26 +261,50 @@
 
         .category-name {
             font-weight: 600;
-            font-size: 1.1rem;
+            font-size: 1rem;
+        }
+
+        .difficulty-badge {
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
+            font-weight: 600;
+        }
+
+        .difficulty-easy {
+            background: var(--success);
+            color: white;
+        }
+
+        .difficulty-medium {
+            background: var(--warning);
+            color: black;
+        }
+
+        .difficulty-hard {
+            background: var(--error);
+            color: white;
         }
 
         .question-count {
             background: var(--bg-secondary);
-            padding: 0.25rem 0.75rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.7rem;
         }
 
         .category-progress {
-            font-size: 0.85rem;
+            font-size: 0.8rem;
             color: var(--text-secondary);
+            display: flex;
+            justify-content: space-between;
         }
 
-        /* Quiz Interface */
+        /* Quiz Interface - Más compacto */
         .quiz-container {
             background: var(--bg-surface);
-            border-radius: 16px;
-            padding: 2rem;
+            border-radius: 12px;
+            padding: 1.5rem;
             border: 1px solid var(--border-color);
         }
 
@@ -288,29 +312,35 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            margin-bottom: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .quiz-timer {
+            font-weight: 600;
+            color: var(--warning);
         }
 
         .quiz-question {
-            font-size: 1.1rem;
-            margin-bottom: 1.5rem;
-            line-height: 1.6;
+            font-size: 1rem;
+            margin-bottom: 1.25rem;
+            line-height: 1.5;
         }
 
         .quiz-options {
             display: flex;
             flex-direction: column;
-            gap: 1rem;
-            margin-bottom: 2rem;
+            gap: 0.75rem;
+            margin-bottom: 1.5rem;
         }
 
         .quiz-option {
             background: var(--bg-secondary);
             border: 1px solid var(--border-color);
             border-radius: 8px;
-            padding: 1rem;
+            padding: 0.9rem;
             cursor: pointer;
             transition: all 0.2s ease;
+            font-size: 0.9rem;
         }
 
         .quiz-option:hover {
@@ -331,10 +361,11 @@
             background: var(--primary);
             color: white;
             border: none;
-            padding: 0.75rem 1.5rem;
+            padding: 0.6rem 1.2rem;
             border-radius: 8px;
             cursor: pointer;
             font-weight: 600;
+            font-size: 0.85rem;
         }
 
         .quiz-btn:disabled {
@@ -343,23 +374,73 @@
             cursor: not-allowed;
         }
 
-        /* Analytics */
+        /* Analytics - Más compacto */
         .analytics-grid {
             display: grid;
-            gap: 1rem;
+            gap: 0.75rem;
         }
 
         .analytics-card {
             background: var(--bg-surface);
-            border-radius: 12px;
-            padding: 1.5rem;
+            border-radius: 10px;
+            padding: 1.25rem;
             border: 1px solid var(--border-color);
         }
 
         .analytics-title {
             font-weight: 600;
-            margin-bottom: 1rem;
-            font-size: 1.1rem;
+            margin-bottom: 0.75rem;
+            font-size: 1rem;
+        }
+
+        /* Sección de Usuario - Más compacta */
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.25rem;
+        }
+
+        .user-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.8rem;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 0.85rem;
+        }
+
+        .user-level {
+            font-size: 0.7rem;
+            color: var(--text-secondary);
+        }
+
+        .switch-user-btn {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.4rem 0.8rem;
+            border-radius: 16px;
+            font-size: 0.7rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .switch-user-btn:hover {
+            background: var(--primary);
         }
 
         /* Modal de Usuarios */
@@ -378,10 +459,10 @@
 
         .user-modal-content {
             background: var(--bg-secondary);
-            border-radius: 16px;
-            padding: 2rem;
+            border-radius: 12px;
+            padding: 1.5rem;
             width: 90%;
-            max-width: 400px;
+            max-width: 350px;
             max-height: 80vh;
             overflow-y: auto;
         }
@@ -393,10 +474,10 @@
         .user-item {
             display: flex;
             align-items: center;
-            gap: 1rem;
-            padding: 1rem;
+            gap: 0.75rem;
+            padding: 0.9rem;
             background: var(--bg-surface);
-            border-radius: 12px;
+            border-radius: 10px;
             margin-bottom: 0.5rem;
             cursor: pointer;
             transition: background 0.2s ease;
@@ -410,62 +491,13 @@
             background: var(--success);
             color: white;
             border: none;
-            padding: 1rem;
-            border-radius: 12px;
+            padding: 0.9rem;
+            border-radius: 10px;
             width: 100%;
             font-weight: 600;
             cursor: pointer;
-            margin-top: 1rem;
-        }
-
-        /* Sección de Usuario */
-        .user-section {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-            margin-bottom: 1.5rem;
-        }
-
-        .user-avatar {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            background: linear-gradient(135deg, var(--primary), var(--accent));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .user-info {
-            flex: 1;
-        }
-
-        .user-name {
-            font-weight: 600;
-            font-size: 0.9rem;
-        }
-
-        .user-level {
-            font-size: 0.75rem;
-            color: var(--text-secondary);
-        }
-
-        .switch-user-btn {
-            background: var(--bg-surface);
-            border: 1px solid var(--border-color);
-            color: var(--text-primary);
-            padding: 0.5rem 1rem;
-            border-radius: 20px;
-            font-size: 0.8rem;
-            cursor: pointer;
-            transition: all 0.2s ease;
-        }
-
-        .switch-user-btn:hover {
-            background: var(--primary);
+            margin-top: 0.75rem;
+            font-size: 0.85rem;
         }
     </style>
 </head>
@@ -516,7 +548,7 @@
                     <div class="progress-bar">
                         <div class="progress-fill"></div>
                     </div>
-                    <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-secondary);">
+                    <div style="display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--text-secondary);">
                         <span>Start: 400</span>
                         <span>Goal: 1600</span>
                     </div>
@@ -536,8 +568,8 @@
                         <h3>Analytics</h3>
                         <p>Performance insights</p>
                     </a>
-                    <a class="nav-card" data-tab="parents">
-                        <h3>Parents</h3>
+                    <a class="nav-card" data-tab="reports">
+                        <h3>Reports</h3>
                         <p>Progress reports</p>
                     </a>
                 </div>
@@ -545,31 +577,40 @@
 
             <!-- Sección Practice -->
             <section id="practice-section" class="content-section">
-                <h2 style="margin-bottom: 1.5rem;">Practice Mode</h2>
+                <h2 style="margin-bottom: 1.25rem; font-size: 1.2rem;">Practice Mode</h2>
                 
                 <div class="practice-categories">
                     <div class="category-card" data-category="math">
                         <div class="category-header">
                             <span class="category-name">Mathematics</span>
+                            <span class="difficulty-badge difficulty-medium">Medium</span>
+                        </div>
+                        <div class="category-progress">
+                            <span>Algebra, Geometry</span>
                             <span class="question-count">25/80</span>
                         </div>
-                        <div class="category-progress">Algebra, Geometry, Statistics</div>
                     </div>
                     
                     <div class="category-card" data-category="reading">
                         <div class="category-header">
                             <span class="category-name">Reading</span>
+                            <span class="difficulty-badge difficulty-hard">Hard</span>
+                        </div>
+                        <div class="category-progress">
+                            <span>Comprehension, Analysis</span>
                             <span class="question-count">18/52</span>
                         </div>
-                        <div class="category-progress">Comprehension, Analysis</div>
                     </div>
                     
                     <div class="category-card" data-category="writing">
                         <div class="category-header">
                             <span class="category-name">Writing & Language</span>
+                            <span class="difficulty-badge difficulty-easy">Easy</span>
+                        </div>
+                        <div class="category-progress">
+                            <span>Grammar, Expression</span>
                             <span class="question-count">22/44</span>
                         </div>
-                        <div class="category-progress">Grammar, Expression</div>
                     </div>
                 </div>
             </section>
@@ -579,7 +620,11 @@
                 <div class="quiz-container">
                     <div class="quiz-header">
                         <span>Question 1/10</span>
-                        <span>Time: 04:23</span>
+                        <span class="quiz-timer" id="quiz-timer">04:23</span>
+                    </div>
+                    
+                    <div class="difficulty-badge difficulty-medium" style="display: inline-block; margin-bottom: 1rem;">
+                        Medium
                     </div>
                     
                     <div class="quiz-question">
@@ -600,46 +645,76 @@
                 </div>
             </section>
 
-            <!-- Sección Analytics -->
-            <section id="analytics-section" class="content-section">
-                <h2 style="margin-bottom: 1.5rem;">Performance Analytics</h2>
-                
-                <div class="analytics-grid">
-                    <div class="analytics-card">
-                        <h3 class="analytics-title">Score Trend</h3>
-                        <p>Your score has improved by 45 points this month</p>
+            <!-- Sección Exam -->
+            <section id="exam-section" class="content-section">
+                <div class="quiz-container">
+                    <div class="quiz-header">
+                        <span>Exam - Section 1/4</span>
+                        <span class="quiz-timer" id="exam-timer">59:45</span>
                     </div>
                     
-                    <div class="analytics-card">
-                        <h3 class="analytics-title">Weak Areas</h3>
-                        <p>Algebra, Data Analysis, Grammar</p>
+                    <div class="difficulty-badge difficulty-hard" style="display: inline-block; margin-bottom: 1rem;">
+                        Hard
                     </div>
                     
-                    <div class="analytics-card">
-                        <h3 class="analytics-title">Study Time</h3>
-                        <p>Total: 12h 34m this week</p>
+                    <div class="quiz-question">
+                        A right circular cylinder has a height of 10 inches and a radius of 4 inches. What is the volume, in cubic inches, of the cylinder?
+                    </div>
+                    
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-option="A">A) 40π</div>
+                        <div class="quiz-option" data-option="B">B) 80π</div>
+                        <div class="quiz-option" data-option="C">C) 160π</div>
+                        <div class="quiz-option" data-option="D">D) 400π</div>
+                    </div>
+                    
+                    <div class="quiz-navigation">
+                        <button class="quiz-btn" id="exam-prev-btn" disabled>Previous</button>
+                        <button class="quiz-btn" id="exam-next-btn">Next</button>
                     </div>
                 </div>
             </section>
 
-            <!-- Sección Parents -->
-            <section id="parents-section" class="content-section">
-                <h2 style="margin-bottom: 1.5rem;">Parent Dashboard</h2>
+            <!-- Sección Analytics -->
+            <section id="analytics-section" class="content-section">
+                <h2 style="margin-bottom: 1.25rem; font-size: 1.2rem;">Performance Analytics</h2>
+                
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <h3 class="analytics-title">Score Trend</h3>
+                        <p style="font-size: 0.85rem;">Your score has improved by 45 points this month</p>
+                    </div>
+                    
+                    <div class="analytics-card">
+                        <h3 class="analytics-title">Weak Areas</h3>
+                        <p style="font-size: 0.85rem;">Algebra, Data Analysis, Grammar</p>
+                    </div>
+                    
+                    <div class="analytics-card">
+                        <h3 class="analytics-title">Study Time</h3>
+                        <p style="font-size: 0.85rem;">Total: 12h 34m this week</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección Reports -->
+            <section id="reports-section" class="content-section">
+                <h2 style="margin-bottom: 1.25rem; font-size: 1.2rem;">Progress Reports</h2>
                 
                 <div class="analytics-grid">
                     <div class="analytics-card">
                         <h3 class="analytics-title">Weekly Progress</h3>
-                        <p>Completed 24 questions this week</p>
+                        <p style="font-size: 0.85rem;">Completed 24 questions this week</p>
                     </div>
                     
                     <div class="analytics-card">
                         <h3 class="analytics-title">Current Level</h3>
-                        <p>Mathematics: Intermediate<br>Reading: Beginner</p>
+                        <p style="font-size: 0.85rem;">Mathematics: Intermediate<br>Reading: Beginner</p>
                     </div>
                     
                     <div class="analytics-card">
                         <h3 class="analytics-title">Recommendations</h3>
-                        <p>Focus on algebra exercises and reading comprehension</p>
+                        <p style="font-size: 0.85rem;">Focus on algebra exercises and reading comprehension</p>
                     </div>
                 </div>
             </section>
@@ -660,8 +735,8 @@
                 <div class="nav-tab" data-tab="analytics">
                     <span>Analytics</span>
                 </div>
-                <div class="nav-tab" data-tab="parents">
-                    <span>Parents</span>
+                <div class="nav-tab" data-tab="reports">
+                    <span>Reports</span>
                 </div>
             </div>
         </nav>
@@ -684,23 +759,41 @@
                 this.currentSection = 'home';
                 this.currentUser = null;
                 this.users = this.loadUsers();
+                this.quizTimer = null;
+                this.examTimer = null;
+                this.quizTimeLeft = 5 * 60; // 5 minutos en segundos
+                this.examTimeLeft = 60 * 60; // 60 minutos en segundos
                 this.quizData = {
                     currentQuestion: 0,
                     questions: [
                         {
                             question: "If 2x + 5 = 15, what is the value of x?",
                             options: ["5", "10", "15", "20"],
-                            correctAnswer: 0
+                            correctAnswer: 0,
+                            difficulty: "medium"
                         },
                         {
                             question: "What is the value of 3² + 4²?",
                             options: ["7", "12", "25", "49"],
-                            correctAnswer: 2
+                            correctAnswer: 2,
+                            difficulty: "easy"
                         },
                         {
                             question: "Which of the following is a prime number?",
                             options: ["9", "15", "21", "17"],
-                            correctAnswer: 3
+                            correctAnswer: 3,
+                            difficulty: "hard"
+                        }
+                    ]
+                };
+                this.examData = {
+                    currentQuestion: 0,
+                    questions: [
+                        {
+                            question: "A right circular cylinder has a height of 10 inches and a radius of 4 inches. What is the volume, in cubic inches, of the cylinder?",
+                            options: ["40π", "80π", "160π", "400π"],
+                            correctAnswer: 2,
+                            difficulty: "hard"
                         }
                     ]
                 };
@@ -774,8 +867,11 @@
                     card.addEventListener('click', (e) => {
                         e.preventDefault();
                         const tab = card.getAttribute('data-tab');
+                        this.playNavigationSound();
                         if (tab === 'practice') {
                             this.showPracticeCategories();
+                        } else if (tab === 'exam') {
+                            this.startExam();
                         } else {
                             this.navigateTo(tab);
                         }
@@ -786,8 +882,11 @@
                 document.querySelectorAll('.nav-tab').forEach(tab => {
                     tab.addEventListener('click', () => {
                         const tabName = tab.getAttribute('data-tab');
+                        this.playNavigationSound();
                         if (tabName === 'practice') {
                             this.showPracticeCategories();
+                        } else if (tabName === 'exam') {
+                            this.startExam();
                         } else {
                             this.navigateTo(tabName);
                         }
@@ -797,6 +896,7 @@
                 // Categorías de práctica
                 document.querySelectorAll('.category-card').forEach(card => {
                     card.addEventListener('click', () => {
+                        this.playNavigationSound();
                         const category = card.getAttribute('data-category');
                         this.startQuiz(category);
                     });
@@ -805,27 +905,88 @@
                 // Opciones del quiz
                 document.querySelectorAll('.quiz-option').forEach(option => {
                     option.addEventListener('click', () => {
+                        this.playClickSound();
                         this.selectOption(option);
                     });
                 });
 
                 // Navegación del quiz
                 document.getElementById('next-btn').addEventListener('click', () => {
+                    this.playClickSound();
                     this.nextQuestion();
                 });
 
                 document.getElementById('prev-btn').addEventListener('click', () => {
+                    this.playClickSound();
                     this.previousQuestion();
+                });
+
+                // Navegación del examen
+                document.getElementById('exam-next-btn').addEventListener('click', () => {
+                    this.playClickSound();
+                    this.nextExamQuestion();
+                });
+
+                document.getElementById('exam-prev-btn').addEventListener('click', () => {
+                    this.playClickSound();
+                    this.previousExamQuestion();
                 });
 
                 // Gestión de usuarios
                 document.getElementById('switch-user-btn').addEventListener('click', () => {
+                    this.playClickSound();
                     this.showUserModal();
                 });
 
                 document.getElementById('add-user-btn').addEventListener('click', () => {
+                    this.playClickSound();
                     this.createNewUser();
                 });
+            }
+
+            playNavigationSound() {
+                // Simulación de sonido - en una implementación real usaríamos un archivo de audio
+                try {
+                    // Crear un sonido simple usando el API de Web Audio
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.value = 523.25; // Nota Do
+                    gainNode.gain.value = 0.1;
+                    
+                    oscillator.start();
+                    setTimeout(() => {
+                        oscillator.stop();
+                    }, 100);
+                } catch (e) {
+                    console.log("Audio no soportado en este navegador");
+                }
+            }
+
+            playClickSound() {
+                // Sonido más suave para clics
+                try {
+                    const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                    const oscillator = audioContext.createOscillator();
+                    const gainNode = audioContext.createGain();
+                    
+                    oscillator.connect(gainNode);
+                    gainNode.connect(audioContext.destination);
+                    
+                    oscillator.frequency.value = 392.00; // Nota Sol
+                    gainNode.gain.value = 0.05;
+                    
+                    oscillator.start();
+                    setTimeout(() => {
+                        oscillator.stop();
+                    }, 50);
+                } catch (e) {
+                    console.log("Audio no soportado en este navegador");
+                }
             }
 
             navigateTo(section) {
@@ -859,7 +1020,68 @@
             startQuiz(category) {
                 console.log(`Iniciando quiz de: ${category}`);
                 this.navigateTo('quiz');
+                this.startQuizTimer();
                 this.loadQuizQuestions(category);
+            }
+
+            startExam() {
+                console.log("Iniciando examen completo");
+                this.navigateTo('exam');
+                this.startExamTimer();
+            }
+
+            startQuizTimer() {
+                this.quizTimeLeft = 5 * 60; // 5 minutos
+                this.updateQuizTimer();
+                
+                if (this.quizTimer) {
+                    clearInterval(this.quizTimer);
+                }
+                
+                this.quizTimer = setInterval(() => {
+                    this.quizTimeLeft--;
+                    this.updateQuizTimer();
+                    
+                    if (this.quizTimeLeft <= 0) {
+                        clearInterval(this.quizTimer);
+                        alert("¡Tiempo agotado!");
+                        this.navigateTo('home');
+                    }
+                }, 1000);
+            }
+
+            startExamTimer() {
+                this.examTimeLeft = 60 * 60; // 60 minutos
+                this.updateExamTimer();
+                
+                if (this.examTimer) {
+                    clearInterval(this.examTimer);
+                }
+                
+                this.examTimer = setInterval(() => {
+                    this.examTimeLeft--;
+                    this.updateExamTimer();
+                    
+                    if (this.examTimeLeft <= 0) {
+                        clearInterval(this.examTimer);
+                        alert("¡Tiempo del examen agotado!");
+                        this.navigateTo('home');
+                    }
+                }, 1000);
+            }
+
+            updateQuizTimer() {
+                const minutes = Math.floor(this.quizTimeLeft / 60);
+                const seconds = this.quizTimeLeft % 60;
+                document.getElementById('quiz-timer').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
+
+            updateExamTimer() {
+                const minutes = Math.floor(this.examTimeLeft / 60);
+                const seconds = this.examTimeLeft % 60;
+                document.getElementById('exam-timer').textContent = 
+                    `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
             }
 
             loadQuizQuestions(category) {
@@ -880,12 +1102,14 @@
                 
                 // Habilitar botón siguiente
                 document.getElementById('next-btn').disabled = false;
+                document.getElementById('exam-next-btn').disabled = false;
             }
 
             nextQuestion() {
                 this.quizData.currentQuestion++;
                 if (this.quizData.currentQuestion >= this.quizData.questions.length) {
                     // Quiz completado
+                    clearInterval(this.quizTimer);
                     alert('¡Quiz completado! Volviendo al menú principal.');
                     this.navigateTo('home');
                     return;
@@ -898,24 +1122,72 @@
                 this.updateQuizUI();
             }
 
+            nextExamQuestion() {
+                this.examData.currentQuestion++;
+                if (this.examData.currentQuestion >= this.examData.questions.length) {
+                    // Examen completado
+                    clearInterval(this.examTimer);
+                    alert('¡Sección del examen completada!');
+                    this.navigateTo('home');
+                    return;
+                }
+                this.updateExamUI();
+            }
+
+            previousExamQuestion() {
+                this.examData.currentQuestion--;
+                this.updateExamUI();
+            }
+
             updateQuizUI() {
                 const currentQ = this.quizData.questions[this.quizData.currentQuestion];
                 if (currentQ) {
-                    document.querySelector('.quiz-question').textContent = currentQ.question;
+                    document.querySelector('#quiz-section .quiz-question').textContent = currentQ.question;
                     
-                    const options = document.querySelectorAll('.quiz-option');
+                    const options = document.querySelectorAll('#quiz-section .quiz-option');
                     options.forEach((option, index) => {
                         option.textContent = `${String.fromCharCode(65 + index)}) ${currentQ.options[index]}`;
                         option.classList.remove('selected');
                     });
                     
                     // Actualizar número de pregunta
-                    document.querySelector('.quiz-header span:first-child').textContent = 
+                    document.querySelector('#quiz-section .quiz-header span:first-child').textContent = 
                         `Question ${this.quizData.currentQuestion + 1}/${this.quizData.questions.length}`;
+                    
+                    // Actualizar dificultad
+                    const difficultyBadge = document.querySelector('#quiz-section .difficulty-badge');
+                    difficultyBadge.textContent = currentQ.difficulty.charAt(0).toUpperCase() + currentQ.difficulty.slice(1);
+                    difficultyBadge.className = `difficulty-badge difficulty-${currentQ.difficulty}`;
                     
                     // Manejar botones de navegación
                     document.getElementById('prev-btn').disabled = this.quizData.currentQuestion === 0;
                     document.getElementById('next-btn').disabled = true;
+                }
+            }
+
+            updateExamUI() {
+                const currentQ = this.examData.questions[this.examData.currentQuestion];
+                if (currentQ) {
+                    document.querySelector('#exam-section .quiz-question').textContent = currentQ.question;
+                    
+                    const options = document.querySelectorAll('#exam-section .quiz-option');
+                    options.forEach((option, index) => {
+                        option.textContent = `${String.fromCharCode(65 + index)}) ${currentQ.options[index]}`;
+                        option.classList.remove('selected');
+                    });
+                    
+                    // Actualizar número de pregunta
+                    document.querySelector('#exam-section .quiz-header span:first-child').textContent = 
+                        `Exam - Section 1/4`;
+                    
+                    // Actualizar dificultad
+                    const difficultyBadge = document.querySelector('#exam-section .difficulty-badge');
+                    difficultyBadge.textContent = currentQ.difficulty.charAt(0).toUpperCase() + currentQ.difficulty.slice(1);
+                    difficultyBadge.className = `difficulty-badge difficulty-${currentQ.difficulty}`;
+                    
+                    // Manejar botones de navegación
+                    document.getElementById('exam-prev-btn').disabled = this.examData.currentQuestion === 0;
+                    document.getElementById('exam-next-btn').disabled = true;
                 }
             }
 
@@ -936,6 +1208,7 @@
                         </div>
                     `;
                     userItem.addEventListener('click', () => {
+                        this.playClickSound();
                         this.setCurrentUser(user);
                         modal.style.display = 'none';
                     });
