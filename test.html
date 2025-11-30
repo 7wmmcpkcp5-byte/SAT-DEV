@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SAT PRO MASTER EVO</title>
+    <style>
+        :root {
+            --bg-primary: #0f172a;
+            --bg-secondary: #1e293b;
+            --bg-surface: #334155;
+            --primary: #3b82f6;
+            --accent: #8b5cf6;
+            --text-primary: #f1f5f9;
+            --text-secondary: #94a3b8;
+            --border-color: #475569;
+            --success: #10b981;
+            --warning: #f59e0b;
+            --error: #ef4444;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: var(--bg-primary);
+            color: var(--text-primary);
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            min-height: 100vh;
+            line-height: 1.5;
+        }
+
+        .app-container {
+            max-width: 400px;
+            margin: 0 auto;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Header Principal */
+        .main-header {
+            background: var(--bg-secondary);
+            padding: 1.5rem 1rem 1rem;
+            text-align: center;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .app-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .app-subtitle {
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+
+        /* Contenido Principal */
+        .main-content {
+            flex: 1;
+            padding: 1.5rem;
+            overflow-y: auto;
+        }
+
+        /* Secciones de contenido */
+        .content-section {
+            display: none;
+        }
+
+        .content-section.active {
+            display: block;
+        }
+
+        /* Tarjetas de Dashboard */
+        .stats-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .stat-card {
+            background: var(--bg-surface);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .stat-value {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .score-progress {
+            background: var(--bg-surface);
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .progress-bar {
+            height: 8px;
+            background: var(--bg-secondary);
+            border-radius: 4px;
+            margin: 1rem 0;
+            overflow: hidden;
+        }
+
+        .progress-fill {
+            height: 100%;
+            background: linear-gradient(90deg, var(--primary), var(--accent));
+            border-radius: 4px;
+            width: 65%;
+        }
+
+        /* Welcome Section */
+        .welcome-section {
+            background: var(--bg-surface);
+            border-radius: 16px;
+            padding: 2rem;
+            margin-bottom: 2rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+        }
+
+        .welcome-title {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .welcome-description {
+            color: var(--text-secondary);
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        /* Grid de Navegación */
+        .nav-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .nav-card {
+            background: var(--bg-surface);
+            border-radius: 12px;
+            padding: 1.5rem;
+            text-align: center;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            color: inherit;
+        }
+
+        .nav-card:hover {
+            background: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        .nav-card h3 {
+            font-size: 1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .nav-card p {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        .nav-card:hover p {
+            color: var(--text-primary);
+        }
+
+        /* Navegación Inferior */
+        .bottom-nav {
+            background: var(--bg-secondary);
+            border-top: 1px solid var(--border-color);
+            padding: 1rem;
+            position: sticky;
+            bottom: 0;
+        }
+
+        .nav-tabs {
+            display: flex;
+            justify-content: space-around;
+            list-style: none;
+        }
+
+        .nav-tab {
+            text-align: center;
+            cursor: pointer;
+            padding: 0.5rem;
+            border-radius: 8px;
+            transition: background 0.2s ease;
+            flex: 1;
+            margin: 0 0.25rem;
+        }
+
+        .nav-tab.active {
+            background: var(--primary);
+        }
+
+        .nav-tab span {
+            display: block;
+            font-size: 0.8rem;
+            font-weight: 500;
+        }
+
+        .nav-tab:hover {
+            background: var(--bg-surface);
+        }
+
+        /* Sección de Práctica */
+        .practice-categories {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .category-card {
+            background: var(--bg-surface);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .category-card:hover {
+            background: var(--primary);
+            transform: translateX(5px);
+        }
+
+        .category-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .category-name {
+            font-weight: 600;
+            font-size: 1.1rem;
+        }
+
+        .question-count {
+            background: var(--bg-secondary);
+            padding: 0.25rem 0.75rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+        }
+
+        .category-progress {
+            font-size: 0.85rem;
+            color: var(--text-secondary);
+        }
+
+        /* Quiz Interface */
+        .quiz-container {
+            background: var(--bg-surface);
+            border-radius: 16px;
+            padding: 2rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .quiz-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-question {
+            font-size: 1.1rem;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .quiz-options {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .quiz-option {
+            background: var(--bg-secondary);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 1rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .quiz-option:hover {
+            background: var(--primary);
+        }
+
+        .quiz-option.selected {
+            background: var(--primary);
+            border-color: var(--primary);
+        }
+
+        .quiz-navigation {
+            display: flex;
+            justify-content: space-between;
+        }
+
+        .quiz-btn {
+            background: var(--primary);
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            border-radius: 8px;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .quiz-btn:disabled {
+            background: var(--bg-secondary);
+            color: var(--text-secondary);
+            cursor: not-allowed;
+        }
+
+        /* Analytics */
+        .analytics-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .analytics-card {
+            background: var(--bg-surface);
+            border-radius: 12px;
+            padding: 1.5rem;
+            border: 1px solid var(--border-color);
+        }
+
+        .analytics-title {
+            font-weight: 600;
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="app-container">
+        <!-- Header Principal -->
+        <header class="main-header">
+            <h1 class="app-title">SAT PRO MASTER EVO</h1>
+            <p class="app-subtitle">Professional SAT Preparation</p>
+        </header>
+
+        <!-- Contenido Principal -->
+        <main class="main-content">
+            <!-- Sección Home -->
+            <section id="home-section" class="content-section active">
+                <div class="welcome-section">
+                    <h2 class="welcome-title">Welcome, Alex!</h2>
+                    <p class="welcome-description">
+                        Train for the SAT with realistic questions, full exams and pro analytics.
+                    </p>
+                </div>
+
+                <!-- Stats Grid -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-value">1250</div>
+                        <div class="stat-label">Current Score</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value">84</div>
+                        <div class="stat-label">Questions Done</div>
+                    </div>
+                </div>
+
+                <!-- Progress -->
+                <div class="score-progress">
+                    <h3>Score Progress</h3>
+                    <div class="progress-bar">
+                        <div class="progress-fill"></div>
+                    </div>
+                    <div style="display: flex; justify-content: space-between; font-size: 0.85rem; color: var(--text-secondary);">
+                        <span>Start: 400</span>
+                        <span>Goal: 1600</span>
+                    </div>
+                </div>
+
+                <!-- Navigation Grid -->
+                <div class="nav-grid">
+                    <a class="nav-card" data-tab="practice">
+                        <h3>Practice</h3>
+                        <p>Targeted exercises</p>
+                    </a>
+                    <a class="nav-card" data-tab="exam">
+                        <h3>Full Exam</h3>
+                        <p>Timed tests</p>
+                    </a>
+                    <a class="nav-card" data-tab="analytics">
+                        <h3>Analytics</h3>
+                        <p>Performance insights</p>
+                    </a>
+                    <a class="nav-card" data-tab="parents">
+                        <h3>Parents</h3>
+                        <p>Progress reports</p>
+                    </a>
+                </div>
+            </section>
+
+            <!-- Sección Practice -->
+            <section id="practice-section" class="content-section">
+                <h2 style="margin-bottom: 1.5rem;">Practice Mode</h2>
+                
+                <div class="practice-categories">
+                    <div class="category-card" data-category="math">
+                        <div class="category-header">
+                            <span class="category-name">Mathematics</span>
+                            <span class="question-count">25/80</span>
+                        </div>
+                        <div class="category-progress">Algebra, Geometry, Statistics</div>
+                    </div>
+                    
+                    <div class="category-card" data-category="reading">
+                        <div class="category-header">
+                            <span class="category-name">Reading</span>
+                            <span class="question-count">18/52</span>
+                        </div>
+                        <div class="category-progress">Comprehension, Analysis</div>
+                    </div>
+                    
+                    <div class="category-card" data-category="writing">
+                        <div class="category-header">
+                            <span class="category-name">Writing & Language</span>
+                            <span class="question-count">22/44</span>
+                        </div>
+                        <div class="category-progress">Grammar, Expression</div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección Quiz -->
+            <section id="quiz-section" class="content-section">
+                <div class="quiz-container">
+                    <div class="quiz-header">
+                        <span>Question 1/10</span>
+                        <span>Time: 04:23</span>
+                    </div>
+                    
+                    <div class="quiz-question">
+                        If 2x + 5 = 15, what is the value of x?
+                    </div>
+                    
+                    <div class="quiz-options">
+                        <div class="quiz-option" data-option="A">A) 5</div>
+                        <div class="quiz-option" data-option="B">B) 10</div>
+                        <div class="quiz-option" data-option="C">C) 15</div>
+                        <div class="quiz-option" data-option="D">D) 20</div>
+                    </div>
+                    
+                    <div class="quiz-navigation">
+                        <button class="quiz-btn" id="prev-btn" disabled>Previous</button>
+                        <button class="quiz-btn" id="next-btn">Next</button>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección Analytics -->
+            <section id="analytics-section" class="content-section">
+                <h2 style="margin-bottom: 1.5rem;">Performance Analytics</h2>
+                
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <h3 class="analytics-title">Score Trend</h3>
+                        <p>Your score has improved by 45 points this month</p>
+                    </div>
+                    
+                    <div class="analytics-card">
+                        <h3 class="analytics-title">Weak Areas</h3>
+                        <p>Algebra, Data Analysis, Grammar</p>
+                    </div>
+                    
+                    <div class="analytics-card">
+                        <h3 class="analytics-title">Study Time</h3>
+                        <p>Total: 12h 34m this week</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Sección Parents -->
+            <section id="parents-section" class="content-section">
+                <h2 style="margin-bottom: 1.5rem;">Parent Dashboard</h2>
+                
+                <div class="analytics-grid">
+                    <div class="analytics-card">
+                        <h3 class="analytics-title">Weekly Progress</h3>
+                        <p>Completed 24 questions this week</p>
+                    </div>
+                    
+                    <div class="analytics-card">
+                        <h3 class="analytics-title">Current Level</h3>
+                        <p>Mathematics: Intermediate<br>Reading: Beginner</p>
+                    </div>
+                    
+                    <div class="analytics-card">
+                        <h3 class="analytics-title">Recommendations</h3>
+                        <p>Focus on algebra exercises and reading comprehension</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Navegación Inferior -->
+        <nav class="bottom-nav">
+            <div class="nav-tabs">
+                <div class="nav-tab active" data-tab="home">
+                    <span>Home</span>
+                </div>
+                <div class="nav-tab" data-tab="practice">
+                    <span>Practice</span>
+                </div>
+                <div class="nav-tab" data-tab="exam">
+                    <span>Exam</span>
+                </div>
+                <div class="nav-tab" data-tab="analytics">
+                    <span>Analytics</span>
+                </div>
+                <div class="nav-tab" data-tab="parents">
+                    <span>Parents</span>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <script>
+        class SATProApp {
+            constructor() {
+                this.currentSection = 'home';
+                this.quizData = {
+                    currentQuestion: 0,
+                    questions: [
+                        {
+                            question: "If 2x + 5 = 15, what is the value of x?",
+                            options: ["5", "10", "15", "20"],
+                            correctAnswer: 0
+                        }
+                        // Más preguntas pueden añadirse aquí
+                    ]
+                };
+                this.init();
+            }
+
+            init() {
+                this.setupEventListeners();
+                this.showSection('home');
+            }
+
+            setupEventListeners() {
+                // Navegación por cards
+                document.querySelectorAll('.nav-card').forEach(card => {
+                    card.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        const tab = card.getAttribute('data-tab');
+                        if (tab === 'practice') {
+                            this.showPracticeCategories();
+                        } else {
+                            this.navigateTo(tab);
+                        }
+                    });
+                });
+
+                // Navegación inferior
+                document.querySelectorAll('.nav-tab').forEach(tab => {
+                    tab.addEventListener('click', () => {
+                        const tabName = tab.getAttribute('data-tab');
+                        if (tabName === 'practice') {
+                            this.showPracticeCategories();
+                        } else {
+                            this.navigateTo(tabName);
+                        }
+                    });
+                });
+
+                // Categorías de práctica
+                document.querySelectorAll('.category-card').forEach(card => {
+                    card.addEventListener('click', () => {
+                        const category = card.getAttribute('data-category');
+                        this.startQuiz(category);
+                    });
+                });
+
+                // Opciones del quiz
+                document.querySelectorAll('.quiz-option').forEach(option => {
+                    option.addEventListener('click', () => {
+                        this.selectOption(option);
+                    });
+                });
+
+                // Navegación del quiz
+                document.getElementById('next-btn').addEventListener('click', () => {
+                    this.nextQuestion();
+                });
+
+                document.getElementById('prev-btn').addEventListener('click', () => {
+                    this.previousQuestion();
+                });
+            }
+
+            navigateTo(section) {
+                this.currentSection = section;
+                this.updateActiveTab(section);
+                this.showSection(section);
+            }
+
+            updateActiveTab(tabName) {
+                document.querySelectorAll('.nav-tab').forEach(tab => {
+                    tab.classList.remove('active');
+                });
+                document.querySelector(`.nav-tab[data-tab="${tabName}"]`).classList.add('active');
+            }
+
+            showSection(sectionName) {
+                document.querySelectorAll('.content-section').forEach(section => {
+                    section.classList.remove('active');
+                });
+                
+                const activeSection = document.getElementById(`${sectionName}-section`);
+                if (activeSection) {
+                    activeSection.classList.add('active');
+                }
+            }
+
+            showPracticeCategories() {
+                this.navigateTo('practice');
+            }
+
+            startQuiz(category) {
+                console.log(`Iniciando quiz de: ${category}`);
+                this.navigateTo('quiz');
+                
+                // Aquí cargaríamos preguntas reales basadas en la categoría
+                this.loadQuizQuestions(category);
+            }
+
+            loadQuizQuestions(category) {
+                // Simular carga de preguntas
+                // En una implementación real, esto vendría de una base de datos
+                console.log(`Cargando preguntas para: ${category}`);
+            }
+
+            selectOption(optionElement) {
+                // Remover selección previa
+                document.querySelectorAll('.quiz-option').forEach(opt => {
+                    opt.classList.remove('selected');
+                });
+                
+                // Seleccionar nueva opción
+                optionElement.classList.add('selected');
+                
+                // Habilitar botón siguiente
+                document.getElementById('next-btn').disabled = false;
+            }
+
+            nextQuestion() {
+                this.quizData.currentQuestion++;
+                this.updateQuizUI();
+            }
+
+            previousQuestion() {
+                this.quizData.currentQuestion--;
+                this.updateQuizUI();
+            }
+
+            updateQuizUI() {
+                const currentQ = this.quizData.questions[this.quizData.currentQuestion];
+                if (currentQ) {
+                    document.querySelector('.quiz-question').textContent = currentQ.question;
+                    
+                    const options = document.querySelectorAll('.quiz-option');
+                    options.forEach((option, index) => {
+                        option.textContent = `${String.fromCharCode(65 + index)}) ${currentQ.options[index]}`;
+                        option.classList.remove('selected');
+                    });
+                    
+                    // Actualizar número de pregunta
+                    document.querySelector('.quiz-header span:first-child').textContent = 
+                        `Question ${this.quizData.currentQuestion + 1}/${this.quizData.questions.length}`;
+                    
+                    // Manejar botones de navegación
+                    document.getElementById('prev-btn').disabled = this.quizData.currentQuestion === 0;
+                    document.getElementById('next-btn').disabled = true;
+                }
+            }
+        }
+
+        // Inicializar la aplicación
+        document.addEventListener('DOMContentLoaded', () => {
+            window.satApp = new SATProApp();
+        });
+    </script>
+</body>
+</html>
