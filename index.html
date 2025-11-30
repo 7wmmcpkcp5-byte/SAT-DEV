@@ -361,6 +361,112 @@
             margin-bottom: 1rem;
             font-size: 1.1rem;
         }
+
+        /* Modal de Usuarios */
+        .user-modal {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+        }
+
+        .user-modal-content {
+            background: var(--bg-secondary);
+            border-radius: 16px;
+            padding: 2rem;
+            width: 90%;
+            max-width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+        }
+
+        .user-list {
+            margin: 1rem 0;
+        }
+
+        .user-item {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 1rem;
+            background: var(--bg-surface);
+            border-radius: 12px;
+            margin-bottom: 0.5rem;
+            cursor: pointer;
+            transition: background 0.2s ease;
+        }
+
+        .user-item:hover {
+            background: var(--primary);
+        }
+
+        .add-user-btn {
+            background: var(--success);
+            color: white;
+            border: none;
+            padding: 1rem;
+            border-radius: 12px;
+            width: 100%;
+            font-weight: 600;
+            cursor: pointer;
+            margin-top: 1rem;
+        }
+
+        /* Sección de Usuario */
+        .user-section {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .user-info {
+            flex: 1;
+        }
+
+        .user-name {
+            font-weight: 600;
+            font-size: 0.9rem;
+        }
+
+        .user-level {
+            font-size: 0.75rem;
+            color: var(--text-secondary);
+        }
+
+        .switch-user-btn {
+            background: var(--bg-surface);
+            border: 1px solid var(--border-color);
+            color: var(--text-primary);
+            padding: 0.5rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .switch-user-btn:hover {
+            background: var(--primary);
+        }
     </style>
 </head>
 <body>
@@ -373,6 +479,16 @@
 
         <!-- Contenido Principal -->
         <main class="main-content">
+            <!-- Sección Usuario -->
+            <div class="user-section">
+                <div class="user-avatar" id="user-avatar">A</div>
+                <div class="user-info">
+                    <div class="user-name" id="user-name">Alex</div>
+                    <div class="user-level" id="user-level">Nivel 1 • 0 XP</div>
+                </div>
+                <button class="switch-user-btn" id="switch-user-btn">Cambiar</button>
+            </div>
+
             <!-- Sección Home -->
             <section id="home-section" class="content-section active">
                 <div class="welcome-section">
@@ -551,10 +667,23 @@
         </nav>
     </div>
 
+    <!-- Modal de Selección de Usuario -->
+    <div class="user-modal" id="user-modal">
+        <div class="user-modal-content">
+            <h3>Seleccionar Usuario</h3>
+            <div class="user-list" id="user-list">
+                <!-- Los usuarios se cargarán aquí dinámicamente -->
+            </div>
+            <button class="add-user-btn" id="add-user-btn">+ Nuevo Usuario</button>
+        </div>
+    </div>
+
     <script>
         class SATProApp {
             constructor() {
                 this.currentSection = 'home';
+                this.currentUser = null;
+                this.users = this.loadUsers();
                 this.quizData = {
                     currentQuestion: 0,
                     questions: [
@@ -562,8 +691,17 @@
                             question: "If 2x + 5 = 15, what is the value of x?",
                             options: ["5", "10", "15", "20"],
                             correctAnswer: 0
+                        },
+                        {
+                            question: "What is the value of 3² + 4²?",
+                            options: ["7", "12", "25", "49"],
+                            correctAnswer: 2
+                        },
+                        {
+                            question: "Which of the following is a prime number?",
+                            options: ["9", "15", "21", "17"],
+                            correctAnswer: 3
                         }
-                        // Más preguntas pueden añadirse aquí
                     ]
                 };
                 this.init();
@@ -571,7 +709,63 @@
 
             init() {
                 this.setupEventListeners();
+                this.loadCurrentUser();
                 this.showSection('home');
+            }
+
+            loadUsers() {
+                return JSON.parse(localStorage.getItem('sat_users')) || {};
+            }
+
+            saveUsers() {
+                localStorage.setItem('sat_users', JSON.stringify(this.users));
+            }
+
+            createUser(username) {
+                const userId = 'user_' + Date.now();
+                const user = {
+                    id: userId,
+                    username: username,
+                    createdAt: new Date().toISOString(),
+                    currentScore: 400,
+                    xp: 0,
+                    level: 1,
+                    currentSubject: 'MATH'
+                };
+
+                this.users[userId] = user;
+                this.saveUsers();
+                return user;
+            }
+
+            getAllUsers() {
+                return Object.values(this.users);
+            }
+
+            setCurrentUser(user) {
+                this.currentUser = user;
+                localStorage.setItem('current_user_id', user.id);
+                this.updateUserUI();
+            }
+
+            loadCurrentUser() {
+                const currentUserId = localStorage.getItem('current_user_id');
+                if (currentUserId && this.users[currentUserId]) {
+                    this.currentUser = this.users[currentUserId];
+                } else {
+                    // Crear usuario por defecto si no existe
+                    this.currentUser = this.createUser('Alex');
+                    this.setCurrentUser(this.currentUser);
+                }
+                this.updateUserUI();
+            }
+
+            updateUserUI() {
+                if (this.currentUser) {
+                    document.getElementById('user-name').textContent = this.currentUser.username;
+                    document.getElementById('user-level').textContent = `Nivel ${this.currentUser.level} • ${this.currentUser.xp} XP`;
+                    document.getElementById('user-avatar').textContent = this.currentUser.username.charAt(0).toUpperCase();
+                }
             }
 
             setupEventListeners() {
@@ -623,6 +817,15 @@
                 document.getElementById('prev-btn').addEventListener('click', () => {
                     this.previousQuestion();
                 });
+
+                // Gestión de usuarios
+                document.getElementById('switch-user-btn').addEventListener('click', () => {
+                    this.showUserModal();
+                });
+
+                document.getElementById('add-user-btn').addEventListener('click', () => {
+                    this.createNewUser();
+                });
             }
 
             navigateTo(section) {
@@ -656,15 +859,14 @@
             startQuiz(category) {
                 console.log(`Iniciando quiz de: ${category}`);
                 this.navigateTo('quiz');
-                
-                // Aquí cargaríamos preguntas reales basadas en la categoría
                 this.loadQuizQuestions(category);
             }
 
             loadQuizQuestions(category) {
                 // Simular carga de preguntas
-                // En una implementación real, esto vendría de una base de datos
                 console.log(`Cargando preguntas para: ${category}`);
+                this.quizData.currentQuestion = 0;
+                this.updateQuizUI();
             }
 
             selectOption(optionElement) {
@@ -682,6 +884,12 @@
 
             nextQuestion() {
                 this.quizData.currentQuestion++;
+                if (this.quizData.currentQuestion >= this.quizData.questions.length) {
+                    // Quiz completado
+                    alert('¡Quiz completado! Volviendo al menú principal.');
+                    this.navigateTo('home');
+                    return;
+                }
                 this.updateQuizUI();
             }
 
@@ -708,6 +916,41 @@
                     // Manejar botones de navegación
                     document.getElementById('prev-btn').disabled = this.quizData.currentQuestion === 0;
                     document.getElementById('next-btn').disabled = true;
+                }
+            }
+
+            showUserModal() {
+                const modal = document.getElementById('user-modal');
+                const userList = document.getElementById('user-list');
+                
+                userList.innerHTML = '';
+                
+                this.getAllUsers().forEach(user => {
+                    const userItem = document.createElement('div');
+                    userItem.className = 'user-item';
+                    userItem.innerHTML = `
+                        <div class="user-avatar">${user.username.charAt(0).toUpperCase()}</div>
+                        <div>
+                            <div class="user-name">${user.username}</div>
+                            <div class="user-level">Nivel ${user.level} • ${user.xp} XP</div>
+                        </div>
+                    `;
+                    userItem.addEventListener('click', () => {
+                        this.setCurrentUser(user);
+                        modal.style.display = 'none';
+                    });
+                    userList.appendChild(userItem);
+                });
+
+                modal.style.display = 'flex';
+            }
+
+            createNewUser() {
+                const username = prompt('Ingresa el nombre del nuevo usuario:');
+                if (username && username.trim()) {
+                    const newUser = this.createUser(username.trim());
+                    this.setCurrentUser(newUser);
+                    document.getElementById('user-modal').style.display = 'none';
                 }
             }
         }
