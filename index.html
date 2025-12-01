@@ -14,19 +14,18 @@
         --accent:#8b5cf6;
         --text:#f1f5f9;
         --text-soft:#94a3b8;
-        --radius:16px;
-        --radius-sm:10px;
+        --radius:14px;
     }
 
     * {margin:0;padding:0;box-sizing:border-box;}
     body {
-        font-family:-apple-system, SF Pro Text, sans-serif;
         background:var(--bg-primary);
         color:var(--text);
+        font-family:-apple-system, SF Pro Text, sans-serif;
     }
 
     .app {
-        max-width:440px;
+        max-width:430px;
         margin:auto;
         padding:0.8rem;
         min-height:100vh;
@@ -36,7 +35,7 @@
 
     header {
         text-align:center;
-        padding:1rem 0;
+        padding:1rem 0 0.8rem;
         border-bottom:1px solid #253145;
     }
 
@@ -68,90 +67,99 @@
 
     .btn {
         padding:0.35rem 0.65rem;
-        border-radius:var(--radius-sm);
+        border-radius:var(--radius);
         background:var(--bg-surface);
         border:1px solid #334155;
         font-size:0.74rem;
-        color:var(--text);
-        cursor:pointer;
     }
 
-    /* PRIMARY SECTIONS */
+    /* NAVIGATION SECTIONS */
     section {display:none;}
     section.active {display:block;}
 
-    /* HOME */
+    /* HOME WELCOME */
     .welcome {
-        background:var(--bg-surface);
-        padding:1.1rem;
-        border-radius:var(--radius);
-        margin-bottom:1rem;
-        border:1px solid #2f3c50;
-    }
-
-    .welcome h2 {font-size:1.1rem;margin-bottom:0.4rem;}
-    .welcome p {font-size:0.82rem;color:var(--text-soft);}
-
-    /* STATS */
-    .stats {
-        display:grid;
-        grid-template-columns:1fr 1fr;
-        gap:0.7rem;
-        margin-bottom:1rem;
-    }
-
-    .stat {
         background:var(--bg-surface);
         padding:1rem;
         border-radius:var(--radius);
         border:1px solid #2f3c50;
+        margin-bottom:1rem;
     }
 
-    .stat .value {font-size:1.4rem;font-weight:700;}
-    .stat .label {font-size:0.75rem;color:var(--text-soft);}
+    .welcome h2 {font-size:1.05rem;}
+    .welcome p {font-size:0.8rem;color:var(--text-soft);}
 
-    /* PROGRESS BAR */
-    .progress-box {
-        background:var(--bg-surface);
-        border:1px solid #2f3c50;
-        padding:1rem;border-radius:var(--radius);
-        margin-bottom:1.2rem;
+    /* STATS */
+    .stats-compact {
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:0.6rem;
+        margin-bottom:1rem;
     }
 
-    .p-bar {
-        height:6px;background:#0f172a;border-radius:var(--radius);overflow:hidden;
+    .stat-box {
+        background:#1a2233;
+        padding:0.75rem 0.9rem;
+        border-radius:12px;
+        border:1px solid #2a3347;
     }
-    .p-fill {
-        width:55%;height:100%;
+
+    .stat-box .value {
+        font-size:1.35rem;
+        font-weight:700;
+        line-height:1.2;
+    }
+
+    .stat-box .label {
+        font-size:0.78rem;
+        color:var(--text-soft);
+        margin-top:0.1rem;
+    }
+
+    /* PROGRESS */
+    .progress-wrapper {
+        background:#1a2233;
+        padding:0.9rem;
+        border-radius:12px;
+        border:1px solid #2a3347;
+        margin-bottom:1rem;
+    }
+
+    .progress-bar {
+        height:7px;
+        background:#0f172a;
+        border-radius:10px;
+        overflow:hidden;
+    }
+
+    .progress-fill {
+        height:100%;
+        width:55%;
         background:linear-gradient(90deg,var(--primary),var(--accent));
     }
 
-    /* GRID NAV */
+    /* HOME GRID NAV */
     .grid {
         display:grid;
         grid-template-columns:1fr 1fr;
         gap:0.7rem;
-        margin-bottom:1rem;
     }
 
     .grid-card {
         background:var(--bg-surface);
-        padding:1rem;
+        padding:0.95rem;
         border-radius:var(--radius);
         border:1px solid #2f3c50;
     }
 
     .grid-card h3 {
         font-size:0.9rem;
-        margin-bottom:0.25rem;
+        margin-bottom:0.2rem;
     }
 
-    .grid-card p {
-        font-size:0.75rem;
-        color:var(--text-soft);
-    }
+    .grid-card p {font-size:0.75rem;color:var(--text-soft);}
 
-    /* PRACTICE */
+    /* PRACTICE LIST */
     .practice-list {
         display:flex;
         flex-direction:column;
@@ -161,14 +169,13 @@
     .practice-item {
         background:var(--bg-surface);
         padding:1rem;
-        border:1px solid #2f3c50;
         border-radius:var(--radius);
+        border:1px solid #2f3c50;
     }
 
-    .practice-item h4 {font-size:0.9rem;}
     .practice-item small {color:var(--text-soft);}
 
-    /* QUIZ */
+    /* QUIZ BOX */
     .quiz-box {
         background:var(--bg-surface);
         padding:1rem;
@@ -179,25 +186,24 @@
     .quiz-option {
         background:var(--bg-secondary);
         padding:0.8rem;
-        border-radius:var(--radius-sm);
+        border-radius:10px;
         border:1px solid #334155;
         margin-bottom:0.5rem;
-        font-size:0.85rem;
     }
 
-    /* ANALYTICS / LEARNING REPORT */
+    /* CARDS GENERAL */
     .card {
         background:var(--bg-surface);
         padding:1rem;
-        border:1px solid #2f3c50;
         border-radius:var(--radius);
+        border:1px solid #2f3c50;
         margin-bottom:0.8rem;
     }
 
-    .card h3 {font-size:1rem;margin-bottom:0.4rem;}
+    .card h3 {font-size:1rem;margin-bottom:0.35rem;}
     .card p {font-size:0.8rem;color:var(--text-soft);}
 
-    /* NAV BOTTOM */
+    /* BOTTOM NAV */
     .bottom-nav {
         display:flex;
         gap:0.4rem;
@@ -210,15 +216,16 @@
         flex:1;
         text-align:center;
         padding:0.45rem 0;
-        font-size:0.78rem;
-        border-radius:var(--radius-sm);
         background:var(--bg-surface);
+        border-radius:8px;
         border:1px solid #334155;
+        font-size:0.78rem;
     }
 
     .nav-tab.active {
         background:var(--primary);
         border-color:var(--primary);
+        color:white;
     }
 </style>
 </head>
@@ -228,9 +235,7 @@
 <div class="app">
 
     <!-- HEADER -->
-    <header>
-        <h1>SAT PRO MASTER EVO</h1>
-    </header>
+    <header><h1>SAT PRO MASTER EVO</h1></header>
 
     <!-- USER -->
     <div class="user-bar">
@@ -239,74 +244,57 @@
             <div class="name">Alex</div>
             <div class="level">Nivel 1 • 0 XP</div>
         </div>
-        <button class="btn">Cambiar</button>
+        <div class="btn">Cambiar</div>
     </div>
 
-    <!-- HOME SECTION -->
+    <!-- HOME -->
     <section id="home" class="active">
-
         <div class="welcome">
             <h2>Welcome, Alex</h2>
             <p>Train for the SAT with realistic practice.</p>
         </div>
 
-        <div class="stats">
-            <div class="stat">
+        <div class="stats-compact">
+            <div class="stat-box">
                 <div class="value">1250</div>
                 <div class="label">Current Score</div>
             </div>
-            <div class="stat">
+            <div class="stat-box">
                 <div class="value">84</div>
                 <div class="label">Questions Done</div>
             </div>
         </div>
 
-        <div class="progress-box">
-            <div class="p-bar"><div class="p-fill"></div></div>
+        <div class="progress-wrapper">
+            <div class="progress-bar"><div class="progress-fill"></div></div>
         </div>
 
         <div class="grid">
-            <div class="grid-card">
-                <h3>Practice</h3><p>Focused drills</p>
-            </div>
-            <div class="grid-card">
-                <h3>Full Exam</h3><p>Test simulation</p>
-            </div>
-            <div class="grid-card">
-                <h3>Analytics</h3><p>Performance insights</p>
-            </div>
-            <div class="grid-card">
-                <h3>Learning Report</h3><p>Weekly summaries</p>
-            </div>
+            <div class="grid-card"><h3>Practice</h3><p>Focused drills</p></div>
+            <div class="grid-card"><h3>Full Exam</h3><p>Simulation</p></div>
+            <div class="grid-card"><h3>Analytics</h3><p>Performance</p></div>
+            <div class="grid-card"><h3>Learning Report</h3><p>Weekly data</p></div>
         </div>
-
     </section>
 
-    <!-- PRACTICE SECTION -->
+    <!-- PRACTICE -->
     <section id="practice">
         <div class="practice-list">
-            <div class="practice-item">
-                <h4>Mathematics</h4><small>Algebra, Geometry, Stats</small>
-            </div>
-            <div class="practice-item">
-                <h4>Reading</h4><small>Comprehension</small>
-            </div>
-            <div class="practice-item">
-                <h4>Writing</h4><small>Grammar</small>
-            </div>
+            <div class="practice-item"><h4>Mathematics</h4><small>Algebra , Geometry , Stats</small></div>
+            <div class="practice-item"><h4>Reading</h4><small>Passage comprehension</small></div>
+            <div class="practice-item"><h4>Writing</h4><small>Grammar & clarity</small></div>
         </div>
     </section>
 
-    <!-- QUIZ SECTION -->
-    <section id="quiz">
-        <div class="quiz-box">
-            <p><strong>Question 1</strong></p>
-            <p>If 2x + 5 = 15, what is x?</p>
-
-            <div class="quiz-option">A) 5</div>
-            <div class="quiz-option">B) 10</div>
-            <div class="quiz-option">C) 15</div>
-            <div class="quiz-option">D) 20</div>
+    <!-- EXAM -->
+    <section id="exam">
+        <div class="card">
+            <h3>Full Exam Mode</h3>
+            <p>Simulate a real SAT test with timing.</p>
+        </div>
+        <div class="card">
+            <h3>Timer Settings</h3>
+            <p>Standard or extended time.</p>
         </div>
     </section>
 
@@ -314,11 +302,11 @@
     <section id="analytics">
         <div class="card">
             <h3>Score Trend</h3>
-            <p>Your score improved by 45 points.</p>
+            <p>+45 points this month.</p>
         </div>
         <div class="card">
             <h3>Weak Areas</h3>
-            <p>Algebra, Data Analysis, Grammar</p>
+            <p>Algebra, data, grammar.</p>
         </div>
     </section>
 
@@ -326,28 +314,39 @@
     <section id="learning">
         <div class="card">
             <h3>Weekly Progress</h3>
-            <p>Completed 24 questions this week.</p>
+            <p>Completed 24 questions.</p>
         </div>
         <div class="card">
             <h3>Current Level</h3>
-            <p>Math: Intermediate<br>Reading: Beginner</p>
+            <p>Math intermediate.</p>
         </div>
         <div class="card">
             <h3>Recommendations</h3>
-            <p>Focus on algebra first.</p>
+            <p>Focus on algebra drills.</p>
         </div>
     </section>
 
-    <!-- NAV -->
-    <nav class="bottom-nav">
-        <div class="nav-tab active">Home</div>
-        <div class="nav-tab">Practice</div>
-        <div class="nav-tab">Exam</div>
-        <div class="nav-tab">Analytics</div>
-        <div class="nav-tab">Learning</div>
-    </nav>
+    <!-- BOTTOM NAV -->
+    <div class="bottom-nav">
+        <div class="nav-tab active" onclick="showTab('home', this)">Home</div>
+        <div class="nav-tab" onclick="showTab('practice', this)">Practice</div>
+        <div class="nav-tab" onclick="showTab('exam', this)">Exam</div>
+        <div class="nav-tab" onclick="showTab('analytics', this)">Analytics</div>
+        <div class="nav-tab" onclick="showTab('learning', this)">Learning</div>
+    </div>
 
 </div>
+
+<!-- SIMPLE TAB SWITCHER -->
+<script>
+function showTab(id, el){
+    document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
+    document.getElementById(id).classList.add("active");
+
+    document.querySelectorAll(".nav-tab").forEach(t=>t.classList.remove("active"));
+    el.classList.add("active");
+}
+</script>
 
 </body>
 </html>
