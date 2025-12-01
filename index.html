@@ -1,384 +1,171 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>SAT OWL EVO 7 Premium</title>
-
-<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-<link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;500;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-
-<style>
-    :root {
-        --bg-core: #09090b;
-        --bg-panel: #18181b;
-        --primary: #8b5cf6; /* Morado OWL EVO */
-        --accent: #38bdf8; /* Azul Cielo */
-        --success: #34d399;
-        --warning: #fbbf24;
-        --danger: #f87171;
-        --text-main: #f4f4f5;
-        --text-sub: #a1a1aa;
-        --radius: 20px;
-        --border-glass: 1px solid rgba(255,255,255,0.08);
-    }
-
-    * { margin:0; padding:0; box-sizing:border-box; -webkit-tap-highlight-color: transparent; }
-
-    body {
-        font-family: 'Outfit', sans-serif;
-        background-color: var(--bg-core);
-        color: var(--text-main);
-        min-height: 100vh;
-        padding-bottom: 90px;
-        background-image: radial-gradient(circle at top, rgba(139, 92, 246, 0.15), transparent 40%);
-    }
-
-    .app-container { max-width: 480px; margin: 0 auto; padding: 1.2rem; }
-
-    /* HEADER */
-    header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 2rem;
-    }
-    
-    .brand h1 { 
-        font-weight: 800; 
-        font-size: 1.3rem; 
-        background: linear-gradient(to right, #fff, var(--primary)); 
-        -webkit-background-clip: text; 
-        -webkit-text-fill-color: transparent; 
-        letter-spacing: -0.5px;
-    }
-    .brand span { font-size: 0.7rem; color: var(--accent); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; }
-
-    .user-pill {
-        background: var(--bg-panel);
-        border: var(--border-glass);
-        padding: 6px 14px;
-        border-radius: 30px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        display: flex;
-        align-items: center;
-        gap: 8px;
-    }
-
-    /* CARDS */
-    .card {
-        background: var(--bg-panel);
-        border: var(--border-glass);
-        border-radius: var(--radius);
-        padding: 1.5rem;
-        margin-bottom: 1rem;
-        position: relative;
-        overflow: hidden;
-        box-shadow: 0 10px 30px -10px rgba(0,0,0,0.3);
-    }
-
-    .target-card {
-        background: linear-gradient(135deg, #1e1b4b, #0f172a);
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        border: 1px solid rgba(139, 92, 246, 0.3);
-    }
-
-    .score-big { font-size: 2.5rem; font-weight: 800; line-height: 1; color: var(--text-main); margin: 5px 0; }
-    .score-sub { font-size: 0.75rem; color: var(--success); font-weight: 600; }
-
-    /* TOGGLE PADRES */
-    .view-toggle {
-        display: flex;
-        background: rgba(255,255,255,0.03);
-        padding: 4px;
-        border-radius: 14px;
-        margin-bottom: 1.5rem;
-        border: var(--border-glass);
-    }
-    .toggle-btn {
-        flex: 1;
-        border: none;
-        background: transparent;
-        color: var(--text-sub);
-        padding: 10px;
-        border-radius: 10px;
-        font-size: 0.8rem;
-        font-weight: 600;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-    .toggle-btn.active {
-        background: var(--bg-panel);
-        color: var(--primary);
-        box-shadow: 0 2px 10px rgba(0,0,0,0.2);
-    }
-
-    /* MODOS DE JUEGO */
-    .grid-modes { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
-    
-    .mode-card {
-        background: var(--bg-panel);
-        border: var(--border-glass);
-        padding: 1.2rem;
-        border-radius: var(--radius);
-        cursor: pointer;
-        transition: 0.2s;
-        text-align: center;
-    }
-    .mode-card:active { transform: scale(0.96); }
-    .mode-icon { font-size: 1.8rem; margin-bottom: 10px; display: block; }
-
-    /* QUIZ INTERFACE */
-    .quiz-overlay {
-        position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-        background: var(--bg-core); z-index: 100;
-        padding: 1.5rem;
-        display: none;
-        flex-direction: column;
-        animation: slideUp 0.3s ease;
-    }
-    .quiz-overlay.active { display: flex; }
-    @keyframes slideUp { from {transform:translateY(100%);} to {transform:translateY(0);} }
-
-    .option {
-        background: var(--bg-panel);
-        border: var(--border-glass);
-        padding: 1.2rem;
-        border-radius: 14px;
-        margin-bottom: 0.8rem;
-        cursor: pointer;
-        transition: 0.2s;
-        display: flex; align-items: center;
-        font-weight: 500;
-    }
-    .option-letter { 
-        width: 28px; height: 28px; background: rgba(255,255,255,0.1); 
-        border-radius: 50%; display: flex; align-items: center; justify-content: center;
-        margin-right: 12px; font-size: 0.8rem; font-weight: 700;
-    }
-    .option.correct { background: rgba(52, 211, 153, 0.2); border-color: var(--success); }
-    .option.incorrect { background: rgba(248, 113, 113, 0.2); border-color: var(--danger); }
-
-    .section-view { display: none; }
-    .section-view.active { display: block; animation: fadeIn 0.4s; }
-    @keyframes fadeIn { from{opacity:0;} to{opacity:1;} }
-
-</style>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Buscador Pro | Análisis de Texto Profesional</title>
+    <meta name="description" content="Herramienta profesional de búsqueda y análisis de texto con capacidades offline">
+    <meta name="theme-color" content="#4a6fa5">
+    <link rel="stylesheet" href="styles/main.css">
+    <link rel="manifest" href="manifest.json">
+    <link rel="icon" href="icons/icon-192.png">
 </head>
 <body>
+    <div class="container">
+        <header class="app-header">
+            <div class="header-content">
+                <h1 class="app-title">
+                    <span class="app-icon">🔍</span>
+                    Buscador Pro
+                </h1>
+                <p class="app-subtitle">Análisis de texto avanzado con búsqueda contextual</p>
+            </div>
+            <div class="header-actions">
+                <button id="settingsBtn" class="btn-icon" title="Configuración">
+                    ⚙️
+                </button>
+            </div>
+        </header>
 
-<div class="app-container">
-
-    <header>
-        <div class="brand">
-            <h1>SAT OWL EVO</h1>
-            <span>7 Premium</span>
-        </div>
-        <div class="user-pill">
-            <span style="color:#fbbf24">★</span>
-            <span id="xp-display">0 XP</span>
-        </div>
-    </header>
-
-    <div class="view-toggle">
-        <button class="toggle-btn active" onclick="app.setMode('student')" id="btn-student">
-            <i class="fas fa-user-astronaut"></i> Student
-        </button>
-        <button class="toggle-btn" onclick="app.setMode('parent')" id="btn-parent">
-            <i class="fas fa-chart-pie"></i> Parent Report
-        </button>
-    </div>
-
-    <div id="view-student" class="section-view active">
-        <div class="card target-card">
-            <div>
-                <div style="font-size:0.8rem; color:var(--text-sub); text-transform:uppercase;">Projected Score</div>
-                <div class="score-big" id="score-val">1240</div>
-                <div class="score-sub">▲ 40 points this week</div>
-            </div>
-            <div style="text-align:right;">
-                <canvas id="miniChart" width="80" height="50"></canvas>
-            </div>
-        </div>
-
-        <h3 style="margin: 1.5rem 0 1rem; font-size:0.9rem; color:var(--text-sub);">TRAINING MODULES</h3>
-        
-        <div class="grid-modes">
-            <div class="mode-card" onclick="app.startQuiz('math')">
-                <span class="mode-icon" style="color:#8b5cf6">∑</span>
-                <div style="font-weight:700;">Math</div>
-                <div style="font-size:0.7rem; color:var(--text-sub)">Algebra & Data</div>
-            </div>
-            <div class="mode-card" onclick="app.startQuiz('reading')">
-                <span class="mode-icon" style="color:#38bdf8">Aa</span>
-                <div style="font-weight:700;">Reading</div>
-                <div style="font-size:0.7rem; color:var(--text-sub)">Evidence Based</div>
-            </div>
-            <div class="mode-card" onclick="app.startQuiz('adaptive')">
-                <span class="mode-icon" style="color:#fbbf24">⚡</span>
-                <div style="font-weight:700;">Adaptive</div>
-                <div style="font-size:0.7rem; color:var(--text-sub)">AI Generated</div>
-            </div>
-            <div class="mode-card" style="opacity:0.5;">
-                <span class="mode-icon" style="color:#f472b6">Exam</span>
-                <div style="font-weight:700;">Full Test</div>
-                <div style="font-size:0.7rem; color:var(--text-sub)">Locked</div>
-            </div>
-        </div>
-    </div>
-
-    <div id="view-parent" class="section-view">
-        <div class="card">
-            <div style="display:flex; justify-content:space-between; margin-bottom:1rem;">
-                <h3 style="font-size:1rem;">Performance Audit</h3>
-                <span style="background:var(--primary); font-size:0.7rem; padding:4px 8px; border-radius:6px; height:fit-content;">LIVE</span>
-            </div>
-            
-            <div style="height:200px; width:100%;">
-                <canvas id="mainChart"></canvas>
-            </div>
-
-            <div style="margin-top:1.5rem; display:grid; grid-template-columns:1fr 1fr; gap:10px;">
-                <div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:10px;">
-                    <div style="font-size:0.7rem; color:var(--text-sub)">Math Accuracy</div>
-                    <div style="font-size:1.2rem; font-weight:700; color:var(--success)">88%</div>
+        <main class="main-content">
+            <section class="upload-section">
+                <div class="section-card">
+                    <h2 class="section-title">
+                        <span class="icon">📤</span>
+                        Cargar Archivos
+                    </h2>
+                    <div class="file-input-container">
+                        <input type="file" id="fileInput" multiple accept=".txt,.md,.csv,.log" class="file-input">
+                        <label for="fileInput" class="file-input-label">
+                            <span class="file-input-icon">📁</span>
+                            <span class="file-input-text">Seleccionar archivos de texto</span>
+                            <span class="file-input-hint">.txt, .md, .csv, .log</span>
+                        </label>
+                    </div>
+                    
+                    <div class="file-list-section">
+                        <h3 class="subsection-title">Archivos Cargados</h3>
+                        <div class="file-list" id="fileList">
+                            <div class="empty-state">
+                                <div class="empty-icon">📁</div>
+                                <p class="empty-text">No hay archivos cargados</p>
+                                <p class="empty-hint">Selecciona archivos para comenzar</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div style="background:rgba(255,255,255,0.05); padding:10px; border-radius:10px;">
-                    <div style="font-size:0.7rem; color:var(--text-sub)">Questions Done</div>
-                    <div style="font-size:1.2rem; font-weight:700;">142</div>
+            </section>
+
+            <section class="search-section">
+                <div class="section-card">
+                    <h2 class="section-title">
+                        <span class="icon">🔍</span>
+                        Buscar en Archivos
+                    </h2>
+                    
+                    <div class="search-controls">
+                        <div class="search-input-container">
+                            <input type="text" id="searchInput" placeholder="Ingresa tu término de búsqueda..." class="search-input">
+                            <button id="searchButton" class="search-btn">
+                                <span class="search-btn-text">Buscar</span>
+                                <span class="search-btn-icon">🔍</span>
+                            </button>
+                        </div>
+                        
+                        <div class="search-options">
+                            <div class="option-group">
+                                <input type="checkbox" id="caseSensitive" class="option-checkbox">
+                                <label for="caseSensitive" class="option-label">
+                                    Coincidir mayúsculas/minúsculas
+                                </label>
+                            </div>
+                            
+                            <div class="option-group">
+                                <label for="contextLines" class="option-label">Líneas de contexto:</label>
+                                <select id="contextLines" class="option-select">
+                                    <option value="1">1</option>
+                                    <option value="2" selected>2</option>
+                                    <option value="3">3</option>
+                                    <option value="5">5</option>
+                                </select>
+                            </div>
+
+                            <div class="option-group">
+                                <label for="maxResults" class="option-label">Resultados máx:</label>
+                                <select id="maxResults" class="option-select">
+                                    <option value="50">50</option>
+                                    <option value="100" selected>100</option>
+                                    <option value="250">250</option>
+                                    <option value="500">500</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="search-results-section">
+                        <div class="results-header" id="resultsHeader" style="display: none;">
+                            <h3 class="subsection-title">Resultados de Búsqueda</h3>
+                            <div class="results-stats" id="resultsStats"></div>
+                        </div>
+                        
+                        <div class="search-results" id="searchResults">
+                            <div class="empty-state">
+                                <div class="empty-icon">🔍</div>
+                                <p class="empty-text">Ingresa un término de búsqueda</p>
+                                <p class="empty-hint">Los resultados aparecerán aquí</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer class="app-footer">
+            <div class="footer-content">
+                <p class="footer-text">Buscador Pro v1.0 - Herramienta profesional de análisis de texto</p>
+                <div class="footer-status">
+                    <span id="storageStatus" class="status-indicator">💾</span>
+                    <span id="offlineStatus" class="status-indicator">🌐</span>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <!-- Modal de Configuración -->
+    <div id="settingsModal" class="modal" style="display: none;">
+        <div class="modal-backdrop"></div>
+        <div class="modal-content">
+            <div class="modal-header">
+                <h3 class="modal-title">Configuración</h3>
+                <button id="closeSettings" class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <div class="setting-group">
+                    <h4 class="setting-title">Almacenamiento</h4>
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <input type="checkbox" id="autoBackup" checked>
+                            Backup automático
+                        </label>
+                    </div>
+                    <div class="setting-item">
+                        <button id="exportData" class="btn-secondary">Exportar datos</button>
+                        <button id="importData" class="btn-secondary">Importar datos</button>
+                    </div>
+                </div>
+                <div class="setting-group">
+                    <h4 class="setting-title">Interfaz</h4>
+                    <div class="setting-item">
+                        <label class="setting-label">
+                            <input type="checkbox" id="darkMode">
+                            Modo oscuro
+                        </label>
+                    </div>
                 </div>
             </div>
         </div>
-        
-        <div class="card">
-            <h3 style="font-size:0.9rem; margin-bottom:0.5rem;">AI Recommendation</h3>
-            <p style="font-size:0.8rem; color:var(--text-sub); line-height:1.5;">
-                Alex is performing exceptionally well in Algebra. Focus shifted to "Reading Comprehension" to balance the total score potential.
-            </p>
-        </div>
     </div>
 
-</div>
-
-<div class="quiz-overlay" id="quiz-ui">
-    <div style="display:flex; justify-content:space-between; margin-bottom:2rem;">
-        <span style="font-family:'JetBrains Mono'; color:var(--primary);">PRACTICE MODE</span>
-        <button onclick="app.closeQuiz()" style="background:none; border:none; color:var(--text-sub); font-size:1.5rem;">&times;</button>
-    </div>
-
-    <div id="q-text" style="font-size:1.2rem; font-weight:500; margin-bottom:2rem; line-height:1.5;">Loading...</div>
-    <div id="q-options"></div>
-</div>
-
-<script>
-    class SatEvoApp {
-        constructor() {
-            this.state = {
-                score: 1240,
-                xp: 0,
-                history: [1100, 1150, 1180, 1220, 1240]
-            };
-            this.questions = [
-                { q: "If $$ 3x + 7 = 22 $$, what is $$ x $$?", opts: ["3", "4", "5", "6"], ans: 2 },
-                { q: "Evaluate $$ f(x) = x^2 - 1 $$ for $$ x=3 $$", opts: ["5", "7", "8", "9"], ans: 2 }
-            ];
-            this.init();
-        }
-
-        init() {
-            this.renderMiniChart();
-            this.renderMainChart();
-        }
-
-        setMode(mode) {
-            document.querySelectorAll('.section-view').forEach(e => e.classList.remove('active'));
-            document.querySelectorAll('.toggle-btn').forEach(e => e.classList.remove('active'));
-            document.getElementById('view-'+mode).classList.add('active');
-            document.getElementById('btn-'+mode).classList.add('active');
-        }
-
-        startQuiz(type) {
-            document.getElementById('quiz-ui').classList.add('active');
-            const q = this.questions[0]; // Demo: siempre pregunta 1
-            const qt = document.getElementById('q-text');
-            qt.innerHTML = q.q;
-            renderMathInElement(qt, {delimiters:[{left:'$$', right:'$$', display:false}]});
-
-            const qo = document.getElementById('q-options');
-            qo.innerHTML = '';
-            q.opts.forEach((opt, i) => {
-                const d = document.createElement('div');
-                d.className = 'option';
-                d.innerHTML = `<span class="option-letter">${String.fromCharCode(65+i)}</span> ${opt}`;
-                d.onclick = () => this.check(d, i, q.ans);
-                qo.appendChild(d);
-            });
-        }
-
-        check(el, sel, cor) {
-            if(sel === cor) {
-                el.classList.add('correct');
-                confetti({ particleCount: 100, spread: 70, origin: { y: 0.6 } });
-                this.state.score += 10;
-                this.state.xp += 50;
-                document.getElementById('score-val').innerText = this.state.score;
-                document.getElementById('xp-display').innerText = this.state.xp + ' XP';
-                setTimeout(() => this.closeQuiz(), 1500);
-            } else {
-                el.classList.add('incorrect');
-            }
-        }
-
-        closeQuiz() {
-            document.getElementById('quiz-ui').classList.remove('active');
-        }
-
-        // GRÁFICAS CON CHART.JS
-        renderMiniChart() {
-            new Chart(document.getElementById('miniChart'), {
-                type: 'line',
-                data: {
-                    labels: [1,2,3,4,5],
-                    datasets: [{ data: this.state.history, borderColor: '#34d399', borderWidth: 2, pointRadius: 0 }]
-                },
-                options: { plugins:{legend:{display:false}}, scales:{x:{display:false}, y:{display:false}}, responsive:false }
-            });
-        }
-
-        renderMainChart() {
-            new Chart(document.getElementById('mainChart'), {
-                type: 'bar',
-                data: {
-                    labels: ['W1', 'W2', 'W3', 'W4', 'Now'],
-                    datasets: [{ 
-                        label: 'Score Progression', 
-                        data: this.state.history,
-                        backgroundColor: '#8b5cf6',
-                        borderRadius: 6
-                    }]
-                },
-                options: {
-                    responsive: true,
-                    maintainAspectRatio: false,
-                    plugins: { legend: {display: false} },
-                    scales: { 
-                        y: { beginAtZero: false, min: 1000, grid: {color:'rgba(255,255,255,0.05)'} },
-                        x: { grid: {display: false} }
-                    }
-                }
-            });
-        }
-    }
-
-    window.app = new SatEvoApp();
-</script>
+    <script type="module" src="scripts/app.js"></script>
 </body>
 </html>
