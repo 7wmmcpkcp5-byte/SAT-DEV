@@ -3,8 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SAT PRO MASTER EVO -- UI DESIGN</title>
-
+<title>SAT PRO MASTER EVO</title>
 <style>
     :root {
         --bg-primary:#0a0f1c;
@@ -14,18 +13,23 @@
         --accent:#8b5cf6;
         --text:#f1f5f9;
         --text-soft:#94a3b8;
-        --radius:14px;
+        --radius:16px;
+        --radius-sm:10px;
+        --success:#10b981;
+        --warning:#f59e0b;
+        --error:#ef4444;
     }
 
     * {margin:0;padding:0;box-sizing:border-box;}
     body {
+        font-family:-apple-system, SF Pro Text, sans-serif;
         background:var(--bg-primary);
         color:var(--text);
-        font-family:-apple-system, SF Pro Text, sans-serif;
+        min-height:100vh;
     }
 
     .app {
-        max-width:430px;
+        max-width:440px;
         margin:auto;
         padding:0.8rem;
         min-height:100vh;
@@ -35,7 +39,7 @@
 
     header {
         text-align:center;
-        padding:1rem 0 0.8rem;
+        padding:1rem 0;
         border-bottom:1px solid #253145;
     }
 
@@ -67,99 +71,114 @@
 
     .btn {
         padding:0.35rem 0.65rem;
-        border-radius:var(--radius);
+        border-radius:var(--radius-sm);
         background:var(--bg-surface);
         border:1px solid #334155;
         font-size:0.74rem;
+        color:var(--text);
+        cursor:pointer;
+        transition:all 0.2s ease;
+    }
+    
+    .btn:hover {
+        background:var(--primary);
     }
 
-    /* NAVIGATION SECTIONS */
+    /* PRIMARY SECTIONS */
     section {display:none;}
     section.active {display:block;}
 
-    /* HOME WELCOME */
+    /* HOME */
     .welcome {
+        background:var(--bg-surface);
+        padding:1.1rem;
+        border-radius:var(--radius);
+        margin-bottom:1rem;
+        border:1px solid #2f3c50;
+    }
+
+    .welcome h2 {font-size:1.1rem;margin-bottom:0.4rem;}
+    .welcome p {font-size:0.82rem;color:var(--text-soft);}
+
+    /* STATS */
+    .stats {
+        display:grid;
+        grid-template-columns:1fr 1fr;
+        gap:0.7rem;
+        margin-bottom:1rem;
+    }
+
+    .stat {
         background:var(--bg-surface);
         padding:1rem;
         border-radius:var(--radius);
         border:1px solid #2f3c50;
-        margin-bottom:1rem;
+        text-align:center;
     }
 
-    .welcome h2 {font-size:1.05rem;}
-    .welcome p {font-size:0.8rem;color:var(--text-soft);}
+    .stat .value {font-size:1.4rem;font-weight:700;}
+    .stat .label {font-size:0.75rem;color:var(--text-soft);}
 
-    /* STATS */
-    .stats-compact {
-        display:grid;
-        grid-template-columns:1fr 1fr;
-        gap:0.6rem;
-        margin-bottom:1rem;
+    /* PROGRESS BAR */
+    .progress-box {
+        background:var(--bg-surface);
+        border:1px solid #2f3c50;
+        padding:1rem;border-radius:var(--radius);
+        margin-bottom:1.2rem;
+    }
+    
+    .progress-header {
+        display:flex;
+        justify-content:space-between;
+        margin-bottom:0.5rem;
+        font-size:0.8rem;
     }
 
-    .stat-box {
-        background:#1a2233;
-        padding:0.75rem 0.9rem;
-        border-radius:12px;
-        border:1px solid #2a3347;
+    .p-bar {
+        height:6px;background:#0f172a;border-radius:var(--radius);overflow:hidden;
     }
-
-    .stat-box .value {
-        font-size:1.35rem;
-        font-weight:700;
-        line-height:1.2;
-    }
-
-    .stat-box .label {
-        font-size:0.78rem;
-        color:var(--text-soft);
-        margin-top:0.1rem;
-    }
-
-    /* PROGRESS */
-    .progress-wrapper {
-        background:#1a2233;
-        padding:0.9rem;
-        border-radius:12px;
-        border:1px solid #2a3347;
-        margin-bottom:1rem;
-    }
-
-    .progress-bar {
-        height:7px;
-        background:#0f172a;
-        border-radius:10px;
-        overflow:hidden;
-    }
-
-    .progress-fill {
-        height:100%;
-        width:55%;
+    .p-fill {
+        width:55%;height:100%;
         background:linear-gradient(90deg,var(--primary),var(--accent));
     }
 
-    /* HOME GRID NAV */
+    /* GRID NAV */
     .grid {
         display:grid;
         grid-template-columns:1fr 1fr;
         gap:0.7rem;
+        margin-bottom:1rem;
     }
 
     .grid-card {
         background:var(--bg-surface);
-        padding:0.95rem;
+        padding:1rem;
         border-radius:var(--radius);
         border:1px solid #2f3c50;
+        cursor:pointer;
+        transition:all 0.2s ease;
+    }
+    
+    .grid-card:hover {
+        background:var(--primary);
+        transform:translateY(-2px);
     }
 
     .grid-card h3 {
         font-size:0.9rem;
-        margin-bottom:0.2rem;
+        margin-bottom:0.25rem;
     }
 
-    .grid-card p {font-size:0.75rem;color:var(--text-soft);}
+    .grid-card p {
+        font-size:0.75rem;
+        color:var(--text-soft);
+    }
+    
+    .grid-card:hover p {
+        color:var(--text);
+    }
 
-    /* PRACTICE LIST */
+    /* PRACTICE */
     .practice-list {
         display:flex;
         flex-direction:column;
@@ -169,41 +188,127 @@
     .practice-item {
         background:var(--bg-surface);
         padding:1rem;
-        border-radius:var(--radius);
         border:1px solid #2f3c50;
+        border-radius:var(--radius);
+        cursor:pointer;
+        transition:all 0.2s ease;
+    }
+    
+    .practice-item:hover {
+        background:var(--primary);
+        transform:translateX(3px);
     }
 
-    .practice-item small {color:var(--text-soft);}
+    .practice-header {
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:0.4rem;
+    }
+    
+    .practice-item h4 {font-size:0.9rem;}
+    .practice-item small {color:var(--text-soft);font-size:0.75rem;}
 
-    /* QUIZ BOX */
+    /* Difficulty badges */
+    .difficulty-badge {
+        padding:0.2rem 0.6rem;
+        border-radius:12px;
+        font-size:0.7rem;
+        font-weight:600;
+    }
+    
+    .difficulty-easy {
+        background:var(--success);
+        color:white;
+    }
+    
+    .difficulty-medium {
+        background:var(--warning);
+        color:black;
+    }
+    
+    .difficulty-hard {
+        background:var(--error);
+        color:white;
+    }
+
+    /* QUIZ */
     .quiz-box {
         background:var(--bg-surface);
         padding:1rem;
         border-radius:var(--radius);
         border:1px solid #2f3c50;
     }
+    
+    .quiz-header {
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:1rem;
+    }
+    
+    .quiz-timer {
+        font-weight:600;
+        color:var(--warning);
+        font-size:0.9rem;
+    }
 
     .quiz-option {
         background:var(--bg-secondary);
         padding:0.8rem;
-        border-radius:10px;
+        border-radius:var(--radius-sm);
         border:1px solid #334155;
         margin-bottom:0.5rem;
+        font-size:0.85rem;
+        cursor:pointer;
+        transition:all 0.2s ease;
+    }
+    
+    .quiz-option:hover {
+        background:var(--primary);
+    }
+    
+    .quiz-option.selected {
+        background:var(--primary);
+        border-color:var(--primary);
+    }
+    
+    .quiz-navigation {
+        display:flex;
+        justify-content:space-between;
+        margin-top:1.5rem;
+    }
+    
+    .quiz-btn {
+        background:var(--primary);
+        color:white;
+        border:none;
+        padding:0.6rem 1.2rem;
+        border-radius:var(--radius-sm);
+        cursor:pointer;
+        font-weight:600;
+        font-size:0.85rem;
+    }
+    
+    .quiz-btn:disabled {
+        background:var(--bg-secondary);
+        color:var(--text-soft);
+        cursor:not-allowed;
     }
 
-    /* CARDS GENERAL */
+    /* ANALYTICS / LEARNING REPORT */
     .card {
         background:var(--bg-surface);
         padding:1rem;
-        border-radius:var(--radius);
         border:1px solid #2f3c50;
+        border-radius:var(--radius);
         margin-bottom:0.8rem;
     }
 
-    .card h3 {font-size:1rem;margin-bottom:0.35rem;}
+    .card h3 {font-size:1rem;margin-bottom:0.4rem;}
     .card p {font-size:0.8rem;color:var(--text-soft);}
 
-    /* BOTTOM NAV */
+    /* NAV BOTTOM */
     .bottom-nav {
         display:flex;
         gap:0.4rem;
@@ -216,16 +321,21 @@
         flex:1;
         text-align:center;
         padding:0.45rem 0;
-        background:var(--bg-surface);
-        border-radius:8px;
-        border:1px solid #334155;
         font-size:0.78rem;
+        border-radius:var(--radius-sm);
+        background:var(--bg-surface);
+        border:1px solid #334155;
+        cursor:pointer;
+        transition:all 0.2s ease;
     }
 
     .nav-tab.active {
         background:var(--primary);
         border-color:var(--primary);
-        color:white;
+    }
+    
+    .nav-tab:hover {
+        background:var(--primary);
     }
 </style>
 </head>
@@ -235,7 +345,9 @@
 <div class="app">
 
     <!-- HEADER -->
-    <header><h1>SAT PRO MASTER EVO</h1></header>
+    <header>
+        <h1>SAT PRO MASTER EVO</h1>
+    </header>
 
     <!-- USER -->
     <div class="user-bar">
@@ -244,109 +356,545 @@
             <div class="name">Alex</div>
             <div class="level">Nivel 1 • 0 XP</div>
         </div>
-        <div class="btn">Cambiar</div>
+        <button class="btn" id="switch-user">Cambiar</button>
     </div>
 
-    <!-- HOME -->
+    <!-- HOME SECTION -->
     <section id="home" class="active">
+
         <div class="welcome">
             <h2>Welcome, Alex</h2>
             <p>Train for the SAT with realistic practice.</p>
         </div>
 
-        <div class="stats-compact">
-            <div class="stat-box">
+        <div class="stats">
+            <div class="stat">
                 <div class="value">1250</div>
                 <div class="label">Current Score</div>
             </div>
-            <div class="stat-box">
+            <div class="stat">
                 <div class="value">84</div>
                 <div class="label">Questions Done</div>
             </div>
         </div>
 
-        <div class="progress-wrapper">
-            <div class="progress-bar"><div class="progress-fill"></div></div>
+        <div class="progress-box">
+            <div class="progress-header">
+                <span>Score Progress</span>
+                <span>55%</span>
+            </div>
+            <div class="p-bar"><div class="p-fill"></div></div>
+            <div class="progress-header" style="margin-top:0.5rem;margin-bottom:0;">
+                <span>Start: 400</span>
+                <span>Goal: 1600</span>
+            </div>
         </div>
 
         <div class="grid">
-            <div class="grid-card"><h3>Practice</h3><p>Focused drills</p></div>
-            <div class="grid-card"><h3>Full Exam</h3><p>Simulation</p></div>
-            <div class="grid-card"><h3>Analytics</h3><p>Performance</p></div>
-            <div class="grid-card"><h3>Learning Report</h3><p>Weekly data</p></div>
+            <div class="grid-card" data-section="practice">
+                <h3>Practice</h3><p>Focused drills</p>
+            </div>
+            <div class="grid-card" data-section="exam">
+                <h3>Full Exam</h3><p>Test simulation</p>
+            </div>
+            <div class="grid-card" data-section="analytics">
+                <h3>Analytics</h3><p>Performance insights</p>
+            </div>
+            <div class="grid-card" data-section="reports">
+                <h3>Reports</h3><p>Weekly summaries</p>
+            </div>
         </div>
+
     </section>
 
-    <!-- PRACTICE -->
+    <!-- PRACTICE SECTION -->
     <section id="practice">
+        <h2 style="margin-bottom:1rem;">Practice Mode</h2>
         <div class="practice-list">
-            <div class="practice-item"><h4>Mathematics</h4><small>Algebra , Geometry , Stats</small></div>
-            <div class="practice-item"><h4>Reading</h4><small>Passage comprehension</small></div>
-            <div class="practice-item"><h4>Writing</h4><small>Grammar & clarity</small></div>
+            <div class="practice-item" data-category="math">
+                <div class="practice-header">
+                    <h4>Mathematics</h4>
+                    <span class="difficulty-badge difficulty-medium">Medium</span>
+                </div>
+                <small>Algebra, Geometry, Stats</small>
+            </div>
+            <div class="practice-item" data-category="reading">
+                <div class="practice-header">
+                    <h4>Reading</h4>
+                    <span class="difficulty-badge difficulty-hard">Hard</span>
+                </div>
+                <small>Comprehension</small>
+            </div>
+            <div class="practice-item" data-category="writing">
+                <div class="practice-header">
+                    <h4>Writing</h4>
+                    <span class="difficulty-badge difficulty-easy">Easy</span>
+                </div>
+                <small>Grammar</small>
+            </div>
         </div>
     </section>
 
-    <!-- EXAM -->
+    <!-- EXAM SECTION -->
     <section id="exam">
-        <div class="card">
-            <h3>Full Exam Mode</h3>
-            <p>Simulate a real SAT test with timing.</p>
+        <div class="quiz-box">
+            <div class="quiz-header">
+                <span>Exam - Section 1/4</span>
+                <span class="quiz-timer" id="exam-timer">59:45</span>
+            </div>
+            
+            <div class="difficulty-badge difficulty-hard" style="display:inline-block;margin-bottom:1rem;">
+                Hard
+            </div>
+            
+            <p><strong>Question 1</strong></p>
+            <p>A right circular cylinder has a height of 10 inches and a radius of 4 inches. What is the volume, in cubic inches, of the cylinder?</p>
+
+            <div class="quiz-option" data-option="A">A) 40π</div>
+            <div class="quiz-option" data-option="B">B) 80π</div>
+            <div class="quiz-option" data-option="C">C) 160π</div>
+            <div class="quiz-option" data-option="D">D) 400π</div>
+            
+            <div class="quiz-navigation">
+                <button class="quiz-btn" id="exam-prev-btn" disabled>Previous</button>
+                <button class="quiz-btn" id="exam-next-btn">Next</button>
+            </div>
         </div>
-        <div class="card">
-            <h3>Timer Settings</h3>
-            <p>Standard or extended time.</p>
+    </section>
+
+    <!-- QUIZ SECTION -->
+    <section id="quiz">
+        <div class="quiz-box">
+            <div class="quiz-header">
+                <span>Question 1/10</span>
+                <span class="quiz-timer" id="quiz-timer">04:23</span>
+            </div>
+            
+            <div class="difficulty-badge difficulty-medium" style="display:inline-block;margin-bottom:1rem;">
+                Medium
+            </div>
+            
+            <p><strong>Question 1</strong></p>
+            <p>If 2x + 5 = 15, what is x?</p>
+
+            <div class="quiz-option" data-option="A">A) 5</div>
+            <div class="quiz-option" data-option="B">B) 10</div>
+            <div class="quiz-option" data-option="C">C) 15</div>
+            <div class="quiz-option" data-option="D">D) 20</div>
+            
+            <div class="quiz-navigation">
+                <button class="quiz-btn" id="prev-btn" disabled>Previous</button>
+                <button class="quiz-btn" id="next-btn">Next</button>
+            </div>
         </div>
     </section>
 
     <!-- ANALYTICS -->
     <section id="analytics">
+        <h2 style="margin-bottom:1rem;">Performance Analytics</h2>
         <div class="card">
             <h3>Score Trend</h3>
-            <p>+45 points this month.</p>
+            <p>Your score improved by 45 points.</p>
         </div>
         <div class="card">
             <h3>Weak Areas</h3>
-            <p>Algebra, data, grammar.</p>
+            <p>Algebra, Data Analysis, Grammar</p>
+        </div>
+        <div class="card">
+            <h3>Study Time</h3>
+            <p>Total: 12h 34m this week</p>
         </div>
     </section>
 
-    <!-- LEARNING REPORT -->
-    <section id="learning">
+    <!-- REPORTS -->
+    <section id="reports">
+        <h2 style="margin-bottom:1rem;">Progress Reports</h2>
         <div class="card">
             <h3>Weekly Progress</h3>
-            <p>Completed 24 questions.</p>
+            <p>Completed 24 questions this week.</p>
         </div>
         <div class="card">
             <h3>Current Level</h3>
-            <p>Math intermediate.</p>
+            <p>Math: Intermediate<br>Reading: Beginner</p>
         </div>
         <div class="card">
             <h3>Recommendations</h3>
-            <p>Focus on algebra drills.</p>
+            <p>Focus on algebra first.</p>
         </div>
     </section>
 
-    <!-- BOTTOM NAV -->
-    <div class="bottom-nav">
-        <div class="nav-tab active" onclick="showTab('home', this)">Home</div>
-        <div class="nav-tab" onclick="showTab('practice', this)">Practice</div>
-        <div class="nav-tab" onclick="showTab('exam', this)">Exam</div>
-        <div class="nav-tab" onclick="showTab('analytics', this)">Analytics</div>
-        <div class="nav-tab" onclick="showTab('learning', this)">Learning</div>
-    </div>
+    <!-- NAV -->
+    <nav class="bottom-nav">
+        <div class="nav-tab active" data-section="home">Home</div>
+        <div class="nav-tab" data-section="practice">Practice</div>
+        <div class="nav-tab" data-section="exam">Exam</div>
+        <div class="nav-tab" data-section="analytics">Analytics</div>
+        <div class="nav-tab" data-section="reports">Reports</div>
+    </nav>
 
 </div>
 
-<!-- SIMPLE TAB SWITCHER -->
 <script>
-function showTab(id, el){
-    document.querySelectorAll("section").forEach(s=>s.classList.remove("active"));
-    document.getElementById(id).classList.add("active");
+    class SATProApp {
+        constructor() {
+            this.currentSection = 'home';
+            this.quizTimer = null;
+            this.examTimer = null;
+            this.quizTimeLeft = 5 * 60; // 5 minutos
+            this.examTimeLeft = 60 * 60; // 60 minutos
+            this.quizData = {
+                currentQuestion: 0,
+                questions: [
+                    {
+                        question: "If 2x + 5 = 15, what is the value of x?",
+                        options: ["5", "10", "15", "20"],
+                        correctAnswer: 0,
+                        difficulty: "medium"
+                    },
+                    {
+                        question: "What is the value of 3² + 4²?",
+                        options: ["7", "12", "25", "49"],
+                        correctAnswer: 2,
+                        difficulty: "easy"
+                    }
+                ]
+            };
+            this.examData = {
+                currentQuestion: 0,
+                questions: [
+                    {
+                        question: "A right circular cylinder has a height of 10 inches and a radius of 4 inches. What is the volume, in cubic inches, of the cylinder?",
+                        options: ["40π", "80π", "160π", "400π"],
+                        correctAnswer: 2,
+                        difficulty: "hard"
+                    }
+                ]
+            };
+            this.init();
+        }
 
-    document.querySelectorAll(".nav-tab").forEach(t=>t.classList.remove("active"));
-    el.classList.add("active");
-}
+        init() {
+            this.setupEventListeners();
+            this.showSection('home');
+        }
+
+        setupEventListeners() {
+            // Navegación por tabs
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.addEventListener('click', () => {
+                    const section = tab.getAttribute('data-section');
+                    this.playNavigationSound();
+                    if (section === 'exam') {
+                        this.startExam();
+                    } else {
+                        this.navigateTo(section);
+                    }
+                });
+            });
+
+            // Navegación por cards
+            document.querySelectorAll('.grid-card').forEach(card => {
+                card.addEventListener('click', () => {
+                    const section = card.getAttribute('data-section');
+                    this.playNavigationSound();
+                    if (section === 'exam') {
+                        this.startExam();
+                    } else {
+                        this.navigateTo(section);
+                    }
+                });
+            });
+
+            // Práctica
+            document.querySelectorAll('.practice-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    this.playNavigationSound();
+                    const category = item.getAttribute('data-category');
+                    this.startQuiz(category);
+                });
+            });
+
+            // Opciones del quiz
+            document.querySelectorAll('.quiz-option').forEach(option => {
+                option.addEventListener('click', () => {
+                    this.playClickSound();
+                    this.selectOption(option);
+                });
+            });
+
+            // Navegación del quiz
+            document.getElementById('next-btn').addEventListener('click', () => {
+                this.playClickSound();
+                this.nextQuestion();
+            });
+
+            document.getElementById('prev-btn').addEventListener('click', () => {
+                this.playClickSound();
+                this.previousQuestion();
+            });
+
+            // Navegación del examen
+            document.getElementById('exam-next-btn').addEventListener('click', () => {
+                this.playClickSound();
+                this.nextExamQuestion();
+            });
+
+            document.getElementById('exam-prev-btn').addEventListener('click', () => {
+                this.playClickSound();
+                this.previousExamQuestion();
+            });
+
+            // Cambio de usuario
+            document.getElementById('switch-user').addEventListener('click', () => {
+                this.playClickSound();
+                alert('Funcionalidad de cambio de usuario');
+            });
+        }
+
+        playNavigationSound() {
+            // Sonido simple para navegación
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 523.25;
+                gainNode.gain.value = 0.1;
+                
+                oscillator.start();
+                setTimeout(() => {
+                    oscillator.stop();
+                }, 100);
+            } catch (e) {
+                console.log("Audio no soportado");
+            }
+        }
+
+        playClickSound() {
+            // Sonido para clics
+            try {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const oscillator = audioContext.createOscillator();
+                const gainNode = audioContext.createGain();
+                
+                oscillator.connect(gainNode);
+                gainNode.connect(audioContext.destination);
+                
+                oscillator.frequency.value = 392.00;
+                gainNode.gain.value = 0.05;
+                
+                oscillator.start();
+                setTimeout(() => {
+                    oscillator.stop();
+                }, 50);
+            } catch (e) {
+                console.log("Audio no soportado");
+            }
+        }
+
+        navigateTo(section) {
+            this.currentSection = section;
+            this.updateActiveTab(section);
+            this.showSection(section);
+        }
+
+        updateActiveTab(section) {
+            document.querySelectorAll('.nav-tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            document.querySelector(`.nav-tab[data-section="${section}"]`).classList.add('active');
+        }
+
+        showSection(sectionName) {
+            document.querySelectorAll('section').forEach(section => {
+                section.classList.remove('active');
+            });
+            
+            const activeSection = document.getElementById(sectionName);
+            if (activeSection) {
+                activeSection.classList.add('active');
+            }
+        }
+
+        startQuiz(category) {
+            console.log(`Iniciando quiz de: ${category}`);
+            this.navigateTo('quiz');
+            this.startQuizTimer();
+            this.loadQuizQuestions(category);
+        }
+
+        startExam() {
+            console.log("Iniciando examen completo");
+            this.navigateTo('exam');
+            this.startExamTimer();
+        }
+
+        startQuizTimer() {
+            this.quizTimeLeft = 5 * 60;
+            this.updateQuizTimer();
+            
+            if (this.quizTimer) {
+                clearInterval(this.quizTimer);
+            }
+            
+            this.quizTimer = setInterval(() => {
+                this.quizTimeLeft--;
+                this.updateQuizTimer();
+                
+                if (this.quizTimeLeft <= 0) {
+                    clearInterval(this.quizTimer);
+                    alert("¡Tiempo agotado!");
+                    this.navigateTo('home');
+                }
+            }, 1000);
+        }
+
+        startExamTimer() {
+            this.examTimeLeft = 60 * 60;
+            this.updateExamTimer();
+            
+            if (this.examTimer) {
+                clearInterval(this.examTimer);
+            }
+            
+            this.examTimer = setInterval(() => {
+                this.examTimeLeft--;
+                this.updateExamTimer();
+                
+                if (this.examTimeLeft <= 0) {
+                    clearInterval(this.examTimer);
+                    alert("¡Tiempo del examen agotado!");
+                    this.navigateTo('home');
+                }
+            }, 1000);
+        }
+
+        updateQuizTimer() {
+            const minutes = Math.floor(this.quizTimeLeft / 60);
+            const seconds = this.quizTimeLeft % 60;
+            document.getElementById('quiz-timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        updateExamTimer() {
+            const minutes = Math.floor(this.examTimeLeft / 60);
+            const seconds = this.examTimeLeft % 60;
+            document.getElementById('exam-timer').textContent = 
+                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+        }
+
+        loadQuizQuestions(category) {
+            console.log(`Cargando preguntas para: ${category}`);
+            this.quizData.currentQuestion = 0;
+            this.updateQuizUI();
+        }
+
+        selectOption(optionElement) {
+            // Remover selección previa
+            document.querySelectorAll('.quiz-option').forEach(opt => {
+                opt.classList.remove('selected');
+            });
+            
+            // Seleccionar nueva opción
+            optionElement.classList.add('selected');
+            
+            // Habilitar botón siguiente
+            document.getElementById('next-btn').disabled = false;
+            document.getElementById('exam-next-btn').disabled = false;
+        }
+
+        nextQuestion() {
+            this.quizData.currentQuestion++;
+            if (this.quizData.currentQuestion >= this.quizData.questions.length) {
+                clearInterval(this.quizTimer);
+                alert('¡Quiz completado!');
+                this.navigateTo('home');
+                return;
+            }
+            this.updateQuizUI();
+        }
+
+        previousQuestion() {
+            this.quizData.currentQuestion--;
+            this.updateQuizUI();
+        }
+
+        nextExamQuestion() {
+            this.examData.currentQuestion++;
+            if (this.examData.currentQuestion >= this.examData.questions.length) {
+                clearInterval(this.examTimer);
+                alert('¡Sección del examen completada!');
+                this.navigateTo('home');
+                return;
+            }
+            this.updateExamUI();
+        }
+
+        previousExamQuestion() {
+            this.examData.currentQuestion--;
+            this.updateExamUI();
+        }
+
+        updateQuizUI() {
+            const currentQ = this.quizData.questions[this.quizData.currentQuestion];
+            if (currentQ) {
+                document.querySelector('#quiz .quiz-box p:nth-child(3)').textContent = currentQ.question;
+                
+                const options = document.querySelectorAll('#quiz .quiz-option');
+                options.forEach((option, index) => {
+                    option.textContent = `${String.fromCharCode(65 + index)}) ${currentQ.options[index]}`;
+                    option.classList.remove('selected');
+                });
+                
+                // Actualizar número de pregunta
+                document.querySelector('#quiz .quiz-header span:first-child').textContent = 
+                    `Question ${this.quizData.currentQuestion + 1}/${this.quizData.questions.length}`;
+                
+                // Actualizar dificultad
+                const difficultyBadge = document.querySelector('#quiz .difficulty-badge');
+                difficultyBadge.textContent = currentQ.difficulty.charAt(0).toUpperCase() + currentQ.difficulty.slice(1);
+                difficultyBadge.className = `difficulty-badge difficulty-${currentQ.difficulty}`;
+                
+                // Manejar botones de navegación
+                document.getElementById('prev-btn').disabled = this.quizData.currentQuestion === 0;
+                document.getElementById('next-btn').disabled = true;
+            }
+        }
+
+        updateExamUI() {
+            const currentQ = this.examData.questions[this.examData.currentQuestion];
+            if (currentQ) {
+                document.querySelector('#exam .quiz-box p:nth-child(3)').textContent = currentQ.question;
+                
+                const options = document.querySelectorAll('#exam .quiz-option');
+                options.forEach((option, index) => {
+                    option.textContent = `${String.fromCharCode(65 + index)}) ${currentQ.options[index]}`;
+                    option.classList.remove('selected');
+                });
+                
+                // Actualizar número de pregunta
+                document.querySelector('#exam .quiz-header span:first-child').textContent = 
+                    `Exam - Section 1/4`;
+                
+                // Actualizar dificultad
+                const difficultyBadge = document.querySelector('#exam .difficulty-badge');
+                difficultyBadge.textContent = currentQ.difficulty.charAt(0).toUpperCase() + currentQ.difficulty.slice(1);
+                difficultyBadge.className = `difficulty-badge difficulty-${currentQ.difficulty}`;
+                
+                // Manejar botones de navegación
+                document.getElementById('exam-prev-btn').disabled = this.examData.currentQuestion === 0;
+                document.getElementById('exam-next-btn').disabled = true;
+            }
+        }
+    }
+
+    // Inicializar la aplicación
+    document.addEventListener('DOMContentLoaded', () => {
+        window.satApp = new SATProApp();
+    });
 </script>
-
 </body>
 </html>
