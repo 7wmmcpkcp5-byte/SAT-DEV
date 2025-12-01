@@ -3,237 +3,226 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>SAT PRO MASTER - v2.0</title>
+<title>SAT PRO MASTER - v7.0</title>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
 <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
 <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
 
 <style>
     :root {
-        --bg-deep: #030014;
-        --bg-panel: #0f172a;
-        --primary: #6366f1; /* Indigo */
-        --accent: #d946ef; /* Fuchsia */
-        --success: #10b981;
-        --cyan: #06b6d4;
-        --text: #f8fafc;
-        --text-mute: #64748b;
-        
-        --glass: rgba(15, 23, 42, 0.6);
-        --glass-border: rgba(255, 255, 255, 0.08);
-        --glow: 0 0 20px rgba(99, 102, 241, 0.15);
+        --bg-primary:#050816;
+        --bg-secondary:#080d18;
+        --bg-surface:#0f172a;
+        --primary:#3b82f6;
+        --accent:#8b5cf6;
+        --text:#e5e7eb;
+        --text-soft:#9ca3af;
+        --radius:18px;
+        --radius-sm:12px;
+        --success:#10b981;
+        --warning:#f59e0b;
+        --error:#ef4444;
+        --shadow-soft: 10px 10px 22px #02040a, -10px -10px 22px #101a30;
+        --shadow-inset: inset 6px 6px 12px #050914, inset -6px -6px 12px #18233c;
     }
 
     * {margin:0;padding:0;box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
-
+    
     body {
-        font-family: 'Inter', sans-serif;
-        background-color: var(--bg-deep);
-        background-image: 
-            radial-gradient(at 0% 0%, rgba(99,102,241,0.15) 0px, transparent 50%),
-            radial-gradient(at 100% 100%, rgba(217,70,239,0.1) 0px, transparent 50%);
-        color: var(--text);
-        min-height: 100vh;
-        padding-bottom: 90px;
+        font-family:-apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
+        background:radial-gradient(circle at top, #0b1220 0, #020617 45%, #020617 100%);
+        color:var(--text);
+        min-height:100vh;
+        -webkit-font-smoothing: antialiased;
+        padding-bottom: 80px;
     }
 
-    .app { max-width: 440px; margin: 0 auto; padding: 1rem; position: relative; }
+    .app {
+        max-width:440px;
+        margin:auto;
+        padding:0.85rem;
+        min-height:100vh;
+        display:flex;
+        flex-direction:column;
+    }
 
-    /* --- NEW HEADER --- */
+    /* HEADER ACTUALIZADO */
     header {
+        text-align:center;
+        padding:1rem 0 0.8rem;
+        border-radius:24px;
+        margin-bottom:0.3rem;
+        background:linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,64,175,0.85));
+        box-shadow: var(--shadow-soft);
+        border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    header h1 {
+        font-size:1.35rem;
+        font-weight:800;
+        letter-spacing:0.08em;
+        text-transform:uppercase;
+        background:linear-gradient(135deg,var(--primary),var(--accent),#e5e7eb);
+        -webkit-background-clip:text;
+        -webkit-text-fill-color:transparent;
+        line-height: 1.1;
+    }
+
+    .app-version {
+        font-size: 0.65rem;
+        color: rgba(255,255,255,0.5);
+        margin-top: 4px;
+        font-weight: 500;
+        letter-spacing: 0.05em;
+        text-transform: uppercase;
+    }
+
+    /* USER BAR */
+    .user-bar {
+        display:flex;
+        align-items:center;
+        gap:0.85rem;
+        margin:1rem 0 0.9rem;
+        padding:0.7rem 0.6rem;
+        border-radius:22px;
+        background:var(--bg-surface);
+        box-shadow: var(--shadow-soft);
+    }
+
+    .avatar {
+        width:44px;height:44px;border-radius:50%;
+        background:linear-gradient(135deg, var(--bg-secondary), #1e293b);
+        display:flex;align-items:center;justify-content:center;
+        font-weight:700;
+        font-size:0.95rem;
+        color:var(--text);
+        box-shadow: 4px 4px 10px #02040a, -4px -4px 10px #1c2640;
+        border: 2px solid rgba(59, 130, 246, 0.3);
+    }
+
+    .user-info { flex: 1; }
+    .user-info .name {font-size:0.88rem;font-weight:600;}
+    .user-info .level {font-size:0.72rem;color:var(--primary); font-weight: 600;}
+
+    /* SECTIONS */
+    section {display:none; animation: fadeIn 0.3s ease;}
+    section.active {display:block;}
+
+    @keyframes fadeIn {
+        from {opacity:0; transform:translateY(5px);}
+        to {opacity:1; transform:translateY(0);}
+    }
+
+    /* STATS & CHARTS (NUEVO DISEÑO) */
+    .chart-card {
+        background:var(--bg-surface);
+        padding:1.2rem;
+        border-radius:var(--radius);
+        margin-bottom:1rem;
+        box-shadow: var(--shadow-soft);
+        display: flex;
+        align-items: center;
+        gap: 1.5rem;
+    }
+
+    /* Donut Chart CSS puro */
+    .donut-wrapper {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        flex-shrink: 0;
+    }
+    
+    .donut-chart {
+        width: 100%;
+        height: 100%;
+        border-radius: 50%;
+        /* El gradiente se actualizará via JS */
+        background: conic-gradient(var(--primary) 0% 0%, var(--bg-secondary) 0% 100%); 
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        box-shadow: 5px 5px 15px #050816, -5px -5px 15px #19253f;
+    }
+
+    .donut-inner {
+        width: 75%;
+        height: 75%;
+        background: var(--bg-surface);
+        border-radius: 50%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        box-shadow: inset 2px 2px 5px #050816, inset -2px -2px 5px #19253f;
+    }
+
+    .donut-value { font-size: 1.1rem; font-weight: 800; color: var(--text); }
+    .donut-label { font-size: 0.6rem; color: var(--text-soft); }
+
+    .chart-details { flex: 1; }
+    
+    /* Barras de progreso por tópico */
+    .topic-bar-container { margin-bottom: 0.8rem; }
+    .topic-header { display: flex; justify-content: space-between; font-size: 0.75rem; margin-bottom: 3px; }
+    .topic-track { 
+        height: 6px; background: var(--bg-secondary); border-radius: 10px; overflow: hidden; 
+        box-shadow: inset 1px 1px 3px rgba(0,0,0,0.5);
+    }
+    .topic-fill { height: 100%; border-radius: 10px; }
+    
+    /* Gráfico de Barras verticales (Activity) */
+    .activity-chart {
         display: flex;
         justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1.5rem;
-        padding: 0.5rem 0.2rem;
+        align-items: flex-end;
+        height: 80px;
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(255,255,255,0.05);
     }
+    .act-bar-group { display: flex; flex-direction: column; align-items: center; gap: 5px; flex: 1; }
+    .act-bar { 
+        width: 8px; 
+        background: var(--bg-secondary); 
+        border-radius: 4px; 
+        transition: height 0.5s ease;
+    }
+    .act-day { font-size: 0.6rem; color: var(--text-soft); }
+    .act-bar.active { background: linear-gradient(to top, var(--primary), var(--accent)); box-shadow: 0 0 10px rgba(59,130,246,0.5); }
 
-    .brand h1 {
-        font-size: 1.2rem;
-        font-weight: 800;
-        letter-spacing: -0.5px;
-        background: linear-gradient(to right, #fff, var(--text-mute));
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-    }
+    /* ESTILOS COMUNES ANTERIORES */
+    .stats-row { display:grid; grid-template-columns:1fr 1fr; gap:0.6rem; margin-bottom:0.9rem; }
+    .stat-box { background:var(--bg-surface); padding:0.85rem; border-radius:var(--radius); text-align:left; box-shadow: var(--shadow-soft); }
+    .stat-box .value { font-size:1.3rem; font-weight:700; color: var(--text); }
+    .stat-box .label { font-size:0.7rem; color:var(--text-soft); }
+
+    .grid { display:grid; grid-template-columns:1fr 1fr; gap:0.65rem; margin-bottom:1rem; }
+    .grid-card { background:var(--bg-surface); padding:0.95rem; border-radius:var(--radius); cursor:pointer; transition:all 0.18s ease; box-shadow: var(--shadow-soft); border: 1px solid transparent; }
+    .grid-card:hover { transform:translateY(-2px); border-color: rgba(59,130,246,0.3); background:radial-gradient(circle at top left, rgba(59,130,246,0.15), var(--bg-surface)); }
     
-    .brand p { font-size: 0.6rem; color: var(--accent); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+    .practice-item { background:var(--bg-surface); padding:0.9rem; border-radius:var(--radius); margin-bottom: 0.7rem; cursor:pointer; box-shadow: var(--shadow-soft); }
+    .difficulty-badge { padding:0.2rem 0.6rem; border-radius:999px; font-size:0.65rem; font-weight:600; }
+    .difficulty-medium { background:rgba(245, 158, 11, 0.2); color:var(--warning); }
+    .difficulty-hard { background:rgba(239, 68, 68, 0.2); color:var(--error); }
 
-    .streak-badge {
-        background: rgba(255, 100, 50, 0.1);
-        border: 1px solid rgba(255, 100, 50, 0.3);
-        padding: 0.3rem 0.8rem;
-        border-radius: 20px;
-        display: flex;
-        align-items: center;
-        gap: 6px;
-        font-size: 0.75rem;
-        color: #ff8a65;
-        font-weight: 700;
-    }
+    /* QUIZ STYLES */
+    .quiz-box { background:var(--bg-surface); padding:1rem; border-radius:var(--radius); box-shadow: var(--shadow-soft); min-height: 400px; display: flex; flex-direction: column; }
+    .quiz-option { background:var(--bg-secondary); padding:1rem; border-radius:var(--radius-sm); margin-bottom:0.6rem; font-size:0.9rem; cursor:pointer; transition:all 0.2s; border: 1px solid rgba(255,255,255,0.03); }
+    .quiz-option.selected { background:var(--primary); color:white; }
+    .quiz-option.correct { background:var(--success); color:white; }
+    .quiz-option.incorrect { background:var(--error); color:white; }
+    .quiz-btn { background:linear-gradient(135deg,var(--primary),var(--accent)); color:white; border:none; padding:0.7rem; border-radius:999px; width: 100%; font-weight:600; margin-top: auto; }
+    .quiz-btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-    /* --- RADAR CHART CONTAINER --- */
-    .radar-container {
-        position: relative;
-        width: 100%;
-        height: 240px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        margin-bottom: 1.5rem;
-    }
-    
-    canvas#skillRadar {
-        width: 100%;
-        height: 100%;
-        max-width: 300px;
-        filter: drop-shadow(0 0 10px rgba(99,102,241,0.3));
-    }
+    .bottom-nav { display:flex; gap:0.4rem; padding:0.5rem; width: calc(100% - 1.7rem); max-width: 415px; border-radius:24px; background:rgba(15, 23, 42, 0.9); backdrop-filter: blur(10px); position:fixed; bottom:1rem; left: 50%; transform: translateX(-50%); z-index: 100; border: 1px solid rgba(255,255,255,0.05); }
+    .nav-tab { flex:1; text-align:center; padding:0.6rem 0; font-size:0.7rem; font-weight: 600; border-radius:999px; color:var(--text-soft); }
+    .nav-tab.active { background:var(--bg-secondary); color:var(--primary); box-shadow: var(--shadow-inset); }
 
-    .chart-label {
-        position: absolute;
-        font-size: 0.65rem;
-        color: var(--text-mute);
-        text-transform: uppercase;
-        font-weight: 600;
-    }
-
-    /* --- GLASS CARDS --- */
-    .card {
-        background: var(--glass);
-        backdrop-filter: blur(12px);
-        -webkit-backdrop-filter: blur(12px);
-        border: 1px solid var(--glass-border);
-        border-radius: 24px;
-        padding: 1.2rem;
-        margin-bottom: 1rem;
-        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
-        transition: transform 0.2s;
-    }
-    
-    .card:active { transform: scale(0.98); }
-
-    .card h3 { font-size: 0.9rem; color: var(--text-mute); margin-bottom: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
-
-    /* --- HEATMAP --- */
-    .heatmap {
-        display: grid;
-        grid-template-columns: repeat(7, 1fr);
-        gap: 6px;
-    }
-    
-    .heat-box {
-        aspect-ratio: 1;
-        background: rgba(255,255,255,0.03);
-        border-radius: 6px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        font-size: 0.6rem;
-        color: var(--text-mute);
-    }
-    
-    .heat-box.l1 { background: rgba(99, 102, 241, 0.3); box-shadow: 0 0 5px var(--primary); color: #fff; }
-    .heat-box.l2 { background: rgba(217, 70, 239, 0.6); box-shadow: 0 0 10px var(--accent); color: #fff; }
-
-    /* --- ACTION GRID --- */
-    .action-grid {
-        display: grid;
-        grid-template-columns: 1fr 1fr;
-        gap: 1rem;
-    }
-
-    .action-btn {
-        background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
-        border: 1px solid var(--glass-border);
-        padding: 1.5rem 1rem;
-        border-radius: 20px;
-        text-align: center;
-        cursor: pointer;
-    }
-    
-    .action-btn h4 { font-size: 1.1rem; margin-bottom: 0.3rem; }
-    .action-btn span { font-size: 0.7rem; color: var(--cyan); }
-
-    .btn-primary-glow {
-        background: linear-gradient(135deg, var(--primary), var(--accent));
-        box-shadow: 0 0 25px rgba(99, 102, 241, 0.4);
-        border: none;
-    }
-
-    /* --- QUIZ UI --- */
-    .quiz-timer-ring {
-        width: 100%;
-        height: 4px;
-        background: #1e293b;
-        border-radius: 2px;
-        margin-bottom: 1.5rem;
-        overflow: hidden;
-    }
-    .timer-fill {
-        height: 100%;
-        background: var(--cyan);
-        width: 100%;
-        transition: width 1s linear;
-        box-shadow: 0 0 10px var(--cyan);
-    }
-
-    .option {
-        background: rgba(255,255,255,0.03);
-        border: 1px solid var(--glass-border);
-        padding: 1.1rem;
-        border-radius: 16px;
-        margin-bottom: 0.8rem;
-        transition: 0.2s;
-        font-size: 0.95rem;
-    }
-    
-    .option.selected { border-color: var(--primary); background: rgba(99, 102, 241, 0.1); }
-    .option.correct { border-color: var(--success); background: rgba(16, 185, 129, 0.2); }
-    .option.incorrect { border-color: #ef4444; background: rgba(239, 68, 68, 0.2); }
-
-    /* --- BOTTOM NAV (FLOATING) --- */
-    .nav-float {
-        position: fixed;
-        bottom: 1.5rem;
-        left: 50%;
-        transform: translateX(-50%);
-        width: 90%;
-        max-width: 400px;
-        background: rgba(3, 0, 20, 0.85);
-        backdrop-filter: blur(20px);
-        border: 1px solid var(--glass-border);
-        border-radius: 30px;
-        padding: 0.8rem;
-        display: flex;
-        justify-content: space-around;
-        box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
-        z-index: 100;
-    }
-
-    .nav-icon {
-        color: var(--text-mute);
-        font-size: 0.7rem;
-        font-weight: 600;
-        text-align: center;
-        opacity: 0.7;
-        transition: 0.2s;
-    }
-    
-    .nav-icon.active { color: #fff; opacity: 1; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
-    .nav-dot { width: 4px; height: 4px; background: var(--accent); border-radius: 50%; margin: 4px auto 0; opacity: 0; }
-    .nav-icon.active .nav-dot { opacity: 1; }
-
-    section { display: none; animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
-    section.active { display: block; }
-
-    @keyframes slideUp {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
+    .katex { font-size: 1.1em; color: #fff; }
 </style>
 </head>
 
@@ -242,257 +231,298 @@
 <div class="app">
 
     <header>
-        <div class="brand">
-            <h1>SAT PRO <span style="color:var(--cyan)">//</span> NEO</h1>
-            <p>Generated by Gemini • v2.0</p>
-        </div>
-        <div class="streak-badge">
-            <span>🔥</span> <span id="streak-val">3</span> Days
-        </div>
+        <h1>SAT PRO MASTER</h1>
+        <p class="app-version">Por Moon - v7.0</p>
     </header>
 
-    <section id="dashboard" class="active">
+    <div class="user-bar">
+        <div class="avatar">A</div>
+        <div class="user-info">
+            <div class="name">Alex Student</div>
+            <div class="level" id="user-level-text">Nivel 1</div>
+        </div>
+        <div style="text-align: right;">
+             <span style="font-size:0.7rem; color:var(--text-soft)">XP</span>
+             <div style="font-weight:700; color:var(--accent)" id="user-xp">0</div>
+        </div>
+    </div>
+
+    <section id="home" class="active">
+        <div class="stats-row">
+            <div class="stat-box">
+                <div class="value" id="home-score">--</div>
+                <div class="label">Est. Score</div>
+            </div>
+            <div class="stat-box">
+                <div class="value" id="home-questions">0</div>
+                <div class="label">Questions</div>
+            </div>
+        </div>
+
+        <div class="grid">
+            <div class="grid-card" data-section="practice">
+                <h3>Practice</h3><p>Start drills</p>
+            </div>
+            <div class="grid-card" data-section="analytics">
+                <h3>Analytics</h3><p>View Charts</p>
+            </div>
+        </div>
         
-        <div class="radar-container">
-            <canvas id="skillRadar" width="300" height="240"></canvas>
-            <div class="chart-label" style="top: 10px;">Algebra</div>
-            <div class="chart-label" style="bottom: 20px; left: 10px;">Geom</div>
-            <div class="chart-label" style="bottom: 20px; right: 10px;">Data</div>
-            <div class="chart-label" style="top: 90px; right: -5px;">Arith</div>
-            <div class="chart-label" style="top: 90px; left: -5px;">Func</div>
-        </div>
-
-        <div class="card">
-            <h3>Study Intensity</h3>
-            <div class="heatmap" id="heatmap-grid">
-                </div>
-        </div>
-
-        <div class="action-grid">
-            <div class="action-btn btn-primary-glow" onclick="app.startSession('math')">
-                <h4>Start Math</h4>
-                <span>+25 XP</span>
+        <h3 style="font-size:0.9rem; margin-bottom:0.5rem;">Recent Topics</h3>
+        <div class="practice-item" data-category="math">
+            <div style="display:flex; justify-content:space-between;">
+                <h4>Algebra</h4>
+                <span class="difficulty-badge difficulty-medium">Medium</span>
             </div>
-            <div class="action-btn" onclick="app.startSession('reading')">
-                <h4>Reading</h4>
-                <span>Coming Soon</span>
-            </div>
+            <small style="color:var(--text-soft)">Continue where you left off</small>
         </div>
+    </section>
 
+    <section id="practice">
+        <h2 style="margin-bottom:1rem;">Select Topic</h2>
+        <div class="practice-item" data-category="math">
+            <h4>Heart of Algebra</h4>
+            <span style="font-size:0.75rem; color:var(--text-soft)">Linear equations, systems</span>
+        </div>
+        <div class="practice-item" data-category="geometry">
+            <h4>Geometry</h4>
+            <span style="font-size:0.75rem; color:var(--text-soft)">Circles, triangles, volume</span>
+        </div>
     </section>
 
     <section id="quiz">
-        <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-family:'JetBrains Mono', monospace; font-size:0.8rem; color:var(--cyan);">
-            <span id="q-progress">01 / 05</span>
-            <span>XP BOOST ACTIVE</span>
-        </div>
-        
-        <div class="quiz-timer-ring"><div class="timer-fill" id="timer-bar"></div></div>
-        
-        <div class="card" style="min-height: 200px; display:flex; align-items:center;">
-            <p id="q-text" style="font-size:1.1rem; line-height:1.6; font-weight:500;">Loading...</p>
-        </div>
-
-        <div id="options-list">
+        <div class="quiz-box">
+            <div style="display:flex; justify-content:space-between; color:var(--text-soft); font-size:0.8rem; margin-bottom:1rem;">
+                <span id="quiz-progress">Q 1/5</span>
+                <span id="quiz-timer" style="color:var(--warning)">00:00</span>
             </div>
-
-        <button onclick="app.showDashboard()" style="background:transparent; border:none; color:var(--text-mute); font-size:0.8rem; margin-top:20px; width:100%;">Quit Session</button>
+            
+            <div id="question-text" style="font-size:1rem; margin-bottom:1.5rem; line-height:1.5;">Loading...</div>
+            <div id="options-container"></div>
+            
+            <div style="display:flex; gap:10px; margin-top:auto;">
+                <button class="quiz-btn" id="quit-btn" style="background:var(--bg-secondary); color:var(--text-soft);">Exit</button>
+                <button class="quiz-btn" id="next-btn" disabled>Next</button>
+            </div>
+        </div>
     </section>
 
-    <nav class="nav-float">
-        <div class="nav-icon active" onclick="app.nav('dashboard', this)">
-            DASHBOARD
-            <div class="nav-dot"></div>
+    <section id="analytics">
+        <h2 style="margin-bottom:1rem;">Performance</h2>
+        
+        <div class="chart-card">
+            <div class="donut-wrapper">
+                <div class="donut-chart" id="accuracy-chart">
+                    <div class="donut-inner">
+                        <div class="donut-value" id="accuracy-val">0%</div>
+                        <div class="donut-label">Accuracy</div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chart-details">
+                <div class="topic-bar-container">
+                    <div class="topic-header">
+                        <span>Algebra</span>
+                        <span style="color:var(--primary)">High</span>
+                    </div>
+                    <div class="topic-track"><div class="topic-fill" style="width: 80%; background:var(--primary)"></div></div>
+                </div>
+                <div class="topic-bar-container">
+                    <div class="topic-header">
+                        <span>Geometry</span>
+                        <span style="color:var(--accent)">Med</span>
+                    </div>
+                    <div class="topic-track"><div class="topic-fill" style="width: 45%; background:var(--accent)"></div></div>
+                </div>
+            </div>
         </div>
-        <div class="nav-icon" onclick="app.nav('quiz', this)">
-            FOCUS
-            <div class="nav-dot"></div>
+
+        <div class="stat-box">
+            <h3 style="font-size:0.9rem; margin-bottom:0.5rem">Weekly Activity</h3>
+            <div class="activity-chart">
+                <div class="act-bar-group"><div class="act-bar" style="height:30%"></div><span class="act-day">M</span></div>
+                <div class="act-bar-group"><div class="act-bar" style="height:50%"></div><span class="act-day">T</span></div>
+                <div class="act-bar-group"><div class="act-bar active" style="height:80%"></div><span class="act-day">W</span></div>
+                <div class="act-bar-group"><div class="act-bar" style="height:20%"></div><span class="act-day">T</span></div>
+                <div class="act-bar-group"><div class="act-bar" style="height:40%"></div><span class="act-day">F</span></div>
+                <div class="act-bar-group"><div class="act-bar" style="height:10%"></div><span class="act-day">S</span></div>
+                <div class="act-bar-group"><div class="act-bar" style="height:10%"></div><span class="act-day">S</span></div>
+            </div>
         </div>
-        <div class="nav-icon" onclick="alert('Profile Coming Soon')">
-            PROFILE
-            <div class="nav-dot"></div>
-        </div>
+    </section>
+
+    <nav class="bottom-nav">
+        <div class="nav-tab active" data-section="home">Home</div>
+        <div class="nav-tab" data-section="practice">Practice</div>
+        <div class="nav-tab" data-section="analytics">Stats</div>
     </nav>
 
 </div>
 
 <script>
-    class SATNeon {
+    class SATProApp {
         constructor() {
-            this.state = {
-                skills: { algebra: 60, geometry: 40, data: 30, arithmetic: 80, functions: 50 },
-                streak: 3,
-                heatmap: [0, 1, 1, 2, 0, 2, 1, 0, 1, 1, 2, 2, 0, 1] // 0=none, 1=low, 2=high
-            };
+            this.state = { xp: 0, level: 1, questionsDone: 0, correctAnswers: 0 };
+            this.activeQuestions = [];
+            this.currentQIndex = 0;
             
-            this.questions = [
-                { q: "If $$2x + 6 = 12$$, what is $$x$$?", options: ["2", "3", "4", "6"], ans: 1 },
-                { q: "What is the area of a circle with $$r=3$$?", options: ["3π", "6π", "9π", "12π"], ans: 2 }
-            ];
+            // Preguntas Demo
+            this.questionBank = {
+                math: [
+                    { q: "If $$3x + 5 = 20$$, what is $$x$$?", opts: ["3", "5", "15", "25"], corr: 1, diff: "easy" },
+                    { q: "Evaluate $$\\frac{x^2 - 1}{x - 1}$$ where $$x \\neq 1$$", opts: ["x", "x-1", "x+1", "1"], corr: 2, diff: "medium" }
+                ],
+                geometry: [
+                    { q: "A circle has radius 4. What is the area?", opts: ["4π", "8π", "16π", "20π"], corr: 2, diff: "hard" }
+                ]
+            };
             
             this.init();
         }
 
         init() {
-            this.drawRadar();
-            this.renderHeatmap();
-            document.getElementById('streak-val').textContent = this.state.streak;
-            
-            // Loop de animación suave para el radar
-            setInterval(() => this.drawRadar(), 2000); 
+            this.loadProgress();
+            this.setupListeners();
+            this.updateUI();
         }
 
-        nav(sectionId, el) {
-            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
-            document.getElementById(sectionId).classList.add('active');
-            
-            if(el) {
-                document.querySelectorAll('.nav-icon').forEach(n => n.classList.remove('active'));
-                el.classList.add('active');
-            }
+        loadProgress() {
+            const saved = localStorage.getItem('satPro_v1.2');
+            if (saved) this.state = JSON.parse(saved);
         }
 
-        // --- VISUALIZACIÓN 1: RADAR CHART (CANVAS) ---
-        drawRadar() {
-            const canvas = document.getElementById('skillRadar');
-            const ctx = canvas.getContext('2d');
-            const w = canvas.width;
-            const h = canvas.height;
-            const cx = w/2;
-            const cy = h/2;
-            const radius = 90;
+        saveProgress() {
+            localStorage.setItem('satPro_v1.2', JSON.stringify(this.state));
+            this.updateUI();
+        }
+
+        updateUI() {
+            // Header stats
+            document.getElementById('user-xp').textContent = this.state.xp;
+            document.getElementById('user-level-text').textContent = "Nivel " + this.state.level;
+            document.getElementById('home-questions').textContent = this.state.questionsDone;
             
-            // Limpiar
-            ctx.clearRect(0, 0, w, h);
+            // Score Logic
+            let score = 400 + (this.state.correctAnswers * 20);
+            if(score > 1600) score = 1600;
+            document.getElementById('home-score').textContent = score;
 
-            // Datos
-            const stats = [
-                this.state.skills.algebra,     // Top
-                this.state.skills.data,        // Right Top
-                this.state.skills.arithmetic,  // Right Bot
-                this.state.skills.functions,   // Left Bot
-                this.state.skills.geometry     // Left Top
-            ];
-            const totalPoints = 5;
-
-            // Función para obtener coordenadas
-            const getPoint = (value, index) => {
-                const angle = (Math.PI * 2 * index) / totalPoints - Math.PI / 2;
-                const r = (value / 100) * radius;
-                return {
-                    x: cx + r * Math.cos(angle),
-                    y: cy + r * Math.sin(angle)
-                };
-            };
-
-            // 1. Dibujar Rejilla de fondo (Hexágonos concéntricos)
-            ctx.strokeStyle = "rgba(255,255,255,0.05)";
-            ctx.lineWidth = 1;
-            for(let level=1; level<=4; level++) {
-                ctx.beginPath();
-                for(let i=0; i<totalPoints; i++) {
-                    const p = getPoint(25 * level, i);
-                    if(i===0) ctx.moveTo(p.x, p.y);
-                    else ctx.lineTo(p.x, p.y);
-                }
-                ctx.closePath();
-                ctx.stroke();
+            // --- ACTUALIZACIÓN GRÁFICA (STATS) ---
+            const total = this.state.questionsDone;
+            const correct = this.state.correctAnswers;
+            let percent = 0;
+            
+            if (total > 0) {
+                percent = Math.round((correct / total) * 100);
             }
 
-            // 2. Dibujar Stats del usuario
-            ctx.beginPath();
-            stats.forEach((val, i) => {
-                const p = getPoint(val, i);
-                if(i===0) ctx.moveTo(p.x, p.y);
-                else ctx.lineTo(p.x, p.y);
-            });
-            ctx.closePath();
-
-            // Estilos del área llena
-            ctx.fillStyle = "rgba(99, 102, 241, 0.25)"; // Indigo transparente
-            ctx.fill();
-            
-            // Estilos del borde neón
-            ctx.strokeStyle = "#6366f1";
-            ctx.lineWidth = 2;
-            ctx.shadowBlur = 15;
-            ctx.shadowColor = "#6366f1";
-            ctx.stroke();
-            
-            // Puntos en las esquinas
-            ctx.fillStyle = "#fff";
-            stats.forEach((val, i) => {
-                const p = getPoint(val, i);
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
-                ctx.fill();
-            });
-            
-            ctx.shadowBlur = 0; // Reset
+            // Actualizar Donut Chart via CSS Conic Gradient
+            const chart = document.getElementById('accuracy-chart');
+            if (chart) {
+                // El gradiente pinta el % en color primario, el resto en secundario
+                chart.style.background = `conic-gradient(var(--primary) 0% ${percent}%, var(--bg-secondary) ${percent}% 100%)`;
+            }
+            const accVal = document.getElementById('accuracy-val');
+            if (accVal) accVal.textContent = `${percent}%`;
         }
 
-        // --- VISUALIZACIÓN 2: HEATMAP ---
-        renderHeatmap() {
-            const grid = document.getElementById('heatmap-grid');
-            grid.innerHTML = '';
-            const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S', 'M', 'T', 'W', 'T', 'F', 'S', 'S'];
-            
-            this.state.heatmap.forEach((val, i) => {
-                const div = document.createElement('div');
-                div.className = `heat-box ${val === 2 ? 'l2' : val === 1 ? 'l1' : ''}`;
-                div.textContent = days[i];
-                grid.appendChild(div);
-            });
-        }
-
-        // --- QUIZ LOGIC ---
-        startSession(type) {
-            this.nav('quiz');
-            // Cargar pregunta 1 (Demo)
-            const q = this.questions[0];
-            document.getElementById('q-text').innerHTML = q.q;
-            renderMathInElement(document.getElementById('q-text'), {delimiters: [{left: '$$', right: '$$', display: false}]});
-            
-            const list = document.getElementById('options-list');
-            list.innerHTML = '';
-            q.options.forEach((opt, idx) => {
-                const btn = document.createElement('div');
-                btn.className = 'option';
-                btn.innerHTML = opt;
-                btn.onclick = () => this.check(btn, idx, q.ans);
-                list.appendChild(btn);
-            });
-            
-            // Reset Timer Animation
-            const timer = document.getElementById('timer-bar');
-            timer.style.width = '100%';
-            setTimeout(() => timer.style.width = '0%', 100);
-        }
-
-        check(el, idx, correct) {
-            if(idx === correct) {
-                el.classList.add('correct');
-                confetti({
-                    particleCount: 80,
-                    spread: 60,
-                    colors: ['#6366f1', '#d946ef', '#06b6d4'],
-                    origin: { y: 0.7 }
+        setupListeners() {
+            // Navegación
+            document.querySelectorAll('.nav-tab, .grid-card').forEach(el => {
+                el.addEventListener('click', () => {
+                    if (el.dataset.section) this.showSection(el.dataset.section);
+                    // Update active tab logic
+                    if (el.classList.contains('nav-tab')) {
+                        document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                        el.classList.add('active');
+                    }
                 });
-                // Actualizar gráfica radar dummy
-                this.state.skills.algebra += 5;
-                this.drawRadar();
+            });
+
+            // Start Quiz
+            document.querySelectorAll('.practice-item').forEach(item => {
+                item.addEventListener('click', () => {
+                    const cat = item.dataset.category || 'math';
+                    this.startQuiz(cat);
+                });
+            });
+
+            // Quiz controls
+            document.getElementById('next-btn').addEventListener('click', () => this.nextQuestion());
+            document.getElementById('quit-btn').addEventListener('click', () => this.showSection('home'));
+        }
+
+        showSection(id) {
+            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+            document.getElementById(id).classList.add('active');
+            // Si vamos a stats, refrescar UI
+            if(id === 'analytics') this.updateUI();
+        }
+
+        startQuiz(cat) {
+            this.activeQuestions = this.questionBank[cat] || this.questionBank.math;
+            this.currentQIndex = 0;
+            this.showSection('quiz');
+            this.renderQuestion();
+        }
+
+        renderQuestion() {
+            const q = this.activeQuestions[this.currentQIndex];
+            document.getElementById('question-text').innerHTML = q.q;
+            document.getElementById('quiz-progress').textContent = `Q ${this.currentQIndex + 1}/${this.activeQuestions.length}`;
+            
+            const cont = document.getElementById('options-container');
+            cont.innerHTML = '';
+            
+            q.opts.forEach((opt, idx) => {
+                const div = document.createElement('div');
+                div.className = 'quiz-option';
+                div.innerHTML = `<b>${String.fromCharCode(65+idx)})</b> ${opt}`;
+                div.onclick = () => this.check(idx, div, q.corr);
+                cont.appendChild(div);
+            });
+            
+            document.getElementById('next-btn').disabled = true;
+            
+            // Render Math
+            renderMathInElement(document.getElementById('quiz'), {
+                delimiters: [{left: '$$', right: '$$', display: false}]
+            });
+        }
+
+        check(selected, el, correct) {
+            // Evitar doble click
+            const opts = document.querySelectorAll('.quiz-option');
+            opts.forEach(o => o.style.pointerEvents = 'none');
+
+            if (selected === correct) {
+                el.classList.add('correct');
+                this.state.xp += 20;
+                this.state.correctAnswers++;
+                confetti({ particleCount: 50, spread: 60, origin: { y: 0.7 } });
             } else {
                 el.classList.add('incorrect');
+                opts[correct].classList.add('correct');
             }
+            
+            this.state.questionsDone++;
+            this.saveProgress();
+            document.getElementById('next-btn').disabled = false;
         }
-        
-        showDashboard() {
-            this.nav('dashboard');
+
+        nextQuestion() {
+            this.currentQIndex++;
+            if (this.currentQIndex < this.activeQuestions.length) {
+                this.renderQuestion();
+            } else {
+                alert("Quiz finished!");
+                this.showSection('home');
+            }
         }
     }
 
-    // Start App
-    window.app = new SATNeon();
+    document.addEventListener('DOMContentLoaded', () => { window.app = new SATProApp(); });
 </script>
 </body>
 </html>
