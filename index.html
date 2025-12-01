@@ -404,6 +404,70 @@
         transform:translateY(-1px);
     }
 
+    /* MEJORAS ADICIONALES */
+    
+    /* Indicador de progreso de preguntas */
+    .question-progress {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 1rem;
+        font-size: 0.75rem;
+        color: var(--text-soft);
+    }
+    
+    .progress-dots {
+        display: flex;
+        gap: 0.3rem;
+        margin-top: 0.5rem;
+    }
+    
+    .progress-dot {
+        width: 6px;
+        height: 6px;
+        border-radius: 50%;
+        background: var(--text-soft);
+        transition: all 0.2s ease;
+    }
+    
+    .progress-dot.active {
+        background: var(--primary);
+        transform: scale(1.2);
+    }
+    
+    .progress-dot.correct {
+        background: var(--success);
+    }
+    
+    .progress-dot.incorrect {
+        background: var(--error);
+    }
+    
+    /* Mejora en la visualización de resultados */
+    .result-indicator {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 0.5rem;
+        margin: 1rem 0;
+        padding: 0.7rem;
+        border-radius: var(--radius);
+        background: var(--bg-surface);
+        box-shadow: var(--shadow-soft);
+    }
+    
+    .result-text {
+        font-size: 0.85rem;
+        font-weight: 600;
+    }
+    
+    .result-correct {
+        color: var(--success);
+    }
+    
+    .result-incorrect {
+        color: var(--error);
+    }
+
     @media (max-width:380px){
         .app{padding:0.7rem;}
         .welcome{padding:0.9rem;}
@@ -516,6 +580,16 @@
                 <span class="quiz-timer" id="exam-timer">59:45</span>
             </div>
             
+            <!-- MEJORA: Indicador de progreso de preguntas -->
+            <div class="question-progress">
+                <span>Question 1/52</span>
+                <span>Time remaining: 59:45</span>
+            </div>
+            
+            <div class="progress-dots">
+                <!-- Los puntos se generarán dinámicamente con JavaScript -->
+            </div>
+            
             <div class="difficulty-badge difficulty-hard" style="display:inline-block;margin-bottom:1rem;">
                 Hard
             </div>
@@ -543,6 +617,16 @@
                 <span class="quiz-timer" id="quiz-timer">04:23</span>
             </div>
             
+            <!-- MEJORA: Indicador de progreso de preguntas -->
+            <div class="question-progress">
+                <span>Question 1/10</span>
+                <span>Time remaining: 04:23</span>
+            </div>
+            
+            <div class="progress-dots">
+                <!-- Los puntos se generarán dinámicamente con JavaScript -->
+            </div>
+            
             <div class="difficulty-badge difficulty-medium" style="display:inline-block;margin-bottom:1rem;">
                 Medium
             </div>
@@ -555,9 +639,14 @@
             <div class="quiz-option" data-option="C">C) 15</div>
             <div class="quiz-option" data-option="D">D) 20</div>
             
+            <!-- MEJORA: Indicador de resultado -->
+            <div class="result-indicator" style="display:none;" id="result-indicator">
+                <div class="result-text" id="result-text"></div>
+            </div>
+            
             <div class="quiz-navigation">
                 <button class="quiz-btn" id="prev-btn" disabled>Previous</button>
-                <button class="quiz-btn" id="next-btn">Next</button>
+                <button class="quiz-btn" id="next-btn">Check Answer</button>
             </div>
         </div>
     </section>
@@ -622,13 +711,15 @@
                         question: "If 2x + 5 = 15, what is the value of x?",
                         options: ["5", "10", "15", "20"],
                         correctAnswer: 0,
-                        difficulty: "medium"
+                        difficulty: "medium",
+                        explanation: "Subtract 5 from both sides: 2x = 10, then divide by 2: x = 5"
                     },
                     {
                         question: "What is the value of 3² + 4²?",
                         options: ["7", "12", "25", "49"],
                         correctAnswer: 2,
-                        difficulty: "easy"
+                        difficulty: "easy",
+                        explanation: "3² = 9, 4² = 16, so 9 + 16 = 25"
                     }
                 ]
             };
@@ -639,16 +730,19 @@
                         question: "A right circular cylinder has a height of 10 inches and a radius of 4 inches. What is the volume, in cubic inches, of the cylinder?",
                         options: ["40π", "80π", "160π", "400π"],
                         correctAnswer: 2,
-                        difficulty: "hard"
+                        difficulty: "hard",
+                        explanation: "Volume of cylinder = πr²h = π(4)²(10) = π(16)(10) = 160π"
                     }
                 ]
             };
+            this.userAnswers = {};
             this.init();
         }
 
         init() {
             this.setupEventListeners();
             this.showSection('home');
+            this.generateProgressDots();
         }
 
         setupEventListeners() {
@@ -698,7 +792,11 @@
             // Navegación del quiz
             document.getElementById('next-btn').addEventListener('click', () => {
                 this.playClickSound();
-                this.nextQuestion();
+                if (document.getElementById('next-btn').textContent === 'Check Answer') {
+                    this.checkAnswer();
+                } else {
+                    this.nextQuestion();
+                }
             });
 
             document.getElementById('prev-btn').addEventListener('click', () => {
@@ -721,6 +819,46 @@
             document.getElementById('switch-user').addEventListener('click', () => {
                 this.playClickSound();
                 alert('Funcionalidad de cambio de usuario');
+            });
+        }
+
+        // MEJORA: Generar puntos de progreso
+        generateProgressDots() {
+            const quizDots = document.querySelector('#quiz .progress-dots');
+            const examDots = document.querySelector('#exam .progress-dots');
+            
+            if (quizDots) {
+                for (let i = 0; i < this.quizData.questions.length; i++) {
+                    const dot = document.createElement('div');
+                    dot.className = 'progress-dot';
+                    if (i === 0) dot.classList.add('active');
+                    quizDots.appendChild(dot);
+                }
+            }
+            
+            if (examDots) {
+                for (let i = 0; i < 52; i++) { // 52 preguntas típicas en un SAT
+                    const dot = document.createElement('div');
+                    dot.className = 'progress-dot';
+                    if (i === 0) dot.classList.add('active');
+                    examDots.appendChild(dot);
+                }
+            }
+        }
+
+        // MEJORA: Actualizar puntos de progreso
+        updateProgressDots(section, currentIndex, isCorrect = null) {
+            const dots = document.querySelectorAll(`#${section} .progress-dot`);
+            dots.forEach((dot, index) => {
+                dot.classList.remove('active', 'correct', 'incorrect');
+                
+                if (index === currentIndex) {
+                    dot.classList.add('active');
+                } else if (index < currentIndex) {
+                    if (this.userAnswers[index] !== undefined) {
+                        dot.classList.add(this.userAnswers[index] ? 'correct' : 'incorrect');
+                    }
+                }
             });
         }
 
@@ -848,6 +986,12 @@
             const seconds = this.quizTimeLeft % 60;
             document.getElementById('quiz-timer').textContent = 
                 `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+            // Actualizar también el texto de tiempo restante
+            const timeRemainingElement = document.querySelector('#quiz .question-progress span:nth-child(2)');
+            if (timeRemainingElement) {
+                timeRemainingElement.textContent = `Time remaining: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
         }
 
         updateExamTimer() {
@@ -855,11 +999,18 @@
             const seconds = this.examTimeLeft % 60;
             document.getElementById('exam-timer').textContent = 
                 `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+                
+            // Actualizar también el texto de tiempo restante
+            const timeRemainingElement = document.querySelector('#exam .question-progress span:nth-child(2)');
+            if (timeRemainingElement) {
+                timeRemainingElement.textContent = `Time remaining: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+            }
         }
 
         loadQuizQuestions(category) {
             console.log(`Cargando preguntas para: ${category}`);
             this.quizData.currentQuestion = 0;
+            this.userAnswers = {};
             this.updateQuizUI();
         }
 
@@ -874,11 +1025,54 @@
             document.getElementById('exam-next-btn').disabled = false;
         }
 
+        // MEJORA: Verificar respuesta
+        checkAnswer() {
+            const selectedOption = document.querySelector('.quiz-option.selected');
+            if (!selectedOption) return;
+            
+            const selectedIndex = Array.from(document.querySelectorAll('.quiz-option')).indexOf(selectedOption);
+            const currentQ = this.quizData.questions[this.quizData.currentQuestion];
+            const isCorrect = selectedIndex === currentQ.correctAnswer;
+            
+            // Guardar respuesta del usuario
+            this.userAnswers[this.quizData.currentQuestion] = isCorrect;
+            
+            // Mostrar resultado
+            const resultIndicator = document.getElementById('result-indicator');
+            const resultText = document.getElementById('result-text');
+            
+            if (isCorrect) {
+                resultIndicator.style.display = 'flex';
+                resultText.textContent = '¡Correcto! ' + currentQ.explanation;
+                resultText.className = 'result-text result-correct';
+            } else {
+                resultIndicator.style.display = 'flex';
+                const correctAnswer = currentQ.options[currentQ.correctAnswer];
+                resultText.textContent = `Incorrecto. La respuesta correcta es: ${correctAnswer}. ${currentQ.explanation}`;
+                resultText.className = 'result-text result-incorrect';
+            }
+            
+            // Actualizar puntos de progreso
+            this.updateProgressDots('quiz', this.quizData.currentQuestion, isCorrect);
+            
+            // Cambiar texto del botón
+            document.getElementById('next-btn').textContent = 'Next Question';
+        }
+
         nextQuestion() {
+            // Ocultar resultado
+            document.getElementById('result-indicator').style.display = 'none';
+            
             this.quizData.currentQuestion++;
             if (this.quizData.currentQuestion >= this.quizData.questions.length) {
                 clearInterval(this.quizTimer);
-                alert('¡Quiz completado!');
+                
+                // Calcular puntuación
+                const correctAnswers = Object.values(this.userAnswers).filter(Boolean).length;
+                const totalQuestions = this.quizData.questions.length;
+                const score = Math.round((correctAnswers / totalQuestions) * 100);
+                
+                alert(`¡Quiz completado! Puntuación: ${score}% (${correctAnswers}/${totalQuestions} correctas)`);
                 this.navigateTo('home');
                 return;
             }
@@ -886,6 +1080,9 @@
         }
 
         previousQuestion() {
+            // Ocultar resultado
+            document.getElementById('result-indicator').style.display = 'none';
+            
             this.quizData.currentQuestion--;
             this.updateQuizUI();
         }
@@ -909,7 +1106,7 @@
         updateQuizUI() {
             const currentQ = this.quizData.questions[this.quizData.currentQuestion];
             if (currentQ) {
-                document.querySelector('#quiz .quiz-box p:nth-child(3)').textContent = currentQ.question;
+                document.querySelector('#quiz .quiz-box p:nth-child(4)').textContent = currentQ.question;
                 
                 const options = document.querySelectorAll('#quiz .quiz-option');
                 options.forEach((option, index) => {
@@ -920,19 +1117,27 @@
                 document.querySelector('#quiz .quiz-header span:first-child').textContent = 
                     `Question ${this.quizData.currentQuestion + 1}/${this.quizData.questions.length}`;
                 
+                // Actualizar el texto de progreso de preguntas
+                document.querySelector('#quiz .question-progress span:first-child').textContent = 
+                    `Question ${this.quizData.currentQuestion + 1}/${this.quizData.questions.length}`;
+                
                 const difficultyBadge = document.querySelector('#quiz .difficulty-badge');
                 difficultyBadge.textContent = currentQ.difficulty.charAt(0).toUpperCase() + currentQ.difficulty.slice(1);
                 difficultyBadge.className = `difficulty-badge difficulty-${currentQ.difficulty}`;
                 
                 document.getElementById('prev-btn').disabled = this.quizData.currentQuestion === 0;
                 document.getElementById('next-btn').disabled = true;
+                document.getElementById('next-btn').textContent = 'Check Answer';
+                
+                // Actualizar puntos de progreso
+                this.updateProgressDots('quiz', this.quizData.currentQuestion);
             }
         }
 
         updateExamUI() {
             const currentQ = this.examData.questions[this.examData.currentQuestion];
             if (currentQ) {
-                document.querySelector('#exam .quiz-box p:nth-child(3)').textContent = currentQ.question;
+                document.querySelector('#exam .quiz-box p:nth-child(4)').textContent = currentQ.question;
                 
                 const options = document.querySelectorAll('#exam .quiz-option');
                 options.forEach((option, index) => {
@@ -943,12 +1148,19 @@
                 document.querySelector('#exam .quiz-header span:first-child').textContent = 
                     `Exam - Section 1/4`;
                 
+                // Actualizar el texto de progreso de preguntas
+                document.querySelector('#exam .question-progress span:first-child').textContent = 
+                    `Question ${this.examData.currentQuestion + 1}/52`;
+                
                 const difficultyBadge = document.querySelector('#exam .difficulty-badge');
                 difficultyBadge.textContent = currentQ.difficulty.charAt(0).toUpperCase() + currentQ.difficulty.slice(1);
                 difficultyBadge.className = `difficulty-badge difficulty-${currentQ.difficulty}`;
                 
                 document.getElementById('exam-prev-btn').disabled = this.examData.currentQuestion === 0;
                 document.getElementById('exam-next-btn').disabled = true;
+                
+                // Actualizar puntos de progreso
+                this.updateProgressDots('exam', this.examData.currentQuestion);
             }
         }
     }
