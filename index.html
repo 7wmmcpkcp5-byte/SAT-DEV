@@ -2,8 +2,15 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SAT PRO MASTER EVO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SAT PRO MASTER EVO - LOGIC V1</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+
 <style>
     :root {
         --bg-primary:#050816;
@@ -22,13 +29,15 @@
         --shadow-inset: inset 6px 6px 12px #050914, inset -6px -6px 12px #18233c;
     }
 
-    * {margin:0;padding:0;box-sizing:border-box;}
+    * {margin:0;padding:0;box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+    
     body {
         font-family:-apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
         background:radial-gradient(circle at top, #0b1220 0, #020617 45%, #020617 100%);
         color:var(--text);
         min-height:100vh;
         -webkit-font-smoothing: antialiased;
+        padding-bottom: 80px; /* Espacio para el nav bottom */
     }
 
     .app {
@@ -47,6 +56,7 @@
         margin-bottom:0.3rem;
         background:linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,64,175,0.85));
         box-shadow: var(--shadow-soft);
+        border: 1px solid rgba(255,255,255,0.05);
     }
 
     header h1 {
@@ -73,50 +83,46 @@
 
     .avatar {
         width:44px;height:44px;border-radius:50%;
-        background:var(--bg-secondary);
+        background:linear-gradient(135deg, var(--bg-secondary), #1e293b);
         display:flex;align-items:center;justify-content:center;
         font-weight:700;
         font-size:0.95rem;
         color:var(--text);
-        box-shadow: 6px 6px 14px #02040a, -6px -6px 14px #1c2640;
+        box-shadow: 4px 4px 10px #02040a, -4px -4px 10px #1c2640;
+        border: 2px solid rgba(59, 130, 246, 0.3);
     }
 
+    .user-info { flex: 1; }
     .user-info .name {font-size:0.88rem;font-weight:600;}
-    .user-info .level {font-size:0.72rem;color:var(--text-soft);}
+    .user-info .level {font-size:0.72rem;color:var(--primary); font-weight: 600;}
 
     .btn {
-        padding:0.35rem 0.8rem;
+        padding:0.4rem 0.9rem;
         border-radius:999px;
         background:var(--bg-primary);
-        border:none;
+        border:1px solid rgba(255,255,255,0.05);
         font-size:0.74rem;
         color:var(--text);
         cursor:pointer;
         transition:all 0.18s ease;
         box-shadow: 4px 4px 10px #02040a, -4px -4px 10px #151f35;
-        white-space:nowrap;
     }
     .btn:hover {
         transform:translateY(-1px);
-        box-shadow: 6px 6px 14px #02040a, -6px -6px 14px #1e2a46;
         background:linear-gradient(135deg,var(--primary),var(--accent));
+        color: white;
+        border-color: transparent;
     }
+    .btn:active { transform:translateY(1px); }
 
-    /* PRIMARY SECTIONS */
-    section {display:none;}
+    /* SECTIONS */
+    section {display:none; animation: fadeIn 0.3s ease;}
     section.active {display:block;}
 
-    /* HOME */
-    .welcome {
-        background:var(--bg-surface);
-        padding:1.1rem;
-        border-radius:var(--radius);
-        margin-bottom:0.9rem;
-        box-shadow: var(--shadow-soft);
+    @keyframes fadeIn {
+        from {opacity:0; transform:translateY(5px);}
+        to {opacity:1; transform:translateY(0);}
     }
-
-    .welcome h2 {font-size:1.05rem;margin-bottom:0.35rem;}
-    .welcome p {font-size:0.8rem;color:var(--text-soft);}
 
     /* STATS */
     .stats {
@@ -139,11 +145,11 @@
         font-weight:700;
         line-height:1.2;
         margin-bottom:0.1rem;
+        background:linear-gradient(to right, #fff, #9ca3af);
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
-    .stat .label {
-        font-size:0.78rem;
-        color:var(--text-soft);
-    }
+    .stat .label { font-size:0.78rem; color:var(--text-soft); }
 
     /* PROGRESS BAR */
     .progress-box {
@@ -170,20 +176,12 @@
         box-shadow: var(--shadow-inset);
     }
     .p-fill {
-        width:55%;height:100%;
+        width:0%; /* JS will update this */
+        height:100%;
         background:linear-gradient(90deg,var(--primary),var(--accent));
         border-radius:999px;
+        transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1);
         position:relative;
-    }
-    .p-fill::after{
-        content:'';
-        position:absolute;
-        right:6px;
-        top:50%;
-        transform:translateY(-50%);
-        width:8px;height:8px;border-radius:50%;
-        background:#f9fafb;
-        box-shadow:0 0 10px rgba(249,250,251,0.8);
     }
 
     /* GRID NAV */
@@ -201,90 +199,51 @@
         cursor:pointer;
         transition:all 0.18s ease;
         box-shadow: var(--shadow-soft);
+        border: 1px solid transparent;
     }
     
     .grid-card:hover {
         transform:translateY(-2px);
-        box-shadow: 12px 12px 26px #02040a, -12px -12px 26px #1d2944;
-        background:radial-gradient(circle at top left, rgba(59,130,246,0.35), var(--bg-surface));
+        border-color: rgba(59,130,246,0.3);
+        background:radial-gradient(circle at top left, rgba(59,130,246,0.15), var(--bg-surface));
     }
+    .grid-card:active { transform:scale(0.98); }
 
-    .grid-card h3 {
-        font-size:0.9rem;
-        margin-bottom:0.2rem;
-    }
+    .grid-card h3 { font-size:0.9rem; margin-bottom:0.2rem; }
+    .grid-card p { font-size:0.75rem; color:var(--text-soft); }
 
-    .grid-card p {
-        font-size:0.75rem;
-        color:var(--text-soft);
-    }
-    
-    .grid-card:hover p {
-        color:var(--text);
-    }
-
-    /* PRACTICE */
-    .practice-list {
-        display:flex;
-        flex-direction:column;
-        gap:0.7rem;
-    }
-
+    /* PRACTICE LIST */
     .practice-item {
         background:var(--bg-surface);
         padding:0.9rem 0.95rem;
         box-shadow: var(--shadow-soft);
         border-radius:var(--radius);
+        margin-bottom: 0.7rem;
         cursor:pointer;
         transition:all 0.18s ease;
     }
+    .practice-item:hover { transform:translateX(3px); border-left: 3px solid var(--primary); }
+    .practice-header { display:flex; justify-content:space-between; align-items:center; margin-bottom:0.35rem; }
     
-    .practice-item:hover {
-        transform:translateX(3px);
-        box-shadow: 12px 12px 26px #02040a, -12px -12px 26px #1d2944;
-        background:radial-gradient(circle at left, rgba(59,130,246,0.4), var(--bg-surface));
-    }
-
-    .practice-header {
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        margin-bottom:0.35rem;
-    }
-    
-    .practice-item h4 {font-size:0.9rem;}
-    .practice-item small {color:var(--text-soft);font-size:0.75rem;}
-
-    /* Difficulty badges */
     .difficulty-badge {
         padding:0.2rem 0.7rem;
         border-radius:999px;
         font-size:0.7rem;
         font-weight:600;
-        box-shadow: 3px 3px 6px #02040a, -3px -3px 6px #1a2642;
     }
-    
-    .difficulty-easy {
-        background:var(--success);
-        color:white;
-    }
-    
-    .difficulty-medium {
-        background:var(--warning);
-        color:black;
-    }
-    
-    .difficulty-hard {
-        background:var(--error);
-        color:white;
-    }
+    .difficulty-easy { background:rgba(16, 185, 129, 0.2); color:var(--success); border:1px solid rgba(16,185,129,0.3); }
+    .difficulty-medium { background:rgba(245, 158, 11, 0.2); color:var(--warning); border:1px solid rgba(245,158,11,0.3); }
+    .difficulty-hard { background:rgba(239, 68, 68, 0.2); color:var(--error); border:1px solid rgba(239,68,68,0.3); }
 
-    /* QUIZ / EXAM BOXES */
+    /* QUIZ INTERFACE */
     .quiz-box {
         background:var(--bg-surface);
         padding:1rem;
         border-radius:var(--radius);
         box-shadow: var(--shadow-soft);
+        min-height: 400px;
+        display: flex;
+        flex-direction: column;
     }
     
     .quiz-header {
@@ -296,184 +255,112 @@
         color:var(--text-soft);
     }
     
-    .quiz-timer {
-        font-weight:600;
-        color:var(--warning);
-        font-size:0.86rem;
+    .quiz-timer { font-weight:600; color:var(--warning); font-family: monospace; font-size:0.9rem; }
+
+    .question-text {
+        font-size: 1rem;
+        line-height: 1.5;
+        margin-bottom: 1.5rem;
+        font-weight: 500;
     }
 
     .quiz-option {
         background:var(--bg-secondary);
-        padding:0.8rem;
+        padding:1rem;
         border-radius:var(--radius-sm);
-        margin-bottom:0.45rem;
-        font-size:0.85rem;
+        margin-bottom:0.6rem;
+        font-size:0.9rem;
         cursor:pointer;
-        transition:all 0.18s ease;
+        transition:all 0.2s ease;
         box-shadow: var(--shadow-soft);
+        border: 1px solid rgba(255,255,255,0.03);
+        display: flex;
+        align-items: center;
     }
     
-    .quiz-option:hover {
-        transform:translateY(-1px);
-        box-shadow: 10px 10px 20px #02040a, -10px -10px 20px #1c2842;
-        background:radial-gradient(circle at left, rgba(59,130,246,0.35), var(--bg-secondary));
+    .quiz-option:hover:not(.disabled) {
+        transform:translateX(5px);
+        background:rgba(59,130,246,0.1);
+        border-color: var(--primary);
     }
     
-    .quiz-option.selected {
-        background:linear-gradient(135deg,var(--primary),var(--accent));
-        box-shadow: 12px 12px 26px #02040a, -12px -12px 26px #1d2944;
-    }
-    
+    .quiz-option.selected { background:var(--primary); color:white; border-color:transparent;}
+    .quiz-option.correct { background:var(--success); color:white; border-color:transparent; }
+    .quiz-option.incorrect { background:var(--error); color:white; border-color:transparent; opacity: 0.8; }
+    .quiz-option.disabled { cursor: default; pointer-events: none; }
+
     .quiz-navigation {
         display:flex;
         justify-content:space-between;
-        margin-top:1.4rem;
+        margin-top:auto;
         gap:0.6rem;
+        padding-top: 1rem;
     }
     
     .quiz-btn {
         background:linear-gradient(135deg,var(--primary),var(--accent));
         color:white;
         border:none;
-        padding:0.6rem 1.1rem;
+        padding:0.7rem 1.1rem;
         border-radius:999px;
         cursor:pointer;
         font-weight:600;
         font-size:0.85rem;
         flex:1;
         box-shadow: 8px 8px 18px #02040a, -8px -8px 18px #1d2944;
-        transition:all 0.15s ease;
+        transition:all 0.2s ease;
     }
-    
     .quiz-btn:disabled {
         background:var(--bg-secondary);
         color:var(--text-soft);
-        cursor:not-allowed;
         box-shadow: var(--shadow-inset);
+        opacity: 0.7;
     }
-    .quiz-btn:not(:disabled):hover {
-        transform:translateY(-1px);
-        box-shadow: 10px 10px 20px #02040a, -10px -10px 20px #1d2944;
-    }
-
-    /* ANALYTICS / REPORTS */
-    .card {
-        background:var(--bg-surface);
-        padding:1rem;
-        border-radius:var(--radius);
-        margin-bottom:0.8rem;
-        box-shadow: var(--shadow-soft);
-    }
-
-    .card h3 {font-size:1rem;margin-bottom:0.35rem;}
-    .card p {font-size:0.8rem;color:var(--text-soft);}
 
     /* NAV BOTTOM */
     .bottom-nav {
         display:flex;
         gap:0.4rem;
-        padding:0.35rem;
-        margin-top:auto;
-        border-radius:22px;
-        background:var(--bg-surface);
-        box-shadow: var(--shadow-soft);
-        position:sticky;
-        bottom:0.6rem;
+        padding:0.5rem;
+        width: calc(100% - 1.7rem);
+        max-width: 415px;
+        border-radius:24px;
+        background:rgba(15, 23, 42, 0.9);
+        backdrop-filter: blur(10px);
+        box-shadow: 0 -5px 20px rgba(0,0,0,0.4);
+        position:fixed;
+        bottom:1rem;
+        left: 50%;
+        transform: translateX(-50%);
+        z-index: 100;
+        border: 1px solid rgba(255,255,255,0.05);
     }
 
     .nav-tab {
         flex:1;
         text-align:center;
-        padding:0.46rem 0;
-        font-size:0.78rem;
+        padding:0.6rem 0;
+        font-size:0.7rem;
+        font-weight: 600;
         border-radius:999px;
-        background:var(--bg-secondary);
+        background:transparent;
         cursor:pointer;
-        transition:all 0.18s ease;
         color:var(--text-soft);
-        box-shadow: 4px 4px 10px #02040a, -4px -4px 10px #1b2741;
+        transition:all 0.2s ease;
     }
 
     .nav-tab.active {
-        background:linear-gradient(135deg,var(--primary),var(--accent));
-        color:white;
-        box-shadow: 8px 8px 18px #02040a, -8px -8px 18px #1d2944;
-    }
-    
-    .nav-tab:hover {
-        transform:translateY(-1px);
+        background:var(--bg-secondary);
+        color:var(--primary);
+        box-shadow: var(--shadow-inset);
     }
 
-    /* MEJORAS ADICIONALES */
-    
-    /* Indicador de progreso de preguntas */
-    .question-progress {
-        display: flex;
-        justify-content: space-between;
-        margin-bottom: 1rem;
-        font-size: 0.75rem;
-        color: var(--text-soft);
-    }
-    
-    .progress-dots {
-        display: flex;
-        gap: 0.3rem;
-        margin-top: 0.5rem;
-    }
-    
-    .progress-dot {
-        width: 6px;
-        height: 6px;
-        border-radius: 50%;
-        background: var(--text-soft);
-        transition: all 0.2s ease;
-    }
-    
-    .progress-dot.active {
-        background: var(--primary);
-        transform: scale(1.2);
-    }
-    
-    .progress-dot.correct {
-        background: var(--success);
-    }
-    
-    .progress-dot.incorrect {
-        background: var(--error);
-    }
-    
-    /* Mejora en la visualización de resultados */
-    .result-indicator {
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        gap: 0.5rem;
-        margin: 1rem 0;
-        padding: 0.7rem;
-        border-radius: var(--radius);
-        background: var(--bg-surface);
-        box-shadow: var(--shadow-soft);
-    }
-    
-    .result-text {
-        font-size: 0.85rem;
-        font-weight: 600;
-    }
-    
-    .result-correct {
-        color: var(--success);
-    }
-    
-    .result-incorrect {
-        color: var(--error);
-    }
+    /* KaTeX Adjustments */
+    .katex { font-size: 1.1em; color: #fff; }
 
-    @media (max-width:380px){
-        .app{padding:0.7rem;}
-        .welcome{padding:0.9rem;}
-        .stat{padding:0.8rem;}
-        .grid-card{padding:0.8rem;}
-    }
+    /* RESET BUTTON */
+    .danger-zone { margin-top: 2rem; text-align: center; }
+    .btn-reset { background: transparent; color: var(--error); border: 1px solid var(--error); font-size: 0.7rem; padding: 5px 10px; }
 </style>
 </head>
 
@@ -481,217 +368,135 @@
 
 <div class="app">
 
-    <!-- HEADER -->
     <header>
-        <h1>SAT PRO MASTER EVO</h1>
+        <h1>SAT PRO MASTER</h1>
     </header>
 
-    <!-- USER -->
     <div class="user-bar">
-        <div class="avatar">A</div>
+        <div class="avatar" id="user-avatar">A</div>
         <div class="user-info">
-            <div class="name">Alex</div>
-            <div class="level">Nivel 1 • 0 XP</div>
+            <div class="name" id="user-name">Alex Student</div>
+            <div class="level" id="user-level-text">Nivel 1</div>
         </div>
-        <button class="btn" id="switch-user">Cambiar</button>
+        <div style="text-align: right;">
+             <span style="font-size:0.7rem; color:var(--text-soft)">XP</span>
+             <div style="font-weight:700; color:var(--accent)" id="user-xp">0</div>
+        </div>
     </div>
 
-    <!-- HOME SECTION -->
     <section id="home" class="active">
-
-        <div class="welcome">
-            <h2>Welcome, Alex</h2>
-            <p>Train for the SAT with realistic practice.</p>
-        </div>
-
         <div class="stats">
             <div class="stat">
-                <div class="value">1250</div>
-                <div class="label">Current Score</div>
+                <div class="value" id="home-score">--</div>
+                <div class="label">Est. SAT Score</div>
             </div>
             <div class="stat">
-                <div class="value">84</div>
+                <div class="value" id="home-questions">0</div>
                 <div class="label">Questions Done</div>
             </div>
         </div>
 
         <div class="progress-box">
             <div class="progress-header">
-                <span>Score Progress</span>
-                <span>55%</span>
+                <span>Level Progress</span>
+                <span id="progress-percent">0%</span>
             </div>
-            <div class="p-bar"><div class="p-fill"></div></div>
+            <div class="p-bar"><div class="p-fill" id="level-bar"></div></div>
             <div class="progress-header" style="margin-top:0.5rem;margin-bottom:0;">
-                <span>Start: 400</span>
-                <span>Goal: 1600</span>
+                <span style="font-size:0.65rem">Next Level</span>
+                <span style="font-size:0.65rem" id="xp-needed">100 XP</span>
             </div>
         </div>
 
         <div class="grid">
             <div class="grid-card" data-section="practice">
-                <h3>Practice</h3><p>Focused drills</p>
+                <h3>Practice</h3><p>Quick drills</p>
             </div>
             <div class="grid-card" data-section="exam">
-                <h3>Full Exam</h3><p>Test simulation</p>
+                <h3>Full Exam</h3><p>Timed simulation</p>
             </div>
             <div class="grid-card" data-section="analytics">
-                <h3>Analytics</h3><p>Performance insights</p>
+                <h3>Analytics</h3><p>Insights</p>
             </div>
-            <div class="grid-card" data-section="reports">
-                <h3>Reports</h3><p>Weekly summaries</p>
+            <div class="grid-card" onclick="alert('Coming soon!')">
+                <h3>Vocabulary</h3><p>Flashcards</p>
             </div>
         </div>
-
+        
+        <div class="danger-zone">
+            <button class="btn btn-reset" id="reset-data">Reset All Data</button>
+        </div>
     </section>
 
-    <!-- PRACTICE SECTION -->
     <section id="practice">
-        <h2 style="margin-bottom:1rem;">Practice Mode</h2>
+        <h2 style="margin-bottom:1rem;">Select Topic</h2>
         <div class="practice-list">
             <div class="practice-item" data-category="math">
                 <div class="practice-header">
-                    <h4>Mathematics</h4>
+                    <h4>Heart of Algebra</h4>
                     <span class="difficulty-badge difficulty-medium">Medium</span>
                 </div>
-                <small>Algebra, Geometry, Stats</small>
+                <small>Linear equations, systems, functions</small>
             </div>
-            <div class="practice-item" data-category="reading">
+            <div class="practice-item" data-category="geometry">
                 <div class="practice-header">
-                    <h4>Reading</h4>
+                    <h4>Geometry & Trig</h4>
                     <span class="difficulty-badge difficulty-hard">Hard</span>
                 </div>
-                <small>Comprehension</small>
-            </div>
-            <div class="practice-item" data-category="writing">
-                <div class="practice-header">
-                    <h4>Writing</h4>
-                    <span class="difficulty-badge difficulty-easy">Easy</span>
-                </div>
-                <small>Grammar</small>
+                <small>Circles, triangles, volume</small>
             </div>
         </div>
     </section>
 
-    <!-- EXAM SECTION -->
-    <section id="exam">
-        <div class="quiz-box">
-            <div class="quiz-header">
-                <span>Exam - Section 1/4</span>
-                <span class="quiz-timer" id="exam-timer">59:45</span>
-            </div>
-            
-            <!-- MEJORA: Indicador de progreso de preguntas -->
-            <div class="question-progress">
-                <span>Question 1/52</span>
-                <span>Time remaining: 59:45</span>
-            </div>
-            
-            <div class="progress-dots">
-                <!-- Los puntos se generarán dinámicamente con JavaScript -->
-            </div>
-            
-            <div class="difficulty-badge difficulty-hard" style="display:inline-block;margin-bottom:1rem;">
-                Hard
-            </div>
-            
-            <p><strong>Question 1</strong></p>
-            <p>A right circular cylinder has a height of 10 inches and a radius of 4 inches. What is the volume, in cubic inches, of the cylinder?</p>
-
-            <div class="quiz-option" data-option="A">A) 40π</div>
-            <div class="quiz-option" data-option="B">B) 80π</div>
-            <div class="quiz-option" data-option="C">C) 160π</div>
-            <div class="quiz-option" data-option="D">D) 400π</div>
-            
-            <div class="quiz-navigation">
-                <button class="quiz-btn" id="exam-prev-btn" disabled>Previous</button>
-                <button class="quiz-btn" id="exam-next-btn">Next</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- QUIZ SECTION -->
     <section id="quiz">
         <div class="quiz-box">
             <div class="quiz-header">
-                <span>Question 1/10</span>
-                <span class="quiz-timer" id="quiz-timer">04:23</span>
+                <span id="quiz-progress">Question 1/5</span>
+                <span class="quiz-timer" id="quiz-timer">00:00</span>
             </div>
             
-            <!-- MEJORA: Indicador de progreso de preguntas -->
-            <div class="question-progress">
-                <span>Question 1/10</span>
-                <span>Time remaining: 04:23</span>
-            </div>
-            
-            <div class="progress-dots">
-                <!-- Los puntos se generarán dinámicamente con JavaScript -->
-            </div>
-            
-            <div class="difficulty-badge difficulty-medium" style="display:inline-block;margin-bottom:1rem;">
+            <div id="quiz-difficulty-badge" class="difficulty-badge difficulty-medium" style="display:inline-block;margin-bottom:1rem; align-self: flex-start;">
                 Medium
             </div>
             
-            <p><strong>Question 1</strong></p>
-            <p>If 2x + 5 = 15, what is x?</p>
-
-            <div class="quiz-option" data-option="A">A) 5</div>
-            <div class="quiz-option" data-option="B">B) 10</div>
-            <div class="quiz-option" data-option="C">C) 15</div>
-            <div class="quiz-option" data-option="D">D) 20</div>
-            
-            <!-- MEJORA: Indicador de resultado -->
-            <div class="result-indicator" style="display:none;" id="result-indicator">
-                <div class="result-text" id="result-text"></div>
+            <div class="question-text" id="question-text">
+                Loading...
             </div>
+
+            <div id="options-container">
+                </div>
             
             <div class="quiz-navigation">
-                <button class="quiz-btn" id="prev-btn" disabled>Previous</button>
-                <button class="quiz-btn" id="next-btn">Check Answer</button>
+                <button class="quiz-btn" id="quit-btn" style="background:var(--bg-secondary); color:var(--text-soft); box-shadow:none;">Quit</button>
+                <button class="quiz-btn" id="next-btn" disabled>Next Question</button>
             </div>
         </div>
     </section>
 
-    <!-- ANALYTICS -->
     <section id="analytics">
-        <h2 style="margin-bottom:1rem;">Performance Analytics</h2>
-        <div class="card">
-            <h3>Score Trend</h3>
-            <p>Your score improved by 45 points.</p>
+        <h2 style="margin-bottom:1rem;">Your Stats</h2>
+        <div class="grid">
+            <div class="stat">
+                <div class="value" style="color:var(--success)">85%</div>
+                <div class="label">Accuracy</div>
+            </div>
+            <div class="stat">
+                <div class="value" style="color:var(--warning)">12s</div>
+                <div class="label">Avg Time</div>
+            </div>
         </div>
-        <div class="card">
-            <h3>Weak Areas</h3>
-            <p>Algebra, Data Analysis, Grammar</p>
-        </div>
-        <div class="card">
-            <h3>Study Time</h3>
-            <p>Total: 12h 34m this week</p>
-        </div>
-    </section>
-
-    <!-- REPORTS -->
-    <section id="reports">
-        <h2 style="margin-bottom:1rem;">Progress Reports</h2>
-        <div class="card">
-            <h3>Weekly Progress</h3>
-            <p>Completed 24 questions this week.</p>
-        </div>
-        <div class="card">
-            <h3>Current Level</h3>
-            <p>Math: Intermediate<br>Reading: Beginner</p>
-        </div>
-        <div class="card">
-            <h3>Recommendations</h3>
-            <p>Focus on algebra first.</p>
+        <div class="quiz-box">
+            <h3>Recent Activity</h3>
+            <p style="color:var(--text-soft); font-size:0.8rem; margin-top:0.5rem;">
+                No recent activity recorded yet. Start a quiz to see data here.
+            </p>
         </div>
     </section>
 
-    <!-- NAV -->
     <nav class="bottom-nav">
         <div class="nav-tab active" data-section="home">Home</div>
         <div class="nav-tab" data-section="practice">Practice</div>
-        <div class="nav-tab" data-section="exam">Exam</div>
-        <div class="nav-tab" data-section="analytics">Analytics</div>
-        <div class="nav-tab" data-section="reports">Reports</div>
+        <div class="nav-tab" data-section="analytics">Stats</div>
     </nav>
 
 </div>
@@ -699,474 +504,321 @@
 <script>
     class SATProApp {
         constructor() {
-            this.currentSection = 'home';
-            this.quizTimer = null;
-            this.examTimer = null;
-            this.quizTimeLeft = 5 * 60; // 5 minutos
-            this.examTimeLeft = 60 * 60; // 60 minutos
-            this.quizData = {
-                currentQuestion: 0,
-                questions: [
+            // Estado por defecto
+            this.state = {
+                xp: 0,
+                level: 1,
+                questionsDone: 0,
+                correctAnswers: 0,
+                streak: 0
+            };
+
+            this.currentMode = 'practice';
+            this.currentQuestionIndex = 0;
+            this.activeQuestions = [];
+            this.timerInterval = null;
+            this.secondsElapsed = 0;
+
+            // Datos de Prueba (Con LaTeX)
+            this.questionBank = {
+                math: [
                     {
-                        question: "If 2x + 5 = 15, what is the value of x?",
-                        options: ["5", "10", "15", "20"],
-                        correctAnswer: 0,
-                        difficulty: "medium",
-                        explanation: "Subtract 5 from both sides: 2x = 10, then divide by 2: x = 5"
+                        id: 1,
+                        question: "If $$3x + 15 = 30$$, what is the value of $$x + 5$$?",
+                        options: ["5", "10", "15", "30"],
+                        correct: 1, // Index B (10) -> x=5, so x+5=10
+                        difficulty: "easy"
                     },
                     {
-                        question: "What is the value of 3² + 4²?",
-                        options: ["7", "12", "25", "49"],
-                        correctAnswer: 2,
-                        difficulty: "easy",
-                        explanation: "3² = 9, 4² = 16, so 9 + 16 = 25"
-                    }
-                ]
-            };
-            this.examData = {
-                currentQuestion: 0,
-                questions: [
+                        id: 2,
+                        question: "A line in the $$xy$$-plane passes through the origin and has a slope of $$\\frac{1}{7}$$. Which of the following points lies on the line?",
+                        options: ["(0, 7)", "(1, 7)", "(7, 7)", "(14, 2)"],
+                        correct: 3, // Index D -> y = (1/7)x. If x=14, y=2.
+                        difficulty: "medium"
+                    },
                     {
-                        question: "A right circular cylinder has a height of 10 inches and a radius of 4 inches. What is the volume, in cubic inches, of the cylinder?",
-                        options: ["40π", "80π", "160π", "400π"],
-                        correctAnswer: 2,
-                        difficulty: "hard",
-                        explanation: "Volume of cylinder = πr²h = π(4)²(10) = π(16)(10) = 160π"
+                        id: 3,
+                        question: "If $$f(x) = x^2 - 5x + 6$$, what are the roots of the equation $$f(x) = 0$$?",
+                        options: ["2 and 3", "-2 and -3", "1 and 6", "-1 and -6"],
+                        correct: 0, // Index A
+                        difficulty: "medium"
+                    }
+                ],
+                geometry: [
+                    {
+                        id: 4,
+                        question: "The volume of a right circular cylinder A is 22 cubic centimeters. What is the volume, in cubic centimeters, of a right circular cylinder with twice the radius and half the height of cylinder A?",
+                        options: ["11", "22", "44", "88"],
+                        correct: 2, // Index C. V = pi*r^2*h. New V = pi*(2r)^2*(h/2) = pi*4r^2*h/2 = 2 * (pi*r^2*h) = 2*22 = 44.
+                        difficulty: "hard"
                     }
                 ]
             };
-            this.userAnswers = {};
+
+            this.audioContext = null;
+            
             this.init();
         }
 
         init() {
-            this.setupEventListeners();
+            this.loadProgress();
+            this.setupListeners();
+            this.updateUserUI();
             this.showSection('home');
-            this.generateProgressDots();
         }
 
-        setupEventListeners() {
-            // Navegación por tabs
+        // --- SISTEMA DE GUARDADO ---
+        loadProgress() {
+            const saved = localStorage.getItem('satProState_v1');
+            if (saved) {
+                this.state = JSON.parse(saved);
+            }
+        }
+
+        saveProgress() {
+            localStorage.setItem('satProState_v1', JSON.stringify(this.state));
+            this.updateUserUI();
+        }
+
+        resetData() {
+            if(confirm("Are you sure you want to reset your progress?")) {
+                localStorage.removeItem('satProState_v1');
+                location.reload();
+            }
+        }
+
+        // --- UI UPDATES ---
+        updateUserUI() {
+            // Calcular progreso de nivel (Cada 100 XP es un nivel)
+            const xpForNextLevel = this.state.level * 100;
+            const currentLevelXP = this.state.xp % 100; // XP dentro del nivel actual (asumiendo curva plana simple para demo)
+            const percent = (currentLevelXP / 100) * 100;
+
+            document.getElementById('user-level-text').textContent = `Nivel ${this.state.level}`;
+            document.getElementById('user-xp').textContent = this.state.xp;
+            document.getElementById('home-questions').textContent = this.state.questionsDone;
+            
+            // Barra de progreso
+            document.getElementById('level-bar').style.width = `${percent}%`;
+            document.getElementById('progress-percent').textContent = `${Math.floor(percent)}%`;
+            
+            // Score estimado simple
+            const score = 400 + (this.state.correctAnswers * 10); // Algoritmo dummy
+            document.getElementById('home-score').textContent = score > 1600 ? 1600 : score;
+        }
+
+        // --- NAVEGACIÓN ---
+        setupListeners() {
+            // Tabs inferiores
             document.querySelectorAll('.nav-tab').forEach(tab => {
                 tab.addEventListener('click', () => {
-                    const section = tab.getAttribute('data-section');
-                    this.playNavigationSound();
-                    if (section === 'exam') {
-                        this.startExam();
-                    } else {
-                        this.navigateTo(section);
-                    }
+                    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+                    tab.classList.add('active');
+                    this.showSection(tab.dataset.section);
+                    this.playSound('click');
                 });
             });
 
-            // Navegación por cards
+            // Tarjetas grid
             document.querySelectorAll('.grid-card').forEach(card => {
                 card.addEventListener('click', () => {
-                    const section = card.getAttribute('data-section');
-                    this.playNavigationSound();
-                    if (section === 'exam') {
-                        this.startExam();
-                    } else {
-                        this.navigateTo(section);
+                    const section = card.dataset.section;
+                    if(section) {
+                        this.showSection(section);
+                        this.playSound('click');
                     }
                 });
             });
 
-            // Práctica
+            // Selección de práctica
             document.querySelectorAll('.practice-item').forEach(item => {
                 item.addEventListener('click', () => {
-                    this.playNavigationSound();
-                    const category = item.getAttribute('data-category');
-                    this.startQuiz(category);
+                    const cat = item.dataset.category;
+                    this.startQuiz(cat);
                 });
             });
 
-            // Opciones del quiz
-            document.querySelectorAll('.quiz-option').forEach(option => {
-                option.addEventListener('click', () => {
-                    this.playClickSound();
-                    this.selectOption(option);
-                });
-            });
-
-            // Navegación del quiz
-            document.getElementById('next-btn').addEventListener('click', () => {
-                this.playClickSound();
-                if (document.getElementById('next-btn').textContent === 'Check Answer') {
-                    this.checkAnswer();
-                } else {
-                    this.nextQuestion();
-                }
-            });
-
-            document.getElementById('prev-btn').addEventListener('click', () => {
-                this.playClickSound();
-                this.previousQuestion();
-            });
-
-            // Navegación del examen
-            document.getElementById('exam-next-btn').addEventListener('click', () => {
-                this.playClickSound();
-                this.nextExamQuestion();
-            });
-
-            document.getElementById('exam-prev-btn').addEventListener('click', () => {
-                this.playClickSound();
-                this.previousExamQuestion();
-            });
-
-            // Cambio de usuario
-            document.getElementById('switch-user').addEventListener('click', () => {
-                this.playClickSound();
-                alert('Funcionalidad de cambio de usuario');
-            });
+            // Botones Quiz
+            document.getElementById('next-btn').addEventListener('click', () => this.nextQuestion());
+            document.getElementById('quit-btn').addEventListener('click', () => this.showSection('home'));
+            document.getElementById('reset-data').addEventListener('click', () => this.resetData());
         }
 
-        // MEJORA: Generar puntos de progreso
-        generateProgressDots() {
-            const quizDots = document.querySelector('#quiz .progress-dots');
-            const examDots = document.querySelector('#exam .progress-dots');
-            
-            if (quizDots) {
-                for (let i = 0; i < this.quizData.questions.length; i++) {
-                    const dot = document.createElement('div');
-                    dot.className = 'progress-dot';
-                    if (i === 0) dot.classList.add('active');
-                    quizDots.appendChild(dot);
-                }
-            }
-            
-            if (examDots) {
-                for (let i = 0; i < 52; i++) { // 52 preguntas típicas en un SAT
-                    const dot = document.createElement('div');
-                    dot.className = 'progress-dot';
-                    if (i === 0) dot.classList.add('active');
-                    examDots.appendChild(dot);
-                }
-            }
+        showSection(id) {
+            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+            const target = document.getElementById(id);
+            if(target) target.classList.add('active');
         }
 
-        // MEJORA: Actualizar puntos de progreso
-        updateProgressDots(section, currentIndex, isCorrect = null) {
-            const dots = document.querySelectorAll(`#${section} .progress-dot`);
-            dots.forEach((dot, index) => {
-                dot.classList.remove('active', 'correct', 'incorrect');
-                
-                if (index === currentIndex) {
-                    dot.classList.add('active');
-                } else if (index < currentIndex) {
-                    if (this.userAnswers[index] !== undefined) {
-                        dot.classList.add(this.userAnswers[index] ? 'correct' : 'incorrect');
-                    }
-                }
-            });
-        }
-
-        playNavigationSound() {
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                oscillator.frequency.value = 523.25;
-                gainNode.gain.value = 0.08;
-                
-                oscillator.start();
-                setTimeout(() => {
-                    oscillator.stop();
-                }, 100);
-            } catch (e) {
-                console.log("Audio no soportado");
-            }
-        }
-
-        playClickSound() {
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                oscillator.frequency.value = 392.00;
-                gainNode.gain.value = 0.05;
-                
-                oscillator.start();
-                setTimeout(() => {
-                    oscillator.stop();
-                }, 50);
-            } catch (e) {
-                console.log("Audio no soportado");
-            }
-        }
-
-        navigateTo(section) {
-            this.currentSection = section;
-            this.updateActiveTab(section);
-            this.showSection(section);
-        }
-
-        updateActiveTab(section) {
-            document.querySelectorAll('.nav-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelector(`.nav-tab[data-section="${section}"]`).classList.add('active');
-        }
-
-        showSection(sectionName) {
-            document.querySelectorAll('section').forEach(section => {
-                section.classList.remove('active');
-            });
-            
-            const activeSection = document.getElementById(sectionName);
-            if (activeSection) {
-                activeSection.classList.add('active');
-            }
-        }
-
+        // --- LÓGICA DEL QUIZ ---
         startQuiz(category) {
-            console.log(`Iniciando quiz de: ${category}`);
-            this.navigateTo('quiz');
-            this.startQuizTimer();
-            this.loadQuizQuestions(category);
+            this.activeQuestions = [...this.questionBank[category] || this.questionBank.math];
+            this.currentQuestionIndex = 0;
+            this.showSection('quiz');
+            this.loadQuestionUI();
+            this.startTimer();
         }
 
-        startExam() {
-            console.log("Iniciando examen completo");
-            this.navigateTo('exam');
-            this.startExamTimer();
-        }
-
-        startQuizTimer() {
-            this.quizTimeLeft = 5 * 60;
-            this.updateQuizTimer();
+        loadQuestionUI() {
+            const qData = this.activeQuestions[this.currentQuestionIndex];
             
-            if (this.quizTimer) {
-                clearInterval(this.quizTimer);
-            }
+            // Texto pregunta
+            document.getElementById('question-text').innerHTML = qData.question;
             
-            this.quizTimer = setInterval(() => {
-                this.quizTimeLeft--;
-                this.updateQuizTimer();
-                
-                if (this.quizTimeLeft <= 0) {
-                    clearInterval(this.quizTimer);
-                    alert("¡Tiempo agotado!");
-                    this.navigateTo('home');
-                }
-            }, 1000);
-        }
+            // Badge info
+            document.getElementById('quiz-progress').textContent = `Question ${this.currentQuestionIndex + 1}/${this.activeQuestions.length}`;
+            const badge = document.getElementById('quiz-difficulty-badge');
+            badge.className = `difficulty-badge difficulty-${qData.difficulty}`;
+            badge.textContent = qData.difficulty.charAt(0).toUpperCase() + qData.difficulty.slice(1);
 
-        startExamTimer() {
-            this.examTimeLeft = 60 * 60;
-            this.updateExamTimer();
+            // Generar Opciones
+            const container = document.getElementById('options-container');
+            container.innerHTML = '';
             
-            if (this.examTimer) {
-                clearInterval(this.examTimer);
-            }
-            
-            this.examTimer = setInterval(() => {
-                this.examTimeLeft--;
-                this.updateExamTimer();
-                
-                if (this.examTimeLeft <= 0) {
-                    clearInterval(this.examTimer);
-                    alert("¡Tiempo del examen agotado!");
-                    this.navigateTo('home');
-                }
-            }, 1000);
-        }
-
-        updateQuizTimer() {
-            const minutes = Math.floor(this.quizTimeLeft / 60);
-            const seconds = this.quizTimeLeft % 60;
-            document.getElementById('quiz-timer').textContent = 
-                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                
-            // Actualizar también el texto de tiempo restante
-            const timeRemainingElement = document.querySelector('#quiz .question-progress span:nth-child(2)');
-            if (timeRemainingElement) {
-                timeRemainingElement.textContent = `Time remaining: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            }
-        }
-
-        updateExamTimer() {
-            const minutes = Math.floor(this.examTimeLeft / 60);
-            const seconds = this.examTimeLeft % 60;
-            document.getElementById('exam-timer').textContent = 
-                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-                
-            // Actualizar también el texto de tiempo restante
-            const timeRemainingElement = document.querySelector('#exam .question-progress span:nth-child(2)');
-            if (timeRemainingElement) {
-                timeRemainingElement.textContent = `Time remaining: ${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-            }
-        }
-
-        loadQuizQuestions(category) {
-            console.log(`Cargando preguntas para: ${category}`);
-            this.quizData.currentQuestion = 0;
-            this.userAnswers = {};
-            this.updateQuizUI();
-        }
-
-        selectOption(optionElement) {
-            document.querySelectorAll('.quiz-option').forEach(opt => {
-                opt.classList.remove('selected');
+            qData.options.forEach((opt, index) => {
+                const div = document.createElement('div');
+                div.className = 'quiz-option';
+                div.innerHTML = `<span style="font-weight:700; margin-right:10px; opacity:0.6">${String.fromCharCode(65+index)}</span> ${opt}`;
+                div.onclick = () => this.checkAnswer(index, div, qData.correct);
+                container.appendChild(div);
             });
-            
-            optionElement.classList.add('selected');
-            
-            document.getElementById('next-btn').disabled = false;
-            document.getElementById('exam-next-btn').disabled = false;
+
+            // Resetear botón next
+            document.getElementById('next-btn').disabled = true;
+
+            // Renderizar LaTeX (KaTeX)
+            renderMathInElement(document.getElementById('quiz'), {
+                delimiters: [
+                    {left: '$$', right: '$$', display: true},
+                    {left: '$', right: '$', display: false}
+                ]
+            });
         }
 
-        // MEJORA: Verificar respuesta
-        checkAnswer() {
-            const selectedOption = document.querySelector('.quiz-option.selected');
-            if (!selectedOption) return;
-            
-            const selectedIndex = Array.from(document.querySelectorAll('.quiz-option')).indexOf(selectedOption);
-            const currentQ = this.quizData.questions[this.quizData.currentQuestion];
-            const isCorrect = selectedIndex === currentQ.correctAnswer;
-            
-            // Guardar respuesta del usuario
-            this.userAnswers[this.quizData.currentQuestion] = isCorrect;
-            
-            // Mostrar resultado
-            const resultIndicator = document.getElementById('result-indicator');
-            const resultText = document.getElementById('result-text');
-            
+        checkAnswer(selectedIndex, element, correctIndex) {
+            // Evitar múltiples clics
+            const options = document.querySelectorAll('.quiz-option');
+            options.forEach(o => o.classList.add('disabled'));
+
+            const isCorrect = selectedIndex === correctIndex;
+
             if (isCorrect) {
-                resultIndicator.style.display = 'flex';
-                resultText.textContent = '¡Correcto! ' + currentQ.explanation;
-                resultText.className = 'result-text result-correct';
+                element.classList.add('correct');
+                this.playSound('success');
+                this.triggerConfetti();
+                
+                // Actualizar Stats
+                this.state.xp += 20;
+                this.state.correctAnswers++;
+                this.state.questionsDone++;
+                
+                // Check level up
+                if (Math.floor(this.state.xp / 100) > this.state.level) {
+                    this.state.level++;
+                    setTimeout(() => alert("LEVEL UP! You are now level " + this.state.level), 500);
+                }
             } else {
-                resultIndicator.style.display = 'flex';
-                const correctAnswer = currentQ.options[currentQ.correctAnswer];
-                resultText.textContent = `Incorrecto. La respuesta correcta es: ${correctAnswer}. ${currentQ.explanation}`;
-                resultText.className = 'result-text result-incorrect';
+                element.classList.add('incorrect');
+                // Mostrar la correcta
+                options[correctIndex].classList.add('correct');
+                this.playSound('error');
+                this.state.questionsDone++;
             }
-            
-            // Actualizar puntos de progreso
-            this.updateProgressDots('quiz', this.quizData.currentQuestion, isCorrect);
-            
-            // Cambiar texto del botón
-            document.getElementById('next-btn').textContent = 'Next Question';
+
+            this.saveProgress();
+            document.getElementById('next-btn').disabled = false;
         }
 
         nextQuestion() {
-            // Ocultar resultado
-            document.getElementById('result-indicator').style.display = 'none';
+            this.currentQuestionIndex++;
+            this.playSound('click');
             
-            this.quizData.currentQuestion++;
-            if (this.quizData.currentQuestion >= this.quizData.questions.length) {
-                clearInterval(this.quizTimer);
-                
-                // Calcular puntuación
-                const correctAnswers = Object.values(this.userAnswers).filter(Boolean).length;
-                const totalQuestions = this.quizData.questions.length;
-                const score = Math.round((correctAnswers / totalQuestions) * 100);
-                
-                alert(`¡Quiz completado! Puntuación: ${score}% (${correctAnswers}/${totalQuestions} correctas)`);
-                this.navigateTo('home');
-                return;
+            if (this.currentQuestionIndex < this.activeQuestions.length) {
+                this.loadQuestionUI();
+            } else {
+                alert("Práctica Completada. +20 XP Bonus!");
+                this.state.xp += 20;
+                this.saveProgress();
+                this.showSection('home');
             }
-            this.updateQuizUI();
         }
 
-        previousQuestion() {
-            // Ocultar resultado
-            document.getElementById('result-indicator').style.display = 'none';
+        // --- AUDIO ENGINE ---
+        initAudio() {
+            if (!this.audioContext) {
+                this.audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            }
+            if (this.audioContext.state === 'suspended') {
+                this.audioContext.resume();
+            }
+        }
+
+        playSound(type) {
+            this.initAudio();
+            const osc = this.audioContext.createOscillator();
+            const gain = this.audioContext.createGain();
+            osc.connect(gain);
+            gain.connect(this.audioContext.destination);
+
+            const now = this.audioContext.currentTime;
+
+            if (type === 'success') {
+                // Acorde mayor rápido
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(523.25, now); // C5
+                osc.frequency.exponentialRampToValueAtTime(659.25, now + 0.1); // E5
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.exponentialRampToValueAtTime(0.01, now + 0.3);
+                osc.start(now);
+                osc.stop(now + 0.3);
+            } else if (type === 'error') {
+                // Tono bajo disonante
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(150, now);
+                osc.frequency.linearRampToValueAtTime(100, now + 0.2);
+                gain.gain.setValueAtTime(0.1, now);
+                gain.gain.linearRampToValueAtTime(0.01, now + 0.2);
+                osc.start(now);
+                osc.stop(now + 0.2);
+            } else {
+                // Click suave
+                osc.type = 'triangle';
+                osc.frequency.setValueAtTime(800, now);
+                gain.gain.setValueAtTime(0.05, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.05);
+                osc.start(now);
+                osc.stop(now + 0.05);
+            }
+        }
+
+        // --- EFECTOS ---
+        triggerConfetti() {
+            confetti({
+                particleCount: 100,
+                spread: 70,
+                origin: { y: 0.6 },
+                colors: ['#3b82f6', '#8b5cf6', '#10b981']
+            });
+        }
+
+        // --- TIMER ---
+        startTimer() {
+            this.secondsElapsed = 0;
+            if (this.timerInterval) clearInterval(this.timerInterval);
             
-            this.quizData.currentQuestion--;
-            this.updateQuizUI();
-        }
-
-        nextExamQuestion() {
-            this.examData.currentQuestion++;
-            if (this.examData.currentQuestion >= this.examData.questions.length) {
-                clearInterval(this.examTimer);
-                alert('¡Sección del examen completada!');
-                this.navigateTo('home');
-                return;
-            }
-            this.updateExamUI();
-        }
-
-        previousExamQuestion() {
-            this.examData.currentQuestion--;
-            this.updateExamUI();
-        }
-
-        updateQuizUI() {
-            const currentQ = this.quizData.questions[this.quizData.currentQuestion];
-            if (currentQ) {
-                document.querySelector('#quiz .quiz-box p:nth-child(4)').textContent = currentQ.question;
-                
-                const options = document.querySelectorAll('#quiz .quiz-option');
-                options.forEach((option, index) => {
-                    option.textContent = `${String.fromCharCode(65 + index)}) ${currentQ.options[index]}`;
-                    option.classList.remove('selected');
-                });
-                
-                document.querySelector('#quiz .quiz-header span:first-child').textContent = 
-                    `Question ${this.quizData.currentQuestion + 1}/${this.quizData.questions.length}`;
-                
-                // Actualizar el texto de progreso de preguntas
-                document.querySelector('#quiz .question-progress span:first-child').textContent = 
-                    `Question ${this.quizData.currentQuestion + 1}/${this.quizData.questions.length}`;
-                
-                const difficultyBadge = document.querySelector('#quiz .difficulty-badge');
-                difficultyBadge.textContent = currentQ.difficulty.charAt(0).toUpperCase() + currentQ.difficulty.slice(1);
-                difficultyBadge.className = `difficulty-badge difficulty-${currentQ.difficulty}`;
-                
-                document.getElementById('prev-btn').disabled = this.quizData.currentQuestion === 0;
-                document.getElementById('next-btn').disabled = true;
-                document.getElementById('next-btn').textContent = 'Check Answer';
-                
-                // Actualizar puntos de progreso
-                this.updateProgressDots('quiz', this.quizData.currentQuestion);
-            }
-        }
-
-        updateExamUI() {
-            const currentQ = this.examData.questions[this.examData.currentQuestion];
-            if (currentQ) {
-                document.querySelector('#exam .quiz-box p:nth-child(4)').textContent = currentQ.question;
-                
-                const options = document.querySelectorAll('#exam .quiz-option');
-                options.forEach((option, index) => {
-                    option.textContent = `${String.fromCharCode(65 + index)}) ${currentQ.options[index]}`;
-                    option.classList.remove('selected');
-                });
-                
-                document.querySelector('#exam .quiz-header span:first-child').textContent = 
-                    `Exam - Section 1/4`;
-                
-                // Actualizar el texto de progreso de preguntas
-                document.querySelector('#exam .question-progress span:first-child').textContent = 
-                    `Question ${this.examData.currentQuestion + 1}/52`;
-                
-                const difficultyBadge = document.querySelector('#exam .difficulty-badge');
-                difficultyBadge.textContent = currentQ.difficulty.charAt(0).toUpperCase() + currentQ.difficulty.slice(1);
-                difficultyBadge.className = `difficulty-badge difficulty-${currentQ.difficulty}`;
-                
-                document.getElementById('exam-prev-btn').disabled = this.examData.currentQuestion === 0;
-                document.getElementById('exam-next-btn').disabled = true;
-                
-                // Actualizar puntos de progreso
-                this.updateProgressDots('exam', this.examData.currentQuestion);
-            }
+            const timerDisplay = document.getElementById('quiz-timer');
+            this.timerInterval = setInterval(() => {
+                this.secondsElapsed++;
+                const mins = Math.floor(this.secondsElapsed / 60);
+                const secs = this.secondsElapsed % 60;
+                timerDisplay.textContent = `${mins.toString().padStart(2,'0')}:${secs.toString().padStart(2,'0')}`;
+            }, 1000);
         }
     }
 
+    // Arrancar App
     document.addEventListener('DOMContentLoaded', () => {
-        window.satApp = new SATProApp();
+        window.app = new SATProApp();
     });
 </script>
 </body>
