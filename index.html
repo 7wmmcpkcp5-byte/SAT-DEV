@@ -2,420 +2,237 @@
 <html lang="es">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SAT PRO MASTER EVO</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>SAT PRO MASTER - v2.0</title>
+
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.js"></script>
+<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/contrib/auto-render.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=JetBrains+Mono:wght@500&display=swap" rel="stylesheet">
+
 <style>
     :root {
-        --bg-primary:#050816;
-        --bg-secondary:#080d18;
-        --bg-surface:#0f172a;
-        --primary:#3b82f6;
-        --accent:#8b5cf6;
-        --text:#e5e7eb;
-        --text-soft:#9ca3af;
-        --radius:18px;
-        --radius-sm:12px;
-        --success:#10b981;
-        --warning:#f59e0b;
-        --error:#ef4444;
-        --shadow-soft: 10px 10px 22px #02040a, -10px -10px 22px #101a30;
-        --shadow-inset: inset 6px 6px 12px #050914, inset -6px -6px 12px #18233c;
+        --bg-deep: #030014;
+        --bg-panel: #0f172a;
+        --primary: #6366f1; /* Indigo */
+        --accent: #d946ef; /* Fuchsia */
+        --success: #10b981;
+        --cyan: #06b6d4;
+        --text: #f8fafc;
+        --text-mute: #64748b;
+        
+        --glass: rgba(15, 23, 42, 0.6);
+        --glass-border: rgba(255, 255, 255, 0.08);
+        --glow: 0 0 20px rgba(99, 102, 241, 0.15);
     }
 
-    * {margin:0;padding:0;box-sizing:border-box;}
+    * {margin:0;padding:0;box-sizing:border-box; -webkit-tap-highlight-color: transparent;}
+
     body {
-        font-family:-apple-system, BlinkMacSystemFont, "SF Pro Text", system-ui, sans-serif;
-        background:radial-gradient(circle at top, #0b1220 0, #020617 45%, #020617 100%);
-        color:var(--text);
-        min-height:100vh;
-        -webkit-font-smoothing: antialiased;
+        font-family: 'Inter', sans-serif;
+        background-color: var(--bg-deep);
+        background-image: 
+            radial-gradient(at 0% 0%, rgba(99,102,241,0.15) 0px, transparent 50%),
+            radial-gradient(at 100% 100%, rgba(217,70,239,0.1) 0px, transparent 50%);
+        color: var(--text);
+        min-height: 100vh;
+        padding-bottom: 90px;
     }
 
-    .app {
-        max-width:440px;
-        margin:auto;
-        padding:0.85rem;
-        min-height:100vh;
-        display:flex;
-        flex-direction:column;
-    }
+    .app { max-width: 440px; margin: 0 auto; padding: 1rem; position: relative; }
 
+    /* --- NEW HEADER --- */
     header {
-        text-align:center;
-        padding:0.9rem 0 0.7rem;
-        border-radius:24px;
-        margin-bottom:0.3rem;
-        background:linear-gradient(135deg, rgba(15,23,42,0.95), rgba(30,64,175,0.85));
-        box-shadow: var(--shadow-soft);
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding: 0.5rem 0.2rem;
     }
 
-    header h1 {
-        font-size:1.35rem;
-        font-weight:800;
-        letter-spacing:0.08em;
-        text-transform:uppercase;
-        background:linear-gradient(135deg,var(--primary),var(--accent),#e5e7eb);
-        -webkit-background-clip:text;
-        -webkit-text-fill-color:transparent;
-        margin-bottom: 0.2rem;
-    }
-
-    .developer-info {
-        font-size: 0.7rem;
-        color: var(--text-soft);
-        letter-spacing: 0.03em;
-    }
-
-    /* USER BAR */
-    .user-bar {
-        display:flex;
-        align-items:center;
-        gap:0.85rem;
-        margin:1rem 0 0.9rem;
-        padding:0.7rem 0.6rem;
-        border-radius:22px;
-        background:var(--bg-surface);
-        box-shadow: var(--shadow-soft);
-    }
-
-    .avatar {
-        width:44px;height:44px;border-radius:50%;
-        background:var(--bg-secondary);
-        display:flex;align-items:center;justify-content:center;
-        font-weight:700;
-        font-size:0.95rem;
-        color:var(--text);
-        box-shadow: 6px 6px 14px #02040a, -6px -6px 14px #1c2640;
-    }
-
-    .user-info .name {font-size:0.88rem;font-weight:600;}
-    .user-info .level {font-size:0.72rem;color:var(--text-soft);}
-
-    .btn {
-        padding:0.35rem 0.8rem;
-        border-radius:999px;
-        background:var(--bg-primary);
-        border:none;
-        font-size:0.74rem;
-        color:var(--text);
-        cursor:pointer;
-        transition:all 0.18s ease;
-        box-shadow: 4px 4px 10px #02040a, -4px -4px 10px #151f35;
-        white-space:nowrap;
-    }
-    .btn:hover {
-        transform:translateY(-1px);
-        box-shadow: 6px 6px 14px #02040a, -6px -6px 14px #1e2a46;
-        background:linear-gradient(135deg,var(--primary),var(--accent));
-    }
-
-    /* PRIMARY SECTIONS */
-    section {display:none;}
-    section.active {display:block;}
-
-    /* HOME */
-    .welcome {
-        background:var(--bg-surface);
-        padding:1.1rem;
-        border-radius:var(--radius);
-        margin-bottom:0.9rem;
-        box-shadow: var(--shadow-soft);
-    }
-
-    .welcome h2 {font-size:1.05rem;margin-bottom:0.35rem;}
-    .welcome p {font-size:0.8rem;color:var(--text-soft);}
-
-    /* STATS */
-    .stats {
-        display:grid;
-        grid-template-columns:1fr 1fr;
-        gap:0.6rem;
-        margin-bottom:0.9rem;
-    }
-
-    .stat {
-        background:var(--bg-surface);
-        padding:0.85rem 0.95rem;
-        border-radius:var(--radius);
-        text-align:left;
-        box-shadow: var(--shadow-soft);
-    }
-
-    .stat .value {
-        font-size:1.45rem;
-        font-weight:700;
-        line-height:1.2;
-        margin-bottom:0.1rem;
-    }
-    .stat .label {
-        font-size:0.78rem;
-        color:var(--text-soft);
-    }
-
-    /* PROGRESS BAR */
-    .progress-box {
-        background:var(--bg-surface);
-        padding:0.9rem 0.95rem;
-        border-radius:var(--radius);
-        margin-bottom:1rem;
-        box-shadow: var(--shadow-soft);
+    .brand h1 {
+        font-size: 1.2rem;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        background: linear-gradient(to right, #fff, var(--text-mute));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
     }
     
-    .progress-header {
-        display:flex;
-        justify-content:space-between;
-        margin-bottom:0.45rem;
-        font-size:0.78rem;
-        color:var(--text-soft);
+    .brand p { font-size: 0.6rem; color: var(--accent); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+
+    .streak-badge {
+        background: rgba(255, 100, 50, 0.1);
+        border: 1px solid rgba(255, 100, 50, 0.3);
+        padding: 0.3rem 0.8rem;
+        border-radius: 20px;
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        font-size: 0.75rem;
+        color: #ff8a65;
+        font-weight: 700;
     }
 
-    .p-bar {
-        height:10px;
-        background:var(--bg-secondary);
-        border-radius:999px;
-        overflow:hidden;
-        box-shadow: var(--shadow-inset);
+    /* --- RADAR CHART CONTAINER --- */
+    .radar-container {
+        position: relative;
+        width: 100%;
+        height: 240px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin-bottom: 1.5rem;
     }
-    .p-fill {
-        width:55%;height:100%;
-        background:linear-gradient(90deg,var(--primary),var(--accent));
-        border-radius:999px;
-        position:relative;
-    }
-    .p-fill::after{
-        content:'';
-        position:absolute;
-        right:6px;
-        top:50%;
-        transform:translateY(-50%);
-        width:8px;height:8px;border-radius:50%;
-        background:#f9fafb;
-        box-shadow:0 0 10px rgba(249,250,251,0.8);
+    
+    canvas#skillRadar {
+        width: 100%;
+        height: 100%;
+        max-width: 300px;
+        filter: drop-shadow(0 0 10px rgba(99,102,241,0.3));
     }
 
-    /* GRID NAV */
-    .grid {
-        display:grid;
-        grid-template-columns:1fr 1fr;
-        gap:0.65rem;
-        margin-bottom:1rem;
+    .chart-label {
+        position: absolute;
+        font-size: 0.65rem;
+        color: var(--text-mute);
+        text-transform: uppercase;
+        font-weight: 600;
     }
 
-    .grid-card {
-        background:var(--bg-surface);
-        padding:0.95rem;
-        border-radius:var(--radius);
-        cursor:pointer;
-        transition:all 0.18s ease;
-        box-shadow: var(--shadow-soft);
-    }
-    
-    .grid-card:hover {
-        transform:translateY(-2px);
-        box-shadow: 12px 12px 26px #02040a, -12px -12px 26px #1d2944;
-        background:radial-gradient(circle at top left, rgba(59,130,246,0.35), var(--bg-surface));
-    }
-
-    .grid-card h3 {
-        font-size:0.9rem;
-        margin-bottom:0.2rem;
-    }
-
-    .grid-card p {
-        font-size:0.75rem;
-        color:var(--text-soft);
-    }
-    
-    .grid-card:hover p {
-        color:var(--text);
-    }
-
-    /* PRACTICE */
-    .practice-list {
-        display:flex;
-        flex-direction:column;
-        gap:0.7rem;
-    }
-
-    .practice-item {
-        background:var(--bg-surface);
-        padding:0.9rem 0.95rem;
-        box-shadow: var(--shadow-soft);
-        border-radius:var(--radius);
-        cursor:pointer;
-        transition:all 0.18s ease;
-    }
-    
-    .practice-item:hover {
-        transform:translateX(3px);
-        box-shadow: 12px 12px 26px #02040a, -12px -12px 26px #1d2944;
-        background:radial-gradient(circle at left, rgba(59,130,246,0.4), var(--bg-surface));
-    }
-
-    .practice-header {
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        margin-bottom:0.35rem;
-    }
-    
-    .practice-item h4 {font-size:0.9rem;}
-    .practice-item small {color:var(--text-soft);font-size:0.75rem;}
-
-    /* Difficulty badges */
-    .difficulty-badge {
-        padding:0.2rem 0.7rem;
-        border-radius:999px;
-        font-size:0.7rem;
-        font-weight:600;
-        box-shadow: 3px 3px 6px #02040a, -3px -3px 6px #1a2642;
-    }
-    
-    .difficulty-easy {
-        background:var(--success);
-        color:white;
-    }
-    
-    .difficulty-medium {
-        background:var(--warning);
-        color:black;
-    }
-    
-    .difficulty-hard {
-        background:var(--error);
-        color:white;
-    }
-
-    /* QUIZ / EXAM BOXES */
-    .quiz-box {
-        background:var(--bg-surface);
-        padding:1rem;
-        border-radius:var(--radius);
-        box-shadow: var(--shadow-soft);
-    }
-    
-    .quiz-header {
-        display:flex;
-        justify-content:space-between;
-        align-items:center;
-        margin-bottom:0.9rem;
-        font-size:0.8rem;
-        color:var(--text-soft);
-    }
-    
-    .quiz-timer {
-        font-weight:600;
-        color:var(--warning);
-        font-size:0.86rem;
-    }
-
-    .quiz-option {
-        background:var(--bg-secondary);
-        padding:0.8rem;
-        border-radius:var(--radius-sm);
-        margin-bottom:0.45rem;
-        font-size:0.85rem;
-        cursor:pointer;
-        transition:all 0.18s ease;
-        box-shadow: var(--shadow-soft);
-    }
-    
-    .quiz-option:hover {
-        transform:translateY(-1px);
-        box-shadow: 10px 10px 20px #02040a, -10px -10px 20px #1c2842;
-        background:radial-gradient(circle at left, rgba(59,130,246,0.35), var(--bg-secondary));
-    }
-    
-    .quiz-option.selected {
-        background:linear-gradient(135deg,var(--primary),var(--accent));
-        box-shadow: 12px 12px 26px #02040a, -12px -12px 26px #1d2944;
-    }
-    
-    .quiz-navigation {
-        display:flex;
-        justify-content:space-between;
-        margin-top:1.4rem;
-        gap:0.6rem;
-    }
-    
-    .quiz-btn {
-        background:linear-gradient(135deg,var(--primary),var(--accent));
-        color:white;
-        border:none;
-        padding:0.6rem 1.1rem;
-        border-radius:999px;
-        cursor:pointer;
-        font-weight:600;
-        font-size:0.85rem;
-        flex:1;
-        box-shadow: 8px 8px 18px #02040a, -8px -8px 18px #1d2944;
-        transition:all 0.15s ease;
-    }
-    
-    .quiz-btn:disabled {
-        background:var(--bg-secondary);
-        color:var(--text-soft);
-        cursor:not-allowed;
-        box-shadow: var(--shadow-inset);
-    }
-    .quiz-btn:not(:disabled):hover {
-        transform:translateY(-1px);
-        box-shadow: 10px 10px 20px #02040a, -10px -10px 20px #1d2944;
-    }
-
-    /* ANALYTICS / REPORTS */
+    /* --- GLASS CARDS --- */
     .card {
-        background:var(--bg-surface);
-        padding:1rem;
-        border-radius:var(--radius);
-        margin-bottom:0.8rem;
-        box-shadow: var(--shadow-soft);
-    }
-
-    .card h3 {font-size:1rem;margin-bottom:0.35rem;}
-    .card p {font-size:0.8rem;color:var(--text-soft);}
-
-    /* NAV BOTTOM */
-    .bottom-nav {
-        display:flex;
-        gap:0.4rem;
-        padding:0.35rem;
-        margin-top:auto;
-        border-radius:22px;
-        background:var(--bg-surface);
-        box-shadow: var(--shadow-soft);
-        position:sticky;
-        bottom:0.6rem;
-    }
-
-    .nav-tab {
-        flex:1;
-        text-align:center;
-        padding:0.46rem 0;
-        font-size:0.78rem;
-        border-radius:999px;
-        background:var(--bg-secondary);
-        cursor:pointer;
-        transition:all 0.18s ease;
-        color:var(--text-soft);
-        box-shadow: 4px 4px 10px #02040a, -4px -4px 10px #1b2741;
-    }
-
-    .nav-tab.active {
-        background:linear-gradient(135deg,var(--primary),var(--accent));
-        color:white;
-        box-shadow: 8px 8px 18px #02040a, -8px -8px 18px #1d2944;
+        background: var(--glass);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        padding: 1.2rem;
+        margin-bottom: 1rem;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.2);
+        transition: transform 0.2s;
     }
     
-    .nav-tab:hover {
-        transform:translateY(-1px);
+    .card:active { transform: scale(0.98); }
+
+    .card h3 { font-size: 0.9rem; color: var(--text-mute); margin-bottom: 0.8rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; }
+
+    /* --- HEATMAP --- */
+    .heatmap {
+        display: grid;
+        grid-template-columns: repeat(7, 1fr);
+        gap: 6px;
+    }
+    
+    .heat-box {
+        aspect-ratio: 1;
+        background: rgba(255,255,255,0.03);
+        border-radius: 6px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 0.6rem;
+        color: var(--text-mute);
+    }
+    
+    .heat-box.l1 { background: rgba(99, 102, 241, 0.3); box-shadow: 0 0 5px var(--primary); color: #fff; }
+    .heat-box.l2 { background: rgba(217, 70, 239, 0.6); box-shadow: 0 0 10px var(--accent); color: #fff; }
+
+    /* --- ACTION GRID --- */
+    .action-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 1rem;
     }
 
-    @media (max-width:380px){
-        .app{padding:0.7rem;}
-        .welcome{padding:0.9rem;}
-        .stat{padding:0.8rem;}
-        .grid-card{padding:0.8rem;}
+    .action-btn {
+        background: linear-gradient(145deg, rgba(255,255,255,0.05), rgba(255,255,255,0.01));
+        border: 1px solid var(--glass-border);
+        padding: 1.5rem 1rem;
+        border-radius: 20px;
+        text-align: center;
+        cursor: pointer;
+    }
+    
+    .action-btn h4 { font-size: 1.1rem; margin-bottom: 0.3rem; }
+    .action-btn span { font-size: 0.7rem; color: var(--cyan); }
+
+    .btn-primary-glow {
+        background: linear-gradient(135deg, var(--primary), var(--accent));
+        box-shadow: 0 0 25px rgba(99, 102, 241, 0.4);
+        border: none;
+    }
+
+    /* --- QUIZ UI --- */
+    .quiz-timer-ring {
+        width: 100%;
+        height: 4px;
+        background: #1e293b;
+        border-radius: 2px;
+        margin-bottom: 1.5rem;
+        overflow: hidden;
+    }
+    .timer-fill {
+        height: 100%;
+        background: var(--cyan);
+        width: 100%;
+        transition: width 1s linear;
+        box-shadow: 0 0 10px var(--cyan);
+    }
+
+    .option {
+        background: rgba(255,255,255,0.03);
+        border: 1px solid var(--glass-border);
+        padding: 1.1rem;
+        border-radius: 16px;
+        margin-bottom: 0.8rem;
+        transition: 0.2s;
+        font-size: 0.95rem;
+    }
+    
+    .option.selected { border-color: var(--primary); background: rgba(99, 102, 241, 0.1); }
+    .option.correct { border-color: var(--success); background: rgba(16, 185, 129, 0.2); }
+    .option.incorrect { border-color: #ef4444; background: rgba(239, 68, 68, 0.2); }
+
+    /* --- BOTTOM NAV (FLOATING) --- */
+    .nav-float {
+        position: fixed;
+        bottom: 1.5rem;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 90%;
+        max-width: 400px;
+        background: rgba(3, 0, 20, 0.85);
+        backdrop-filter: blur(20px);
+        border: 1px solid var(--glass-border);
+        border-radius: 30px;
+        padding: 0.8rem;
+        display: flex;
+        justify-content: space-around;
+        box-shadow: 0 10px 40px -10px rgba(0,0,0,0.5);
+        z-index: 100;
+    }
+
+    .nav-icon {
+        color: var(--text-mute);
+        font-size: 0.7rem;
+        font-weight: 600;
+        text-align: center;
+        opacity: 0.7;
+        transition: 0.2s;
+    }
+    
+    .nav-icon.active { color: #fff; opacity: 1; text-shadow: 0 0 10px rgba(255,255,255,0.5); }
+    .nav-dot { width: 4px; height: 4px; background: var(--accent); border-radius: 50%; margin: 4px auto 0; opacity: 0; }
+    .nav-icon.active .nav-dot { opacity: 1; }
+
+    section { display: none; animation: slideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1); }
+    section.active { display: block; }
+
+    @keyframes slideUp {
+        from { opacity: 0; transform: translateY(20px); }
+        to { opacity: 1; transform: translateY(0); }
     }
 </style>
 </head>
@@ -424,546 +241,258 @@
 
 <div class="app">
 
-    <!-- HEADER -->
     <header>
-        <h1>SAT PRO MASTER EVO</h1>
-        <div class="developer-info">Por Moon - v7.0</div>
+        <div class="brand">
+            <h1>SAT PRO <span style="color:var(--cyan)">//</span> NEO</h1>
+            <p>Generated by Gemini • v2.0</p>
+        </div>
+        <div class="streak-badge">
+            <span>🔥</span> <span id="streak-val">3</span> Days
+        </div>
     </header>
 
-    <!-- USER -->
-    <div class="user-bar">
-        <div class="avatar">A</div>
-        <div class="user-info">
-            <div class="name">Alex</div>
-            <div class="level">Nivel 1 • 0 XP</div>
-        </div>
-        <button class="btn" id="switch-user">Cambiar</button>
-    </div>
-
-    <!-- HOME SECTION -->
-    <section id="home" class="active">
-
-        <div class="welcome">
-            <h2>Welcome, Alex</h2>
-            <p>Train for the SAT with realistic practice.</p>
+    <section id="dashboard" class="active">
+        
+        <div class="radar-container">
+            <canvas id="skillRadar" width="300" height="240"></canvas>
+            <div class="chart-label" style="top: 10px;">Algebra</div>
+            <div class="chart-label" style="bottom: 20px; left: 10px;">Geom</div>
+            <div class="chart-label" style="bottom: 20px; right: 10px;">Data</div>
+            <div class="chart-label" style="top: 90px; right: -5px;">Arith</div>
+            <div class="chart-label" style="top: 90px; left: -5px;">Func</div>
         </div>
 
-        <div class="stats">
-            <div class="stat">
-                <div class="value">1250</div>
-                <div class="label">Current Score</div>
-            </div>
-            <div class="stat">
-                <div class="value">84</div>
-                <div class="label">Questions Done</div>
-            </div>
+        <div class="card">
+            <h3>Study Intensity</h3>
+            <div class="heatmap" id="heatmap-grid">
+                </div>
         </div>
 
-        <div class="progress-box">
-            <div class="progress-header">
-                <span>Score Progress</span>
-                <span>55%</span>
+        <div class="action-grid">
+            <div class="action-btn btn-primary-glow" onclick="app.startSession('math')">
+                <h4>Start Math</h4>
+                <span>+25 XP</span>
             </div>
-            <div class="p-bar"><div class="p-fill"></div></div>
-            <div class="progress-header" style="margin-top:0.5rem;margin-bottom:0;">
-                <span>Start: 400</span>
-                <span>Goal: 1600</span>
-            </div>
-        </div>
-
-        <div class="grid">
-            <div class="grid-card" data-section="practice">
-                <h3>Practice</h3><p>Focused drills</p>
-            </div>
-            <div class="grid-card" data-section="exam">
-                <h3>Full Exam</h3><p>Test simulation</p>
-            </div>
-            <div class="grid-card" data-section="analytics">
-                <h3>Analytics</h3><p>Performance insights</p>
-            </div>
-            <div class="grid-card" data-section="reports">
-                <h3>Reports</h3><p>Weekly summaries</p>
+            <div class="action-btn" onclick="app.startSession('reading')">
+                <h4>Reading</h4>
+                <span>Coming Soon</span>
             </div>
         </div>
 
     </section>
 
-    <!-- PRACTICE SECTION -->
-    <section id="practice">
-        <h2 style="margin-bottom:1rem;">Practice Mode</h2>
-        <div class="practice-list">
-            <div class="practice-item" data-category="math">
-                <div class="practice-header">
-                    <h4>Mathematics</h4>
-                    <span class="difficulty-badge difficulty-medium">Medium</span>
-                </div>
-                <small>Algebra, Geometry, Stats</small>
-            </div>
-            <div class="practice-item" data-category="reading">
-                <div class="practice-header">
-                    <h4>Reading</h4>
-                    <span class="difficulty-badge difficulty-hard">Hard</span>
-                </div>
-                <small>Comprehension</small>
-            </div>
-            <div class="practice-item" data-category="writing">
-                <div class="practice-header">
-                    <h4>Writing</h4>
-                    <span class="difficulty-badge difficulty-easy">Easy</span>
-                </div>
-                <small>Grammar</small>
-            </div>
-        </div>
-    </section>
-
-    <!-- EXAM SECTION -->
-    <section id="exam">
-        <div class="quiz-box">
-            <div class="quiz-header">
-                <span>Exam - Section 1/4</span>
-                <span class="quiz-timer" id="exam-timer">59:45</span>
-            </div>
-            
-            <div class="difficulty-badge difficulty-hard" style="display:inline-block;margin-bottom:1rem;">
-                Hard
-            </div>
-            
-            <p><strong>Question 1</strong></p>
-            <p>A right circular cylinder has a height of 10 inches and a radius of 4 inches. What is the volume, in cubic inches, of the cylinder?</p>
-
-            <div class="quiz-option" data-option="A">A) 40π</div>
-            <div class="quiz-option" data-option="B">B) 80π</div>
-            <div class="quiz-option" data-option="C">C) 160π</div>
-            <div class="quiz-option" data-option="D">D) 400π</div>
-            
-            <div class="quiz-navigation">
-                <button class="quiz-btn" id="exam-prev-btn" disabled>Previous</button>
-                <button class="quiz-btn" id="exam-next-btn">Next</button>
-            </div>
-        </div>
-    </section>
-
-    <!-- QUIZ SECTION -->
     <section id="quiz">
-        <div class="quiz-box">
-            <div class="quiz-header">
-                <span>Question 1/10</span>
-                <span class="quiz-timer" id="quiz-timer">04:23</span>
-            </div>
-            
-            <div class="difficulty-badge difficulty-medium" style="display:inline-block;margin-bottom:1rem;">
-                Medium
-            </div>
-            
-            <p><strong>Question 1</strong></p>
-            <p>If 2x + 5 = 15, what is x?</p>
-
-            <div class="quiz-option" data-option="A">A) 5</div>
-            <div class="quiz-option" data-option="B">B) 10</div>
-            <div class="quiz-option" data-option="C">C) 15</div>
-            <div class="quiz-option" data-option="D">D) 20</div>
-            
-            <div class="quiz-navigation">
-                <button class="quiz-btn" id="prev-btn" disabled>Previous</button>
-                <button class="quiz-btn" id="next-btn">Next</button>
-            </div>
+        <div style="display:flex; justify-content:space-between; margin-bottom:10px; font-family:'JetBrains Mono', monospace; font-size:0.8rem; color:var(--cyan);">
+            <span id="q-progress">01 / 05</span>
+            <span>XP BOOST ACTIVE</span>
         </div>
+        
+        <div class="quiz-timer-ring"><div class="timer-fill" id="timer-bar"></div></div>
+        
+        <div class="card" style="min-height: 200px; display:flex; align-items:center;">
+            <p id="q-text" style="font-size:1.1rem; line-height:1.6; font-weight:500;">Loading...</p>
+        </div>
+
+        <div id="options-list">
+            </div>
+
+        <button onclick="app.showDashboard()" style="background:transparent; border:none; color:var(--text-mute); font-size:0.8rem; margin-top:20px; width:100%;">Quit Session</button>
     </section>
 
-    <!-- ANALYTICS -->
-    <section id="analytics">
-        <h2 style="margin-bottom:1rem;">Performance Analytics</h2>
-        <div class="card">
-            <h3>Score Trend</h3>
-            <p>Your score improved by 45 points.</p>
+    <nav class="nav-float">
+        <div class="nav-icon active" onclick="app.nav('dashboard', this)">
+            DASHBOARD
+            <div class="nav-dot"></div>
         </div>
-        <div class="card">
-            <h3>Weak Areas</h3>
-            <p>Algebra, Data Analysis, Grammar</p>
+        <div class="nav-icon" onclick="app.nav('quiz', this)">
+            FOCUS
+            <div class="nav-dot"></div>
         </div>
-        <div class="card">
-            <h3>Study Time</h3>
-            <p>Total: 12h 34m this week</p>
+        <div class="nav-icon" onclick="alert('Profile Coming Soon')">
+            PROFILE
+            <div class="nav-dot"></div>
         </div>
-    </section>
-
-    <!-- REPORTS -->
-    <section id="reports">
-        <h2 style="margin-bottom:1rem;">Progress Reports</h2>
-        <div class="card">
-            <h3>Weekly Progress</h3>
-            <p>Completed 24 questions this week.</p>
-        </div>
-        <div class="card">
-            <h3>Current Level</h3>
-            <p>Math: Intermediate<br>Reading: Beginner</p>
-        </div>
-        <div class="card">
-            <h3>Recommendations</h3>
-            <p>Focus on algebra first.</p>
-        </div>
-    </section>
-
-    <!-- NAV -->
-    <nav class="bottom-nav">
-        <div class="nav-tab active" data-section="home">Home</div>
-        <div class="nav-tab" data-section="practice">Practice</div>
-        <div class="nav-tab" data-section="exam">Exam</div>
-        <div class="nav-tab" data-section="analytics">Analytics</div>
-        <div class="nav-tab" data-section="reports">Reports</div>
     </nav>
 
 </div>
 
 <script>
-    class SATProApp {
+    class SATNeon {
         constructor() {
-            this.currentSection = 'home';
-            this.quizTimer = null;
-            this.examTimer = null;
-            this.quizTimeLeft = 5 * 60; // 5 minutos
-            this.examTimeLeft = 60 * 60; // 60 minutos
-            this.quizData = {
-                currentQuestion: 0,
-                questions: [
-                    {
-                        question: "If 2x + 5 = 15, what is the value of x?",
-                        options: ["5", "10", "15", "20"],
-                        correctAnswer: 0,
-                        difficulty: "medium"
-                    },
-                    {
-                        question: "What is the value of 3² + 4²?",
-                        options: ["7", "12", "25", "49"],
-                        correctAnswer: 2,
-                        difficulty: "easy"
-                    }
-                ]
+            this.state = {
+                skills: { algebra: 60, geometry: 40, data: 30, arithmetic: 80, functions: 50 },
+                streak: 3,
+                heatmap: [0, 1, 1, 2, 0, 2, 1, 0, 1, 1, 2, 2, 0, 1] // 0=none, 1=low, 2=high
             };
-            this.examData = {
-                currentQuestion: 0,
-                questions: [
-                    {
-                        question: "A right circular cylinder has a height of 10 inches and a radius of 4 inches. What is the volume, in cubic inches, of the cylinder?",
-                        options: ["40π", "80π", "160π", "400π"],
-                        correctAnswer: 2,
-                        difficulty: "hard"
-                    }
-                ]
-            };
+            
+            this.questions = [
+                { q: "If $$2x + 6 = 12$$, what is $$x$$?", options: ["2", "3", "4", "6"], ans: 1 },
+                { q: "What is the area of a circle with $$r=3$$?", options: ["3π", "6π", "9π", "12π"], ans: 2 }
+            ];
+            
             this.init();
         }
 
         init() {
-            this.setupEventListeners();
-            this.showSection('home');
-        }
-
-        setupEventListeners() {
-            // Navegación por tabs
-            document.querySelectorAll('.nav-tab').forEach(tab => {
-                tab.addEventListener('click', () => {
-                    const section = tab.getAttribute('data-section');
-                    this.playNavigationSound();
-                    if (section === 'exam') {
-                        this.startExam();
-                    } else {
-                        this.navigateTo(section);
-                    }
-                });
-            });
-
-            // Navegación por cards
-            document.querySelectorAll('.grid-card').forEach(card => {
-                card.addEventListener('click', () => {
-                    const section = card.getAttribute('data-section');
-                    this.playNavigationSound();
-                    if (section === 'exam') {
-                        this.startExam();
-                    } else {
-                        this.navigateTo(section);
-                    }
-                });
-            });
-
-            // Práctica
-            document.querySelectorAll('.practice-item').forEach(item => {
-                item.addEventListener('click', () => {
-                    this.playNavigationSound();
-                    const category = item.getAttribute('data-category');
-                    this.startQuiz(category);
-                });
-            });
-
-            // Opciones del quiz
-            document.querySelectorAll('.quiz-option').forEach(option => {
-                option.addEventListener('click', () => {
-                    this.playClickSound();
-                    this.selectOption(option);
-                });
-            });
-
-            // Navegación del quiz
-            document.getElementById('next-btn').addEventListener('click', () => {
-                this.playClickSound();
-                this.nextQuestion();
-            });
-
-            document.getElementById('prev-btn').addEventListener('click', () => {
-                this.playClickSound();
-                this.previousQuestion();
-            });
-
-            // Navegación del examen
-            document.getElementById('exam-next-btn').addEventListener('click', () => {
-                this.playClickSound();
-                this.nextExamQuestion();
-            });
-
-            document.getElementById('exam-prev-btn').addEventListener('click', () => {
-                this.playClickSound();
-                this.previousExamQuestion();
-            });
-
-            // Cambio de usuario
-            document.getElementById('switch-user').addEventListener('click', () => {
-                this.playClickSound();
-                alert('Funcionalidad de cambio de usuario');
-            });
-        }
-
-        playNavigationSound() {
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                oscillator.frequency.value = 523.25;
-                gainNode.gain.value = 0.08;
-                
-                oscillator.start();
-                setTimeout(() => {
-                    oscillator.stop();
-                }, 100);
-            } catch (e) {
-                console.log("Audio no soportado");
-            }
-        }
-
-        playClickSound() {
-            try {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                oscillator.frequency.value = 392.00;
-                gainNode.gain.value = 0.05;
-                
-                oscillator.start();
-                setTimeout(() => {
-                    oscillator.stop();
-                }, 50);
-            } catch (e) {
-                console.log("Audio no soportado");
-            }
-        }
-
-        navigateTo(section) {
-            this.currentSection = section;
-            this.updateActiveTab(section);
-            this.showSection(section);
-        }
-
-        updateActiveTab(section) {
-            document.querySelectorAll('.nav-tab').forEach(tab => {
-                tab.classList.remove('active');
-            });
-            document.querySelector(`.nav-tab[data-section="${section}"]`).classList.add('active');
-        }
-
-        showSection(sectionName) {
-            document.querySelectorAll('section').forEach(section => {
-                section.classList.remove('active');
-            });
+            this.drawRadar();
+            this.renderHeatmap();
+            document.getElementById('streak-val').textContent = this.state.streak;
             
-            const activeSection = document.getElementById(sectionName);
-            if (activeSection) {
-                activeSection.classList.add('active');
+            // Loop de animación suave para el radar
+            setInterval(() => this.drawRadar(), 2000); 
+        }
+
+        nav(sectionId, el) {
+            document.querySelectorAll('section').forEach(s => s.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            
+            if(el) {
+                document.querySelectorAll('.nav-icon').forEach(n => n.classList.remove('active'));
+                el.classList.add('active');
             }
         }
 
-        startQuiz(category) {
-            console.log(`Iniciando quiz de: ${category}`);
-            this.navigateTo('quiz');
-            this.startQuizTimer();
-            this.loadQuizQuestions(category);
-        }
-
-        startExam() {
-            console.log("Iniciando examen completo");
-            this.navigateTo('exam');
-            this.startExamTimer();
-        }
-
-        startQuizTimer() {
-            this.quizTimeLeft = 5 * 60;
-            this.updateQuizTimer();
+        // --- VISUALIZACIÓN 1: RADAR CHART (CANVAS) ---
+        drawRadar() {
+            const canvas = document.getElementById('skillRadar');
+            const ctx = canvas.getContext('2d');
+            const w = canvas.width;
+            const h = canvas.height;
+            const cx = w/2;
+            const cy = h/2;
+            const radius = 90;
             
-            if (this.quizTimer) {
-                clearInterval(this.quizTimer);
-            }
-            
-            this.quizTimer = setInterval(() => {
-                this.quizTimeLeft--;
-                this.updateQuizTimer();
-                
-                if (this.quizTimeLeft <= 0) {
-                    clearInterval(this.quizTimer);
-                    alert("¡Tiempo agotado!");
-                    this.navigateTo('home');
+            // Limpiar
+            ctx.clearRect(0, 0, w, h);
+
+            // Datos
+            const stats = [
+                this.state.skills.algebra,     // Top
+                this.state.skills.data,        // Right Top
+                this.state.skills.arithmetic,  // Right Bot
+                this.state.skills.functions,   // Left Bot
+                this.state.skills.geometry     // Left Top
+            ];
+            const totalPoints = 5;
+
+            // Función para obtener coordenadas
+            const getPoint = (value, index) => {
+                const angle = (Math.PI * 2 * index) / totalPoints - Math.PI / 2;
+                const r = (value / 100) * radius;
+                return {
+                    x: cx + r * Math.cos(angle),
+                    y: cy + r * Math.sin(angle)
+                };
+            };
+
+            // 1. Dibujar Rejilla de fondo (Hexágonos concéntricos)
+            ctx.strokeStyle = "rgba(255,255,255,0.05)";
+            ctx.lineWidth = 1;
+            for(let level=1; level<=4; level++) {
+                ctx.beginPath();
+                for(let i=0; i<totalPoints; i++) {
+                    const p = getPoint(25 * level, i);
+                    if(i===0) ctx.moveTo(p.x, p.y);
+                    else ctx.lineTo(p.x, p.y);
                 }
-            }, 1000);
-        }
-
-        startExamTimer() {
-            this.examTimeLeft = 60 * 60;
-            this.updateExamTimer();
-            
-            if (this.examTimer) {
-                clearInterval(this.examTimer);
+                ctx.closePath();
+                ctx.stroke();
             }
+
+            // 2. Dibujar Stats del usuario
+            ctx.beginPath();
+            stats.forEach((val, i) => {
+                const p = getPoint(val, i);
+                if(i===0) ctx.moveTo(p.x, p.y);
+                else ctx.lineTo(p.x, p.y);
+            });
+            ctx.closePath();
+
+            // Estilos del área llena
+            ctx.fillStyle = "rgba(99, 102, 241, 0.25)"; // Indigo transparente
+            ctx.fill();
             
-            this.examTimer = setInterval(() => {
-                this.examTimeLeft--;
-                this.updateExamTimer();
-                
-                if (this.examTimeLeft <= 0) {
-                    clearInterval(this.examTimer);
-                    alert("¡Tiempo del examen agotado!");
-                    this.navigateTo('home');
-                }
-            }, 1000);
-        }
-
-        updateQuizTimer() {
-            const minutes = Math.floor(this.quizTimeLeft / 60);
-            const seconds = this.quizTimeLeft % 60;
-            document.getElementById('quiz-timer').textContent = 
-                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
-
-        updateExamTimer() {
-            const minutes = Math.floor(this.examTimeLeft / 60);
-            const seconds = this.examTimeLeft % 60;
-            document.getElementById('exam-timer').textContent = 
-                `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
-        }
-
-        loadQuizQuestions(category) {
-            console.log(`Cargando preguntas para: ${category}`);
-            this.quizData.currentQuestion = 0;
-            this.updateQuizUI();
-        }
-
-        selectOption(optionElement) {
-            document.querySelectorAll('.quiz-option').forEach(opt => {
-                opt.classList.remove('selected');
+            // Estilos del borde neón
+            ctx.strokeStyle = "#6366f1";
+            ctx.lineWidth = 2;
+            ctx.shadowBlur = 15;
+            ctx.shadowColor = "#6366f1";
+            ctx.stroke();
+            
+            // Puntos en las esquinas
+            ctx.fillStyle = "#fff";
+            stats.forEach((val, i) => {
+                const p = getPoint(val, i);
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 3, 0, Math.PI * 2);
+                ctx.fill();
             });
             
-            optionElement.classList.add('selected');
+            ctx.shadowBlur = 0; // Reset
+        }
+
+        // --- VISUALIZACIÓN 2: HEATMAP ---
+        renderHeatmap() {
+            const grid = document.getElementById('heatmap-grid');
+            grid.innerHTML = '';
+            const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S', 'M', 'T', 'W', 'T', 'F', 'S', 'S'];
             
-            document.getElementById('next-btn').disabled = false;
-            document.getElementById('exam-next-btn').disabled = false;
+            this.state.heatmap.forEach((val, i) => {
+                const div = document.createElement('div');
+                div.className = `heat-box ${val === 2 ? 'l2' : val === 1 ? 'l1' : ''}`;
+                div.textContent = days[i];
+                grid.appendChild(div);
+            });
         }
 
-        nextQuestion() {
-            this.quizData.currentQuestion++;
-            if (this.quizData.currentQuestion >= this.quizData.questions.length) {
-                clearInterval(this.quizTimer);
-                alert('¡Quiz completado!');
-                this.navigateTo('home');
-                return;
-            }
-            this.updateQuizUI();
+        // --- QUIZ LOGIC ---
+        startSession(type) {
+            this.nav('quiz');
+            // Cargar pregunta 1 (Demo)
+            const q = this.questions[0];
+            document.getElementById('q-text').innerHTML = q.q;
+            renderMathInElement(document.getElementById('q-text'), {delimiters: [{left: '$$', right: '$$', display: false}]});
+            
+            const list = document.getElementById('options-list');
+            list.innerHTML = '';
+            q.options.forEach((opt, idx) => {
+                const btn = document.createElement('div');
+                btn.className = 'option';
+                btn.innerHTML = opt;
+                btn.onclick = () => this.check(btn, idx, q.ans);
+                list.appendChild(btn);
+            });
+            
+            // Reset Timer Animation
+            const timer = document.getElementById('timer-bar');
+            timer.style.width = '100%';
+            setTimeout(() => timer.style.width = '0%', 100);
         }
 
-        previousQuestion() {
-            this.quizData.currentQuestion--;
-            this.updateQuizUI();
-        }
-
-        nextExamQuestion() {
-            this.examData.currentQuestion++;
-            if (this.examData.currentQuestion >= this.examData.questions.length) {
-                clearInterval(this.examTimer);
-                alert('¡Sección del examen completada!');
-                this.navigateTo('home');
-                return;
-            }
-            this.updateExamUI();
-        }
-
-        previousExamQuestion() {
-            this.examData.currentQuestion--;
-            this.updateExamUI();
-        }
-
-        updateQuizUI() {
-            const currentQ = this.quizData.questions[this.quizData.currentQuestion];
-            if (currentQ) {
-                document.querySelector('#quiz .quiz-box p:nth-child(3)').textContent = currentQ.question;
-                
-                const options = document.querySelectorAll('#quiz .quiz-option');
-                options.forEach((option, index) => {
-                    option.textContent = `${String.fromCharCode(65 + index)}) ${currentQ.options[index]}`;
-                    option.classList.remove('selected');
+        check(el, idx, correct) {
+            if(idx === correct) {
+                el.classList.add('correct');
+                confetti({
+                    particleCount: 80,
+                    spread: 60,
+                    colors: ['#6366f1', '#d946ef', '#06b6d4'],
+                    origin: { y: 0.7 }
                 });
-                
-                document.querySelector('#quiz .quiz-header span:first-child').textContent = 
-                    `Question ${this.quizData.currentQuestion + 1}/${this.quizData.questions.length}`;
-                
-                const difficultyBadge = document.querySelector('#quiz .difficulty-badge');
-                difficultyBadge.textContent = currentQ.difficulty.charAt(0).toUpperCase() + currentQ.difficulty.slice(1);
-                difficultyBadge.className = `difficulty-badge difficulty-${currentQ.difficulty}`;
-                
-                document.getElementById('prev-btn').disabled = this.quizData.currentQuestion === 0;
-                document.getElementById('next-btn').disabled = true;
+                // Actualizar gráfica radar dummy
+                this.state.skills.algebra += 5;
+                this.drawRadar();
+            } else {
+                el.classList.add('incorrect');
             }
         }
-
-        updateExamUI() {
-            const currentQ = this.examData.questions[this.examData.currentQuestion];
-            if (currentQ) {
-                document.querySelector('#exam .quiz-box p:nth-child(3)').textContent = currentQ.question;
-                
-                const options = document.querySelectorAll('#exam .quiz-option');
-                options.forEach((option, index) => {
-                    option.textContent = `${String.fromCharCode(65 + index)}) ${currentQ.options[index]}`;
-                    option.classList.remove('selected');
-                });
-                
-                document.querySelector('#exam .quiz-header span:first-child').textContent = 
-                    `Exam - Section 1/4`;
-                
-                const difficultyBadge = document.querySelector('#exam .difficulty-badge');
-                difficultyBadge.textContent = currentQ.difficulty.charAt(0).toUpperCase() + currentQ.difficulty.slice(1);
-                difficultyBadge.className = `difficulty-badge difficulty-${currentQ.difficulty}`;
-                
-                document.getElementById('exam-prev-btn').disabled = this.examData.currentQuestion === 0;
-                document.getElementById('exam-next-btn').disabled = true;
-            }
+        
+        showDashboard() {
+            this.nav('dashboard');
         }
     }
 
-    document.addEventListener('DOMContentLoaded', () => {
-        window.satApp = new SATProApp();
-    });
+    // Start App
+    window.app = new SATNeon();
 </script>
 </body>
 </html>
